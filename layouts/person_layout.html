@@ -1,12 +1,12 @@
 <% render 'head' do %>
  <%# intentionally blank %>
 <% end %>
-<main id="content" property="mainContentOfPage" typeof="WebPageElement">
- <article property="hasPart" typeof="Article">
+<main id="content" 
+  prefix="wot: http://xmlns.com/wot/0.1/ v: http://rdf.data-vocabulary.org/#"
+  typeof="v:person Person wot:User">
   <% render 'person_head' do %>
    <%= yield %>
   <% end %>
- </article>
 </main>
 <% render 'footer' do %>
  <%# intentionally blank %>

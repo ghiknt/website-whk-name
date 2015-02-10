@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" vocab="http://schema.org/" typeof="WebPage">
+<html lang="en" vocab="http://schema.org/">
 <head>
  <!-- Metadata that affects layout of page -->
   <meta charset="utf-8"/>
@@ -21,8 +21,7 @@
    <meta property="lastReviewed" content="<%=@item[:reviewed]%>" />
   <% end %>
 
- <title>WHK<% breadcrumbs_trail.each do |crumb| %><% unless crumb[:title].nil? %> - <%= crumb[:title] %><% end %><% end %>
- </title>
+ <title><%= item[:title] %></title>
 
   <!-- Global css references -->
   <link rel="stylesheet" type="text/css" href="/stylesheet/pandoccode.css" media="screen"/>
@@ -38,7 +37,8 @@
    <div>
      <div id="title" property="name"><%= @item[:title] %></div>
      <nav id="menu">
-      <span class="menuitem"><a href="/">Me</a></span>
+      <span class="menuitem"><a href="/">Home</a></span>
+      <span class="menuitem"><a href="/me/">Me</a></span>
 <!--      <span class="menuitem"><a href="/blog/">Blog</a></span> -->
       <span class="menuitem"><a href="/about/">About</a></span>
      </nav>
@@ -52,7 +52,9 @@
         <span property="itemListElement" typeof="ListItem">
          <% unless crumb[:title].nil? %> - 
          <% counter = counter + 1 %>
-         <a property="item" typeof="WebPage" href="<%= crumb.path %>"><span property="name"><%= crumb[:title] %></span></a>
+         <span property="item" typeof="WebPage">
+          <a property="url" href="<%= crumb.path %>"><span property="name"><%= crumb[:title] %></span></a>
+         </span>
          <meta property="position" content="<%= counter %>"/>
          <% unless crumb[:summary].nil? %>
           <meta property="description" content="<%= crumb[:summary]%>"/>
