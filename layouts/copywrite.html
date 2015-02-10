@@ -1,0 +1,14 @@
+   <% if @item[:license] == "ccbysa" %>
+     <a property="license" typeof="URL" href="http://creativecommons.org/licenses/by-sa/4.0/">
+      CC-BY-SA-4.0</a>.
+   <% elsif @item[:license] == "agpl" %>
+     <a property="license" typeof="URL" href="https://www.gnu.org/licenses/agpl.html">
+      GNU AGPL 3.0 or Later</a>.
+   <% elsif @item[:license] == "gfdl" %>
+     <a property="license" typeof="URL" href="https://www.gnu.org/licenses/gfdl.html">
+       GNU FDL 1.3 or later</a>.
+   <% else %>
+    <h2>TBD: ADD LICENSE</h2>.
+   <% end %>
+     See <a href="/about/licensing/">licensing</a> for additional details
+   <%= yield %>

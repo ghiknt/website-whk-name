@@ -1,0 +1,24 @@
+<% render 'head' do %>
+ <%# intentionally blank %>
+<% end %>
+<main id="content" property="mainContentOfPage" typeof="WebPageElement">
+
+<% unless @item[:summary].nil? %>
+ <section id=sumamry property="text">
+  <%= @item[:summary] %>
+ </section>
+<% end %>
+
+<section id=contents>
+ <%= listchildren %>
+</section>
+
+
+ <section>
+   <%= yield %>
+ </section>
+</main>
+<% render 'footer' do %>
+ <%# intentionally blank %>
+<% end %>
+

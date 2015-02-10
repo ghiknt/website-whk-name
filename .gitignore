@@ -1,0 +1,5 @@
+/tmp
+/output
+/crash.log*
+/.sass-cache*
+/.swp

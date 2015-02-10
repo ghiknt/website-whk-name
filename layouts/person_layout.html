@@ -1,0 +1,13 @@
+<% render 'head' do %>
+ <%# intentionally blank %>
+<% end %>
+<main id="content" property="mainContentOfPage" typeof="WebPageElement">
+ <article property="hasPart" typeof="Article">
+  <% render 'person_head' do %>
+   <%= yield %>
+  <% end %>
+ </article>
+</main>
+<% render 'footer' do %>
+ <%# intentionally blank %>
+<% end %>

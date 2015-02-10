@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en" vocab="http://schema.org/" typeof="WebPage">
+<head>
+ <!-- Metadata that affects layout of page -->
+  <meta charset="utf-8"/>
+  <!-- Indicate Mobile Friendly see: http://stackoverflow.com/questions/548892/tips-for-optimizing-a-website-for-androids-browser  -->
+  <meta name="HandheldFriendly" content="true" />
+  <meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes,minimum-scale=0.5" />
+  <!-- icon -->
+  <link rel="icon" type="image/png" href="/images/whk-icon.png"/>
+  <!-- html 5 metadata -->
+  <meta name="generator"  content="nanoc <%= Nanoc::VERSION %>"/>
+  <% unless @item[:summary].nil? %>
+   <meta name="description" content="<%= @item[:summary] %>"/>
+  <% end %>
+  <meta name="referrer" content="origin"/>
+
+  <!-- Information about the WebPage that doesn't fit in markup -->
+  <meta property="generator" content="nanoc <%= Nanoc::VERSION %>"/>
+  <% unless @item[:reviewed].nil? %>
+   <meta property="lastReviewed" content="<%=@item[:reviewed]%>" />
+  <% end %>
+
+ <title>WHK<% breadcrumbs_trail.each do |crumb| %><% unless crumb[:title].nil? %> - <%= crumb[:title] %><% end %><% end %>
+ </title>
+
+  <!-- Global css references -->
+  <link rel="stylesheet" type="text/css" href="/stylesheet/pandoccode.css" media="screen"/>
+  <link rel="stylesheet" type="text/css" href="/stylesheet/whk.css" media="screen"/>
+
+  <!-- Content from calling template -->
+  <%= yield %>
+ </head>
+
+ <body> 
+  <header class="header">
+   <img id="logo" src="/images/blank.gif" alt="whk">
+   <div>
+     <div id="title" property="name"><%= @item[:title] %></div>
+     <nav id="menu">
+      <span class="menuitem"><a href="/">Me</a></span>
+<!--      <span class="menuitem"><a href="/blog/">Blog</a></span> -->
+      <span class="menuitem"><a href="/about/">About</a></span>
+     </nav>
+     <div id="breadcrumb" property="breadcrumb" typeof="BreadcrumbList">
+      <meta property="itemListOrder" content="http://schema.org/ItemListOrderAscending"/>
+      Trail 
+      <% counter = 0 %>
+      <% trail = breadcrumbs_trail %>
+      <% trail.pop %> 
+       <% trail.each do  |crumb|  %>
+        <span property="itemListElement" typeof="ListItem">
+         <% unless crumb[:title].nil? %> - 
+         <% counter = counter + 1 %>
+         <a property="item" typeof="WebPage" href="<%= crumb.path %>"><span property="name"><%= crumb[:title] %></span></a>
+         <meta property="position" content="<%= counter %>"/>
+         <% unless crumb[:summary].nil? %>
+          <meta property="description" content="<%= crumb[:summary]%>"/>
+         <% end %>
+        </span>
+       <% end %>
+      <% end %> 
+     </div>
+    </div>
+  </header>

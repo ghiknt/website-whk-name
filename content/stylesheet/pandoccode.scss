@@ -1,0 +1,92 @@
+/* License: CC-BY-SA-4.0 */
+
+/* Intially based on default CSS produced by pandoc with --standalone option */
+/* span class to code token taken from Ben Jeffrey's analysis <https://benjeffrey.com/pandoc-syntax-highlighting-css> (CC-BY-4.0) */
+/* Adapted to look closer to pygemtize-vim from python-pygments */
+
+$color-background: #f8f8f8;
+
+$comment-color: #008800;
+$comment-style: italic;
+$error-color: #FF0000;
+$error-weight: bold;
+$alert-color: #FF0000;
+$alert-weight: bold;
+$keyword-color: #aa22ff;
+$keyword-weight: bold;
+$number-color: #666666;
+$decval-color: $number-color;
+$basen-color: $number-color;
+$float-color: $number-color;
+$char-color: $number-color;
+$string-color: #bb4444;
+$other-color: #008000;
+$function-color: #00a000;
+$datatype-color: #B8860B;
+$codefonts:  'Source Code', Courier, 'Courier New', monospace;
+
+
+table.sourceCode {
+  margin: 0; 
+  padding: 0; 
+  vertical-align: baseline; 
+  border: inset;
+  background-color: $color-background;
+  font-family: $codefonts;
+  width: 100%; 
+  line-height: 100%;
+}
+
+tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; 
+  padding: 0; 
+  vertical-align: baseline; 
+  border: none;
+  font-family: $codefonts;
+}
+
+td.lineNumbers pre, td.sourceCode pre, pre.sourceCode, pre.text {
+  font-family: $codefonts;
+}
+
+td.lineNumbers { 
+  text-align: right; 
+  padding-right: 4px; 
+  padding-left: 4px; 
+  color: #aaaaaa; 
+  border-right: 1px solid #aaaaaa;
+  width: 2em;
+}
+td.sourceCode { padding-left: 5px; }
+
+
+pre.sourceCode, pre.text {
+  border: inset;
+  background-color: $color-background;
+  font-family: $codefonts;
+}
+/* Keyword */
+code > span.kw { color: $keyword-color; font-weight: $keyword-weight; }
+/* DataType */
+code > span.dt { color: $datatype-color; }
+/* DecVal (decimal values) */
+code > span.dv { color: $decval-color; }
+/* BaseN */
+code > span.bn { color: $basen-color; }
+/* Float */
+code > span.fl { color: $float-color; }
+/* Char */
+code > span.ch { color: $char-color; }
+/* String */
+code > span.st { color: $string-color; }
+/* Comment */
+code > span.co { color: $comment-color; font-style: $comment-style; }
+/* Other Token */
+code > span.ot { color: $other-color; }
+/* Alert Token */
+code > span.al { color: $alert-color; font-weight: $alert-weight; }
+/* Function */
+code > span.fu { color: $function-color; }
+/* ErrorTok */
+code > span.er { color: $error-color; font-weight: $error-weight; }
+

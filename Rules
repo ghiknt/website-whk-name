@@ -1,0 +1,102 @@
+#!/usr/bin/env ruby
+
+# A few helpful tips about the Rules file:
+#
+# * The string given to #compile and #route are matching patterns for
+#   identifiers--not for paths. Therefore, you can’t match on extension.
+#
+# * The order of rules is important: for each item, only the first matching
+#   rule is applied.
+#
+# * Item identifiers start and end with a slash (e.g. “/about/” for the file
+#   “content/about.html”). To select all children, grandchildren, … of an
+#   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
+#   because “*” matches zero or more characters.
+
+compile '*' do
+ if item[:extension].nil?
+  # Do nothing with items that have no extension
+ elsif item.binary?
+  # don’t filter binary items
+ elsif item[:extension] == 'html'
+  # do nothing
+ else
+  case item[:extension]
+   when 'scss'
+    # Sass scss files to css
+    filter :sass, :syntax => :scss
+   when 'css', 'js'
+    # don't filter or layout
+   when 'md'
+    #opts = ['table-of-contents', {:to => :html5, 'base-header-level' => 2}, {:filter =>'pandoc-zotxt'}, {:filter => 'pandoc-citeproc'}]
+#    opts = [{:to => :html5, 'base-header-level' => 2}, {:filter => 'pandoc-zotxt'}, {:filter => 'pandoc-citeproc'}]
+#    filter :pandoc_commandline, :args => opts  
+#    opts = {:to => :html5,
+#            'base-header-level' => 2,
+#            :filter => 'pandoc-citeproc',
+#            'data-dir' => 'content/bibliography/',
+#            :bibliography => 'content/bibliography/erpetu.bib',
+#            :csl => 'content/bibliography/elsevier-with-titles.csl'
+#           }
+#  filter :pandoc, opts  
+    opts = [{:to => :html5,
+            'base-header-level' => 2,
+            :filter => 'pandoc-citeproc',
+            'data-dir' => 'content/bibliography/',
+            :bibliography => 'content/bibliography/erpetu.bib',
+            :csl => 'content/bibliography/elsevier-with-titles.csl'
+           }, 'section-divs']
+  filter :pandoc_commandline, :args => opts  
+    case item[:type]
+     when 'article'
+      layout 'article_layout'
+     when 'person'
+      layout 'person_layout'
+     else
+      layout 'default'
+    end
+   when 'erb'
+    filter :erb
+    case item[:type]
+     when 'toc'
+      layout 'toc_layout'
+     when 'person'
+      layout 'person_layout'
+     else
+      layout 'default'
+    end
+   when 'html'
+    # none
+   else
+    filter :erb
+    layout 'default'
+  end
+ end
+end
+
+route '*' do
+  if item[:extension].nil?
+    # Handle files in icon directory like README that do not
+    # have a file extension
+    item.identifier.chop 
+  elsif item.binary?
+    # Write item with identifier /foo/ to /foo.ext
+    item.identifier.chop + '.' + item[:extension]
+  else
+   case item[:extension]
+    when 'html'
+      item.identifier.chop + '.' + item[:extension]
+    when 'scss'
+      # Sass scss files to css
+      item.identifier.chop + '.css' 
+    when 'css', 'js'
+      # store with the extension still on the file
+      item.identifier.chop + '.' + item[:extension]
+    else  
+      # Write item with identifier /foo/ to /foo/index.html
+      item.identifier + 'index.html'
+    end
+  end
+end
+
+layout '*', :erb

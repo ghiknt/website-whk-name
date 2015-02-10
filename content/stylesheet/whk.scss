@@ -1,0 +1,602 @@
+/*
+ SCSS system for Sass filter
+  http://sass-lang.com
+
+ CSS styling modified from asciidoc-xhtml11.css
+*/
+
+/* Open Sans font from Goolge Web fonts */
+$weightnormal: 300;
+$weightbold: 700;
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:#{$weightnormal},#{$weightbold}");
+$textfonts: 'Open Sans', Times, 'Times New Roman', sans-serif;
+@import url("http://fonts.googleapis.com/css?family=Source+Code+Pro:300,700");
+$codefonts:  'Source Code', Courier, 'Courier New', monospace;
+
+
+/* Values */
+$color-background: Window;
+$textcolor: WindowText;
+
+$bordercolor: WindowText;
+$border-background: Window;
+
+$noticecolor: Highlight;
+$noticetext: HighlightText;
+$backgroundhilight: $color-background;
+$borderwidth: 1px;
+
+$pagemargin: 5px;
+$padding: 5px;
+$paddingleft: 40px;
+$top-start: $pagemargin;
+$header-content: 70px;
+$top-end: $top-start + ( $padding * 2 ) + $borderwidth + $header-content;
+$left: 0.5em;
+$right: 0.5em;
+$bottom-start: $pagemargin;
+$footer-content: 70px;
+$bottom-end: $bottom-start + ( $padding * 2 ) + $borderwidth + $footer-content;
+
+$fontsize:         1.0em;
+
+$fontsize-biggest:  $fontsize + 0.5em;
+
+$fontsize-title:    $fontsize + 0.5em; 
+
+$fontsize-h1:       $fontsize + 0.4em;
+$fontsize-h2:       $fontsize + 0.3em;
+$fontsize-h3:       $fontsize + 0.2em;
+$fontsize-h4:       $fontsize + 0.1em;
+
+$fontsize-admonition: $fontsize-h4;
+
+$fontsize-small:    $fontsize - 0.1em;
+$fontsize-smaller:  $fontsize - 0.2em;
+$fontsize-smallest: $fontsize - 0.3em;
+
+@mixin footer-image($url)  
+{
+ height: $footer-content - ( $padding * 2) ;
+ padding: $padding;
+ background-size: auto;
+ background-repeat: no-repeat;
+ background-position: center;
+ background-image: url($url);
+}
+
+* {
+  font-family: $textfonts;
+  font-weight: $weightnormal;
+}
+
+body {
+  background-color: $border-background;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: 0;
+  position: absolute;
+  color: $textcolor;
+}
+
+.pyg {
+ margin: $padding;
+ overflow-x: auto;
+ font-family: $codefonts;
+ font-weight: 300;
+}
+
+main {
+  position: inherit;
+  left: $left;
+  right: 0px;
+  top: $top-end;
+  bottom: $bottom-end;
+  padding-right: $padding;
+  overflow: auto;
+  background-color: $color-background; 
+}
+
+header {
+  border-bottom: $borderwidth solid $bordercolor;
+  background-color: $border-background;
+  position: inherit;
+  left: $left;
+  right: $right;
+  top: $top-start;
+  height: $header-content;
+  img#logo
+  {
+   height: $header-content - ( $padding * 2);
+   margin: $padding;
+   background:url(/images/androidify-whk.png) 0 0;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-size: contain;
+   float: left;
+  }
+  div#title
+  {
+   font-size: $fontsize-title;
+   font-family: $codefonts;
+   font-weight: $weightbold;
+  }
+
+  span.menuitem {
+    background-color: $border-background;
+    font-size: $fontsize-small;
+  }
+  
+  div#breadcrumb {
+    font-size: $fontsize-smallest;
+  }
+
+}
+
+footer {
+  font-size: $fontsize-smaller;
+  position: inherit;
+  left: $left;
+  right: $right;
+  bottom: $bottom-start;
+  height: $footer-content;
+  border-top: $borderwidth solid $bordercolor;
+  background-color: $border-background;
+  div#footer-text
+  {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+  div#footer-badges-left
+  {
+    float: left;
+  }
+  div#footer-badges-right
+  {
+    float: right;
+  }
+  img#osi
+  {
+     @include footer-image("http://www.opensource.org/trademarks/opensource/web/opensource-55x48.gif");
+  }
+  img#creativecommons
+  {
+     @include footer-image("https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#agpl
+  {
+     @include footer-image("/images/agplv3-88x31.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#gfdl
+  {
+     @include footer-image("/images/gfdl-logo-tiny.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#hacker-emblem
+  {
+     @include footer-image("/images/glider.png");
+  }
+}
+
+
+table.identities {
+     width: 96%;
+     text-align: center;
+}
+
+table.identities thead {
+     font-size: $fontsize-h3;
+     font-weight: $weightbold;
+}
+
+table.identities a:link, .identities a:visited {
+     color: $textcolor;
+}
+table.identities a:hover, .identities a:active {
+     color: $noticetext;
+     background: $noticecolor;
+}
+
+
+h1 {
+  font-size: $fontsize-h1;
+}
+h2 {
+  font-size: $fontsize-h2;
+}
+h3 {
+  font-size: $fontsize-h3;
+}
+h4 {
+  font-size: $fontsize-h4;
+}
+
+/* Monospace font. */
+tt,code {
+  font-size: inherit;
+  font-family: $codefonts;
+  color: $textcolor;
+  span {
+    // Inherit font settings
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+  }
+}
+em {
+  font-style: italic;
+}
+
+strong, b {
+  font-weight: $weightbold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $textcolor;
+  margin-top: $padding;
+  margin-bottom: $padding;
+  line-height: 1.3;
+}
+
+h1, h2, h3 {
+  border-bottom: $borderwidth+1px solid $bordercolor;
+}
+h2 {
+  padding-top: $padding;
+}
+
+div.sectionbody {
+  margin-left: 0;
+}
+
+hr {
+  border: $borderwidth solid $bordercolor;
+}
+
+p {
+  margin-top: $padding;
+  margin-bottom: $padding;
+}
+
+ul, ol {
+  padding-left: $paddingleft;
+}
+
+ul, ol, li > p {
+  margin-top: 0;
+}
+ul > li     { color: $textcolor; }
+ul > li > * { color: $textcolor; }
+
+pre {
+  padding: 0;
+  margin: 0;
+}
+
+div#preamble {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+div.tableblock, div.imageblock, div.exampleblock, div.verseblock,
+div.quoteblock, div.literalblock, div.listingblock, div.sidebarblock,
+div.admonitionblock {
+  margin-top: 1.0em;
+  margin-bottom: 1.5em;
+}
+div.admonitionblock {
+  margin-top: 2.0em;
+  margin-bottom: 2.0em;
+  margin-right: 10%;
+  color: $noticetext;
+  background: $noticecolor;  
+}
+
+
+details {
+  color: $noticetext;
+  background: $noticecolor;
+}
+
+div.content { /* Block element content. */
+  padding: 0;
+}
+
+/* Block element titles. */
+div.title, caption.title {
+  color: $textcolor;
+  font-weight: $weightbold;
+  text-align: left;
+  margin-top: 1.0em;
+  margin-bottom: 0.5em;
+}
+div.title + * {
+  margin-top: 0;
+}
+
+td div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content div.title:first-child {
+  margin-top: 0.0em;
+}
+div.content + div.title {
+  margin-top: 0.0em;
+}
+
+div.sidebarblock > div.content {
+  background: $backgroundhilight;
+  border: $borderwidth solid $bordercolor;
+  border-left: $borderwidth + 3px solid $bordercolor;
+  padding: 0.5em;
+}
+
+div.listingblock > div.content {
+  border: $borderwidth solid $bordercolor;
+  border-left: $borderwidth solid $bordercolor;
+  background: $backgroundhilight;
+  padding: 0.5em;
+}
+
+div.quoteblock, div.verseblock {
+  padding-left: 1.0em;
+  margin-left: 1.0em;
+  margin-right: 10%;
+  border-left: $padding solid #f0f0f0;
+  color: $textcolor;
+}
+
+div.quoteblock > div.attribution {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+div.verseblock > pre.content {
+  font-family: inherit;
+  font-size: inherit;
+}
+div.verseblock > div.attribution {
+  padding-top: 0.75em;
+  text-align: left;
+}
+/* DEPRECATED: Pre version 8.2.7 verse style literal block. */
+div.verseblock + div.attribution {
+  text-align: left;
+}
+
+div.admonitionblock .icon {
+  vertical-align: top;
+  font-size: $fontsize-admonition;
+  font-weight: $weightbold;
+  text-decoration: underline;
+  color: $textcolor;
+  padding-right: 0.5em;
+}
+div.admonitionblock td.content {
+  padding-left: 0.5em;
+  border-left: 3px solid #dddddd;
+}
+
+div.exampleblock > div.content {
+  border-left: 3px solid #dddddd;
+  padding-left: 0.5em;
+}
+
+div.imageblock div.content { padding-left: 0; }
+span.image img { border-style: none; }
+
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: normal;
+  color: $textcolor;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+dd {
+  margin-left: 1.0em;
+}
+ul, ol {
+  list-style-position: outside;
+}
+ol.arabic {
+  list-style-type: decimal;
+}
+ol.loweralpha {
+  list-style-type: lower-alpha;
+}
+ol.upperalpha {
+  list-style-type: upper-alpha;
+}
+ol.lowerroman {
+  list-style-type: lower-roman;
+}
+ol.upperroman {
+  list-style-type: upper-roman;
+}
+
+div.compact ul, div.compact ol,
+div.compact p, div.compact p,
+div.compact div, div.compact div {
+  margin-top: 0.1em;
+  margin-bottom: 0.1em;
+}
+
+div.tableblock > table {
+  border: $borderwidth + 2px solid $bordercolor;
+}
+thead, p.table.header {
+  font-weight: $weightbold;
+  color: $textcolor;
+}
+tfoot {
+  font-weight: $weightbold;
+}
+td > div.verse {
+  white-space: pre;
+}
+p.table {
+  margin-top: 0;
+}
+/* Because the table frame attribute is overriden by CSS in most browsers. */
+div.tableblock > table[frame="void"] {
+  border-style: none;
+}
+div.tableblock > table[frame="hsides"] {
+  border-left-style: none;
+  border-right-style: none;
+}
+div.tableblock > table[frame="vsides"] {
+  border-top-style: none;
+  border-bottom-style: none;
+}
+
+
+div.hdlist {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+div.hdlist tr {
+  padding-bottom: 15px;
+}
+dt.hdlist1.strong, td.hdlist1.strong {
+  font-weight: $weightbold;
+}
+td.hdlist1 {
+  vertical-align: top;
+  font-style: normal;
+  padding-right: 0.8em;
+  color: $textcolor;
+}
+td.hdlist2 {
+  vertical-align: top;
+}
+div.hdlist.compact tr {
+  margin: 0;
+  padding-bottom: 0;
+}
+
+.comment {
+  background: yellow;
+}
+
+.footnote, .footnoteref {
+  font-size: $fontsize-smaller;
+}
+
+span.footnote, span.footnoteref {
+  vertical-align: super;
+}
+
+#footnotes {
+  margin: 20px 0 20px 0;
+  padding: 7px 0 0 0;
+}
+
+#footnotes div.footnote {
+  margin: 0 0 $padding 0;
+}
+
+#footnotes hr {
+  border: none;
+  border-top: $borderwidth solid $bordercolor;
+  height: 1px;
+  text-align: left;
+  margin-left: 0;
+  width: 20%;
+  min-width: 100px;
+}
+
+div.colist {
+  padding-left: $paddingleft - 15px;
+}
+
+div.colist td {
+  padding-right: 0.5em;
+  padding-bottom: 0.3em;
+  vertical-align: top;
+}
+div.colist td img {
+  margin-top: 0.3em;
+}
+
+@media print {
+  div#footer-badges { display: none; }
+}
+
+div#toc {
+  margin-bottom: 2.5em;
+}
+
+div#toctitle {
+  color: $textcolor;
+  font-size: $fontsize-h2;
+  font-weight: $weightbold;
+  margin-top: 1.0em;
+  margin-bottom: 0.1em;
+}
+
+div.toclevel1, div.toclevel2, div.toclevel3, div.toclevel4 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+div.toclevel2 {
+  margin-left: 2em;
+  font-size: $fontsize-small;
+}
+div.toclevel3 {
+  margin-left: 4em;
+  font-size: $fontsize-small;
+}
+div.toclevel4 {
+  margin-left: 6em;
+  font-size: $fontsize-small;
+}
+
+span.aqua { color: aqua; }
+span.black { color: black; }
+span.blue { color: blue; }
+span.fuchsia { color: fuchsia; }
+span.gray { color: gray; }
+span.green { color: green; }
+span.lime { color: lime; }
+span.maroon { color: maroon; }
+span.navy { color: navy; }
+span.olive { color: olive; }
+span.purple { color: purple; }
+span.red { color: red; }
+span.silver { color: silver; }
+span.teal { color: teal; }
+span.white { color: white; }
+span.yellow { color: yellow; }
+
+span.aqua-background { background: aqua; }
+span.black-background { background: black; }
+span.blue-background { background: blue; }
+span.fuchsia-background { background: fuchsia; }
+span.gray-background { background: gray; }
+span.green-background { background: green; }
+span.lime-background { background: lime; }
+span.maroon-background { background: maroon; }
+span.navy-background { background: navy; }
+span.olive-background { background: olive; }
+span.purple-background { background: purple; }
+span.red-background { background: red; }
+span.silver-background { background: silver; }
+span.teal-background { background: teal; }
+span.white-background { background: white; }
+span.yellow-background { background: yellow; }
+
+span.big { font-size: $fontsize-biggest; }
+span.small { font-size: $fontsize-smallest; }
