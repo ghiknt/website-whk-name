@@ -1,0 +1,6 @@
+<%= xml_sitemap :items => @items.reject{ |i| i[:is_hidden]         || 
+                                             i.binary?             ||
+                                             i[:extension] == 'js' ||
+                                             i[:extension] == 'scss'||
+                                             i.identifier.chop == '/sitemap'} %>
+

@@ -14,6 +14,8 @@ changes:
   -
     date: 2015-02-08
     description: based on draft license page for erpetu.info
+changefreq: monthly
+priority: 0.1
 ---
 
 Identifing the appropriate license

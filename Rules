@@ -20,6 +20,8 @@ compile '*' do
   # don’t filter binary items
  elsif item[:extension] == 'html'
   # do nothing
+ elsif item.identifier.chop == '/sitemap'
+    filter :erb
  else
   case item[:extension]
    when 'scss'
@@ -82,6 +84,8 @@ route '*' do
   elsif item.binary?
     # Write item with identifier /foo/ to /foo.ext
     item.identifier.chop + '.' + item[:extension]
+  elsif item.identifier.chop == '/sitemap'
+    item.identifier.chop + '.xml' 
   else
    case item[:extension]
     when 'html'
