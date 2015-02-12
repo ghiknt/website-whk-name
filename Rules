@@ -30,17 +30,6 @@ compile '*' do
    when 'css', 'js'
     # don't filter or layout
    when 'md'
-    #opts = ['table-of-contents', {:to => :html5, 'base-header-level' => 2}, {:filter =>'pandoc-zotxt'}, {:filter => 'pandoc-citeproc'}]
-#    opts = [{:to => :html5, 'base-header-level' => 2}, {:filter => 'pandoc-zotxt'}, {:filter => 'pandoc-citeproc'}]
-#    filter :pandoc_commandline, :args => opts  
-#    opts = {:to => :html5,
-#            'base-header-level' => 2,
-#            :filter => 'pandoc-citeproc',
-#            'data-dir' => 'content/bibliography/',
-#            :bibliography => 'content/bibliography/erpetu.bib',
-#            :csl => 'content/bibliography/elsevier-with-titles.csl'
-#           }
-#  filter :pandoc, opts  
     opts = [{:to => :html5,
             'base-header-level' => 2,
             :filter => 'pandoc-citeproc',
@@ -48,7 +37,7 @@ compile '*' do
             :bibliography => 'content/bibliography/erpetu.bib',
             :csl => 'content/bibliography/elsevier-with-titles.csl'
            }, 'section-divs']
-  filter :pandoc_commandline, :args => opts  
+    filter :pandoc_commandline, :args => opts  
     case item[:type]
      when 'article'
       layout 'article_layout'
@@ -60,6 +49,8 @@ compile '*' do
    when 'erb'
     filter :erb
     case item[:type]
+     when 'article'
+      layout 'article_layout'
      when 'toc'
       layout 'toc_layout'
      when 'person'
