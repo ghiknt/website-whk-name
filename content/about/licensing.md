@@ -6,7 +6,7 @@ summary: >
 type: article
 license: ccbysa 
 author: 
- - { name: "WHK", url: "https://whk.name/me/" }
+ - { name: "WHK", url: "https://whk.name/about/me/" }
 created: 2015-01-12
 modified: 2015-02-08
 reviewed: 2015-01-13
