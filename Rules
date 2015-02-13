@@ -34,7 +34,7 @@ compile '*' do
             'base-header-level' => 2,
             :filter => 'pandoc-citeproc',
             'data-dir' => 'content/bibliography/',
-            :bibliography => 'content/bibliography/erpetu.bib',
+            :bibliography => 'content/bibliography/whk.name.bib',
             :csl => 'content/bibliography/elsevier-with-titles.csl'
            }, 'section-divs']
     filter :pandoc_commandline, :args => opts  
