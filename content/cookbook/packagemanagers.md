@@ -4,7 +4,7 @@ summary: Each language and sometimes project seems to have it's favorite package
 type: article
 license: ccbysa
 author:
- - { name: "WHK", url: "https://whk.name/about/me/" }
+ - { name: "whk", url: "https://whk.name/about/me/" }
 created: 2014-10-05
 modified: 2015-01-25
 reviewed: 2015-01-25

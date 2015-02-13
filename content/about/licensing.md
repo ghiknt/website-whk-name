@@ -6,7 +6,7 @@ summary: >
 type: article
 license: ccbysa 
 author: 
- - { name: "WHK", url: "https://whk.name/about/me/" }
+ - { name: "whk", url: "https://whk.name/about/me/" }
 created: 2015-01-12
 modified: 2015-02-08
 reviewed: 2015-01-13
@@ -67,6 +67,9 @@ following licenses
 
 Trademark Usage
 --------------------------------------------
+
+* **Gentoo** is a trademark of Gentoo Foundation, Inc.  Usage on this site is to grant credit when a Gentoo project resource is used and is used per permissions granted at <https://www.gentoo.org/main/en/name-logo.xml>.  No original content of this site is part of the Gentoo project nor is directed or managed by Gentoo Foundation, Inc. 
+
 
 <!-- Links -->
 

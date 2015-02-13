@@ -4,7 +4,7 @@ summary: Installation and configuration of a development workstation running Gen
 type: article
 license: ccbysa
 author:
- - { name: "WHK", url: "https://whk.name/about/me/" }
+ - { name: "whk", url: "https://whk.name/about/me/" }
 created: 2014-11-13
 modified: 2015-01-24
 reviewed: 2015-01-24

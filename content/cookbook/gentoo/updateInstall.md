@@ -4,7 +4,7 @@ summary: Commands to make sure everything is updated and consistent
 type: article
 license: ccbysa
 author:
- - { name: "WHK", url: "https://whk.name/about/me/" }
+ - { name: "whk", url: "https://whk.name/about/me/" }
 created: 2015-01-25
 modified: 2015-01-25
 reviewd: 2015-01-25

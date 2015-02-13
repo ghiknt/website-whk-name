@@ -5,7 +5,7 @@ type: article
 license: ccbysa
 author:
  - 
-  name: "WHK"
+  name: "whk"
   url: "https://whk.name/about/me/"
 created: 2015-01-11
 modified: 2015-02-12
