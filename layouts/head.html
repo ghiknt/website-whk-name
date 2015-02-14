@@ -15,6 +15,36 @@
   <% end %>
   <meta name="referrer" content="origin"/>
 
+<!-- Zotero Meta Tags -->
+<meta property="dc:type" content="webpage">
+<% unless item[:title].nil? %>
+  <meta property="dc:title" content="<%= item[:title]%>"/>
+<% end %>
+<% unless item[:summary].nil? %>
+  <meta property="dc:description" content="<%= item[:summary]%>"/>
+<% end %>
+<% unless item[:license].nil? %>
+  <meta property="dc:rights" content="<%= item[:license]%>"/>
+<% end %>
+<% unless item[:modified].nil? %>
+  <meta property="dc:date" content="<%= item[:modified]%>"/>
+<% end %>
+<% unless item[:author].nil? %>
+ <% @item[:author].each do |author| %>
+  <meta property="dc:creator" content="<%= author[:name]%>">
+ <% end %>
+<% end %>
+<!--
+<meta property="dc:creator" content="Old Guy" />
+<meta property="dc:contributor" content="Contributor repository" />
+<meta property="dc:publisher" content="National Library" />
+     <meta property="dc.identifier" content="http://www.example.com/archives/tree/1/2" />
+     <meta property="dc.language" content="en-GB" />
+     <meta property="dc.subject" content="Archive" />
+     <meta property="dc.subject" content="WW1" />
+     <meta property="dc.source" content="http://www.example.com/archives/parent/3/2" />
+-->
+
   <!-- Information about the WebPage that doesn't fit in markup -->
   <meta property="generator" content="nanoc <%= Nanoc::VERSION %>"/>
   <% unless @item[:reviewed].nil? %>
