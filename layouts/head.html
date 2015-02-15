@@ -15,36 +15,6 @@
   <% end %>
   <meta name="referrer" content="origin"/>
 
-<!-- Zotero Meta Tags -->
-<meta property="dc:type" content="webpage">
-<% unless item[:title].nil? %>
-  <meta property="dc:title" content="<%= item[:title]%>"/>
-<% end %>
-<% unless item[:summary].nil? %>
-  <meta property="dc:description" content="<%= item[:summary]%>"/>
-<% end %>
-<% unless item[:license].nil? %>
-  <meta property="dc:rights" content="<%= item[:license]%>"/>
-<% end %>
-<% unless item[:modified].nil? %>
-  <meta property="dc:date" content="<%= item[:modified]%>"/>
-<% end %>
-<% unless item[:author].nil? %>
- <% @item[:author].each do |author| %>
-  <meta property="dc:creator" content="<%= author[:name]%>">
- <% end %>
-<% end %>
-<!--
-<meta property="dc:creator" content="Old Guy" />
-<meta property="dc:contributor" content="Contributor repository" />
-<meta property="dc:publisher" content="National Library" />
-     <meta property="dc.identifier" content="http://www.example.com/archives/tree/1/2" />
-     <meta property="dc.language" content="en-GB" />
-     <meta property="dc.subject" content="Archive" />
-     <meta property="dc.subject" content="WW1" />
-     <meta property="dc.source" content="http://www.example.com/archives/parent/3/2" />
--->
-
   <!-- Information about the WebPage that doesn't fit in markup -->
   <meta property="generator" content="nanoc <%= Nanoc::VERSION %>"/>
   <% unless @item[:reviewed].nil? %>
@@ -73,23 +43,17 @@
 <!--      <span class="menuitem"><a href="/blog/">Blog</a></span> -->
       <span class="menuitem"><a href="/about/">About</a></span>
      </nav>
-     <div id="breadcrumb" property="breadcrumb" typeof="BreadcrumbList">
-      <meta property="itemListOrder" content="http://schema.org/ItemListOrderAscending"/>
+     <div id="breadcrumb"
+        prefix="v: http://rdf.data-vocabulary.org/#"
+     >
       Trail 
       <% counter = 0 %>
       <% trail = breadcrumbs_trail %>
       <% trail.pop %> 
        <% trail.each do  |crumb|  %>
-        <span property="itemListElement" typeof="ListItem">
+        <span  typeof="v:Breadcrumb">
          <% unless crumb[:title].nil? %> - 
-         <% counter = counter + 1 %>
-         <span property="item" typeof="WebPage">
-          <a property="url" href="<%= crumb.path %>"><span property="name"><%= crumb[:title] %></span></a>
-         </span>
-         <meta property="position" content="<%= counter %>"/>
-         <% unless crumb[:summary].nil? %>
-          <meta property="description" content="<%= crumb[:summary]%>"/>
-         <% end %>
+          <a rel="v:url" property="v:title" href="<%= crumb.path %>"><%= crumb[:title] %></a>
         </span>
        <% end %>
       <% end %> 
