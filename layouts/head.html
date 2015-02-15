@@ -34,29 +34,41 @@
  <body> 
   <header class="header">
    <img id="logo" src="/images/blank.gif" alt="whk">
-   <div>
-     <div id="title" property="name"><%= @item[:title] %></div>
-     <nav id="menu">
-      <span class="menuitem"><a href="/">Home</a></span>
-      <span class="menuitem"><a href="/cookbook/">Cookbook</a></span>
-      <span class="menuitem"><a href="/config/">Config</a></span>
-<!--      <span class="menuitem"><a href="/blog/">Blog</a></span> -->
-      <span class="menuitem"><a href="/about/">About</a></span>
-     </nav>
-     <div id="breadcrumb"
-        prefix="v: http://rdf.data-vocabulary.org/#"
-     >
-      Trail 
-      <% counter = 0 %>
-      <% trail = breadcrumbs_trail %>
-      <% trail.pop %> 
-       <% trail.each do  |crumb|  %>
-        <span  typeof="v:Breadcrumb">
-         <% unless crumb[:title].nil? %> - 
-          <a rel="v:url" property="v:title" href="<%= crumb.path %>"><%= crumb[:title] %></a>
-        </span>
-       <% end %>
-      <% end %> 
-     </div>
+   <div id="left_col">
+    <div id="title" property="name"><%= @item[:title] %></div>
+    <nav id="menu">
+     <span class="menuitem"><a href="/">Home</a></span>
+     <span class="menuitem"><a href="/cookbook/">Cookbook</a></span>
+     <span class="menuitem"><a href="/config/">Config</a></span>
+     <span class="menuitem"><a href="/about/">About</a></span>
+    </nav>
+    <div id="breadcrumb" prefix="v: http://rdf.data-vocabulary.org/#" >
+     Trail 
+     <% counter = 0 %>
+     <% trail = breadcrumbs_trail %>
+     <% trail.pop %> 
+      <% trail.each do  |crumb|  %>
+       <span  typeof="v:Breadcrumb">
+        <% unless crumb[:title].nil? %> - 
+         <a rel="v:url" property="v:title" href="<%= crumb.path %>"><%= crumb[:title] %></a>
+       </span>
+      <% end %>
+     <% end %> 
     </div>
-  </header>
+   </div>
+   <div id="right_col">
+    <script>
+     (function() {
+       var cx = '001004471267990019129:tqddpxna8dq';
+       var gcse = document.createElement('script');
+       gcse.type = 'text/javascript';
+       gcse.async = true;
+       gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+           '//www.google.com/cse/cse.js?cx=' + cx;
+       var s = document.getElementsByTagName('script')[0];
+       s.parentNode.insertBefore(gcse, s);
+     })();
+    </script>
+    <gcse:search></gcse:search>
+   </div>
+ </header>

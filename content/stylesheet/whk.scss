@@ -30,7 +30,7 @@ $pagemargin: 5px;
 $padding: 5px;
 $paddingleft: 40px;
 $top-start: $pagemargin;
-$header-content: 70px;
+$header-content: 75px;
 $top-end: $top-start + ( $padding * 2 ) + $borderwidth + $header-content;
 $left: 0.5em;
 $right: 0.5em;
@@ -54,6 +54,9 @@ $fontsize-admonition: $fontsize-h4;
 $fontsize-small:    $fontsize - 0.1em;
 $fontsize-smaller:  $fontsize - 0.2em;
 $fontsize-smallest: $fontsize - 0.3em;
+
+$switch-width: 600px;
+
 
 @mixin footer-image($url)  
 {
@@ -88,6 +91,20 @@ body {
  font-weight: 300;
 }
 
+
+@media all and (min-width: $switch-width + 1px) {
+body {
+  background-color: $border-background;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  margin: 0;
+  position: absolute;
+  color: $textcolor;
+}
+
+
 main {
   position: inherit;
   left: $left;
@@ -117,22 +134,30 @@ header {
    background-size: contain;
    float: left;
   }
-  div#title
-  {
-   font-size: $fontsize-title;
-   font-family: $codefonts;
-   font-weight: $weightbold;
-  }
 
-  span.menuitem {
-    background-color: $border-background;
-    font-size: $fontsize-small;
-  }
+  div#left_col {
+    float: left;
+    div#title
+      {
+       font-size: $fontsize-title;
+       font-family: $codefonts;
+       font-weight: $weightbold;
+      }
+
+      span.menuitem {
+        background-color: $border-background;
+        font-size: $fontsize-small;
+      }
   
-  div#breadcrumb {
-    font-size: $fontsize-smallest;
+      div#breadcrumb {
+        font-size: $fontsize-smallest;
+      }
   }
-
+  div#right_col {
+    float:right;
+    width: 300px;
+    height: $header-content - ( $padding * 2);
+  }
 }
 
 footer {
@@ -183,6 +208,109 @@ footer {
   {
      @include footer-image("/images/glider.png");
   }
+}
+}
+
+@media all and (max-width: $switch-width ) {
+  body {
+    background-color: $border-background;
+    left: 0px;
+    right: 0px;
+    margin: 0;
+    color: $textcolor;
+  }
+
+
+  main {
+    left: $left;
+    right: 0px;
+    padding-right: $padding;
+    background-color: $color-background; 
+    display: block;
+  }
+
+  header {
+    border-bottom: $borderwidth solid $bordercolor;
+    background-color: $border-background;
+    left: $left;
+    right: $right;
+    display: block;
+    img#logo {
+      display: none;
+      visibility: none;
+    }
+
+    div#left_col {
+      div#title {
+         font-size: $fontsize-title;
+         font-family: $codefonts;
+         font-weight: $weightbold;
+        }
+
+        span.menuitem {
+          background-color: $border-background;
+          font-size: $fontsize-small;
+        }
+  
+        div#breadcrumb {
+          font-size: $fontsize-smallest;
+        }
+    }
+    div#right_col {
+      display: block;
+    }
+
+  }
+
+footer {
+  font-size: $fontsize-smaller;
+  display: block;
+  left: $left;
+  right: $right;
+  bottom: $bottom-start;
+  height: $footer-content;
+  border-top: $borderwidth solid $bordercolor;
+  background-color: $border-background;
+  div#footer-text
+  {
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+  div#footer-badges-left
+  {
+    float: left;
+  }
+  div#footer-badges-right
+  {
+    float: right;
+  }
+  img#osi
+  {
+     @include footer-image("http://www.opensource.org/trademarks/opensource/web/opensource-55x48.gif");
+  }
+  img#creativecommons
+  {
+     @include footer-image("https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#agpl
+  {
+     @include footer-image("/images/agplv3-88x31.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#gfdl
+  {
+     @include footer-image("/images/gfdl-logo-tiny.png");
+     width: 88px;
+     padding:  $padding;
+  }
+  img#hacker-emblem
+  {
+     @include footer-image("/images/glider.png");
+  }
+}
 }
 
 

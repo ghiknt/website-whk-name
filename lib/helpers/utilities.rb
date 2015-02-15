@@ -6,7 +6,9 @@ module ErpetuUtilities
    returnval = ""
    returnval += "<dl>"
    item.children.each do |child|
-    if ! child.binary?
+    if ! child[:toc].nil? && child[:toc] == "ignore"
+      next
+    elsif ! child.binary?
      returnval =returnval+
                 "<dt><a href=\""+child.identifier+"\">"
      if ! child[:title].nil?
