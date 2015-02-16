@@ -11,13 +11,13 @@ module ErpetuUtilities
      if ( ! a[:modified].nil? ) 
        a_date = a[:modified]
      else
-       a_date = Date.jd(0)
+       a_date = Date.jd(999999999999)
      end
 
      if ( ! b[:modified].nil? ) 
        b_date = b[:modified]
      else
-       b_date = Date.jd(0)
+       b_date = Date.jd(999999999999)
      end
 
      if (a_date == b_date)

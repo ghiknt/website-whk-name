@@ -1,4 +1,5 @@
 User-agent: *
 Disallow: 
 Disallow: /drafts/
+Disallow: /error/
 Sitemap: https://whk.name/about/sitemap.xml
