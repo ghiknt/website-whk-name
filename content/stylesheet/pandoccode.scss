@@ -27,6 +27,7 @@ $codefonts:  'Source Code', Courier, 'Courier New', monospace;
 
 
 table.sourceCode {
+  overflow: auto;
   margin: 0; 
   padding: 0; 
   vertical-align: baseline; 
@@ -45,7 +46,7 @@ tr.sourceCode, td.lineNumbers, td.sourceCode {
   font-family: $codefonts;
 }
 
-td.lineNumbers pre, td.sourceCode pre, pre.sourceCode, pre.text {
+td.lineNumbers pre, td.sourceCode pre, {
   font-family: $codefonts;
 }
 
@@ -60,7 +61,8 @@ td.lineNumbers {
 td.sourceCode { padding-left: 5px; }
 
 
-pre.sourceCode, pre.text {
+pre.sourceCode, pre.text  {
+  overflow: auto;
   border: inset;
   background-color: $color-background;
   font-family: $codefonts;

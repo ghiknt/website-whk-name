@@ -14,7 +14,7 @@ $textfonts: 'Open Sans', Times, 'Times New Roman', sans-serif;
 $codefonts:  'Source Code', Courier, 'Courier New', monospace;
 
 
-/* Values */
+/* Colors */
 $color-background: Window;
 $textcolor: WindowText;
 
@@ -24,13 +24,25 @@ $border-background: Window;
 $noticecolor: Highlight;
 $noticetext: HighlightText;
 $backgroundhilight: $color-background;
+
+$header-background: Menu;
+$header-textcolor: MenuText;
+
+
+/* Sizes */
+
 $borderwidth: 1px;
 
 $pagemargin: 5px;
 $padding: 5px;
 $paddingleft: 40px;
 $top-start: $pagemargin;
-$header-content: 75px;
+
+
+$google-height:   70px;
+$navblock-height: 95px; 
+$header-content: $google-height + $navblock-height + ( $padding * 2);
+
 $top-end: $top-start + ( $padding * 2 ) + $borderwidth + $header-content;
 $left: 0.5em;
 $right: 0.5em;
@@ -55,8 +67,11 @@ $fontsize-small:    $fontsize - 0.1em;
 $fontsize-smaller:  $fontsize - 0.2em;
 $fontsize-smallest: $fontsize - 0.3em;
 
-$switch-width: 600px;
+/* Responsive design change width */
+$switch-width: 800px;
 
+
+/* mixin's */
 
 @mixin footer-image($url)  
 {
@@ -68,6 +83,41 @@ $switch-width: 600px;
  background-image: url($url);
 }
 
+
+/************ Responsive changes ***************************/
+@media all and (max-width: $switch-width ) {
+ header {
+  #google {
+    #ad {
+     display: block;
+     width: 100%;
+    }
+    #search {
+     display: block;
+     width: 100%;
+    }
+  }
+ } 
+
+}
+
+@media all and (min-width: $switch-width +1 ) {
+ header {
+  #google {
+    #ad {
+     display: inline-block;
+     width: 69%;
+    }
+    #search {
+     display: inline-block;
+     width: 29%;
+
+
+    }
+  }
+ } 
+}
+
 * {
   font-family: $textfonts;
   font-weight: $weightnormal;
@@ -77,10 +127,7 @@ body {
   background-color: $border-background;
   left: 0px;
   right: 0px;
-  top: 0px;
-  bottom: 0px;
   margin: 0;
-  position: absolute;
   color: $textcolor;
 }
 
@@ -91,54 +138,46 @@ body {
  font-weight: 300;
 }
 
-
-@media all and (min-width: $switch-width + 1px) {
-body {
-  background-color: $border-background;
-  left: 0px;
-  right: 0px;
-  top: 0px;
-  bottom: 0px;
-  margin: 0;
-  position: absolute;
-  color: $textcolor;
-}
-
-
 main {
-  position: inherit;
-  left: $left;
-  right: 0px;
-  top: $top-end;
-  bottom: $bottom-end;
-  padding-right: $padding;
-  overflow: auto;
-  background-color: $color-background; 
+  background-color: $color-background;
+  min-height: 15em;
+  margin: $padding;
 }
+     .gsc-control-cse, .gsc-control-wrapper-cse {
+      background-color: $header-background !important;
+      text-color: $header-textcolor !important;
+      border-bottom-color: ButtonShadow !important;
+      border-right-color: ButtonShadow !important;
+      border-left-color: ButtonHighlight !important;
+      border-top-color: ButtonHighlight !important;
+     }
 
 header {
-  border-bottom: $borderwidth solid $bordercolor;
-  background-color: $border-background;
-  position: inherit;
-  left: $left;
-  right: $right;
-  top: $top-start;
-  height: $header-content;
-  img#logo
-  {
-   height: $header-content - ( $padding * 2);
-   margin: $padding;
-   background:url(/images/androidify-whk.png) 0 0;
-   background-repeat: no-repeat;
-   background-position: center;
-   background-size: contain;
-   float: left;
+  background-color: $header-background;
+  text-color: $header-textcolor;
+
+  a:link, a:visited {
+   background-color: $header-background;
+   text-color: $header-textcolor;
+   color: $textcolor;
   }
 
-  div#left_col {
-    float: left;
-    div#title
-      {
+  div#navblock {
+   #logospan {
+    display: inline-block;
+    img#logo {
+     height: 70px;
+     margin: $padding;
+     background:url(/images/androidify-whk.png) 0 0;
+     background-repeat: no-repeat;
+     background-position: center;
+     background-size: contain;
+    }
+   }
+   #navspan {
+    display: inline-block;
+    vertical-align: top;
+   div#title {
        font-size: $fontsize-title;
        font-family: $codefonts;
        font-weight: $weightbold;
@@ -153,22 +192,20 @@ header {
         font-size: $fontsize-smallest;
       }
   }
-  div#right_col {
-    float:right;
-    width: 300px;
-    height: $header-content - ( $padding * 2);
   }
 }
 
 footer {
   font-size: $fontsize-smaller;
-  position: inherit;
-  left: $left;
-  right: $right;
-  bottom: $bottom-start;
-  height: $footer-content;
   border-top: $borderwidth solid $bordercolor;
-  background-color: $border-background;
+  background-color: $header-background;
+  text-color: $header-textcolor;
+  min-height: 80px;
+  a:link, a:visited {
+   background-color: $header-background;
+   text-color: $header-textcolor;
+   color: $textcolor;
+  }
   div#footer-text
   {
     margin-left: 100px;
@@ -209,109 +246,7 @@ footer {
      @include footer-image("/images/glider.png");
   }
 }
-}
 
-@media all and (max-width: $switch-width ) {
-  body {
-    background-color: $border-background;
-    left: 0px;
-    right: 0px;
-    margin: 0;
-    color: $textcolor;
-  }
-
-
-  main {
-    left: $left;
-    right: 0px;
-    padding-right: $padding;
-    background-color: $color-background; 
-    display: block;
-  }
-
-  header {
-    border-bottom: $borderwidth solid $bordercolor;
-    background-color: $border-background;
-    left: $left;
-    right: $right;
-    display: block;
-    img#logo {
-      display: none;
-      visibility: none;
-    }
-
-    div#left_col {
-      div#title {
-         font-size: $fontsize-title;
-         font-family: $codefonts;
-         font-weight: $weightbold;
-        }
-
-        span.menuitem {
-          background-color: $border-background;
-          font-size: $fontsize-small;
-        }
-  
-        div#breadcrumb {
-          font-size: $fontsize-smallest;
-        }
-    }
-    div#right_col {
-      display: block;
-    }
-
-  }
-
-footer {
-  font-size: $fontsize-smaller;
-  display: block;
-  left: $left;
-  right: $right;
-  bottom: $bottom-start;
-  height: $footer-content;
-  border-top: $borderwidth solid $bordercolor;
-  background-color: $border-background;
-  div#footer-text
-  {
-    margin-left: 100px;
-    margin-right: 100px;
-  }
-  div#footer-badges-left
-  {
-    float: left;
-  }
-  div#footer-badges-right
-  {
-    float: right;
-  }
-  img#osi
-  {
-     @include footer-image("http://www.opensource.org/trademarks/opensource/web/opensource-55x48.gif");
-  }
-  img#creativecommons
-  {
-     @include footer-image("https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#agpl
-  {
-     @include footer-image("/images/agplv3-88x31.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#gfdl
-  {
-     @include footer-image("/images/gfdl-logo-tiny.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#hacker-emblem
-  {
-     @include footer-image("/images/glider.png");
-  }
-}
-}
 
 
 table.identities {

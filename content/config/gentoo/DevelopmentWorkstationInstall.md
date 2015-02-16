@@ -427,7 +427,7 @@ mkdir initramfs
 
 * initramfs/initramfs_list
 
-    ```
+    ```text
     # directory structure
     dir /proc       755 0 0
     dir /usr        755 0 0
@@ -571,7 +571,7 @@ mkdir initramfs
 
 * initramfs/fstab
 
-    ```fstab
+    ```text
     LABEL=SSD              /mnt/root               btrfs subvol=root,noatime,autodefrag,ssd   0 0
     LABEL=RAID             /mnt/root/usr/share     btrfs subvol=share,noatime,autodefrag     0 0
     ```
@@ -596,38 +596,42 @@ cp arch/x86_64/boot/bzImage /boot/kernel-3.16.5-gentoo
 Configure the machine
 =======================================================================
 * /etc/fstab
-```fstab
-LABEL=SSD               /               btrfs subvol=root,noatime,autodefrag,ssd   0 1
-LABEL=RAID              /home           btrfs subvol=home,noatime,autodefrag      1 2
-LABEL=RAID              /data           btrfs subvol=data,noatime,autodefrag      1 2
-LABEL=RAID              /usr/share      btrfs subvol=share,noatime,autodefrag     0 2
-LABEL=RAID              /opt            btrfs subvol=opt,noatime,autodefrag       0 2
-LABEL=swap1             none            swap            sw              0 0
-LABEL=swap2             none            swap            sw              0 0
-LABEL=swap3             none            swap            sw              0 0
-LABEL=swap4             none            swap            sw              0 0
-```
+
+    ```text
+    LABEL=SSD               /               btrfs subvol=root,noatime,autodefrag,ssd   0 1
+    LABEL=RAID              /home           btrfs subvol=home,noatime,autodefrag      1 2
+    LABEL=RAID              /data           btrfs subvol=data,noatime,autodefrag      1 2
+    LABEL=RAID              /usr/share      btrfs subvol=share,noatime,autodefrag     0 2
+    LABEL=RAID              /opt            btrfs subvol=opt,noatime,autodefrag       0 2
+    LABEL=swap1             none            swap            sw              0 0
+    LABEL=swap2             none            swap            sw              0 0
+    LABEL=swap3             none            swap            sw              0 0
+    LABEL=swap4             none            swap            sw              0 0
+    ```
 
 * /etc/conf.d/hostname
-```
-# Set to the hostname of this machine
-hostname="cerberus"
-```
+
+    ```text
+    # Set to the hostname of this machine
+    hostname="cerberus"
+    ```
 
 * /etc/conf.d/net
-```
-dns_domain_lo="umbisag.local"
-```
+
+    ```text
+    dns_domain_lo="umbisag.local"
+    ```
 
 ```bash
 emerge --noreplace netifrc
 ```
 
 * /etc/conf.d/net
-```
-dns_domain_lo="umbisag.local"
-config_enp3s0="dhcp"
-```
+
+    ```text
+    dns_domain_lo="umbisag.local"
+    config_enp3s0="dhcp"
+    ```
 
 ```bash
 cd /etc/init.d
@@ -661,7 +665,7 @@ Some other packages
 Console mouse
 -----------------------------------------------------------------------
 
-```
+```bash
 emerge sys-utils/gpm
 ```
 
@@ -671,13 +675,13 @@ Reboot and install X and LXDE
 
 * Reboot
 
-    ``` bash
+    ```bash
     shutdown -r now
     ```
 
 * /etc/portage/package.use
 
-    ```
+    ```text
     # Required for 
     x11-base/xorg-server udev
     =dev-libs/libxml2-2.9.1-r4 python
@@ -733,7 +737,7 @@ Reboot and install X and LXDE
 
    * install
 
-    ```
+    ```bash
     emerge --ask x11-misc/slim
     ```
 
@@ -759,7 +763,7 @@ Reboot and install X and LXDE
 * Configure slim to start lxde by default
     * /etc/env.d/90xsession
 
-        ```
+        ```text
         XSESSION="lxde"
         ```
     * Update environment
@@ -783,7 +787,7 @@ Reboot and install X and LXDE
 Accounts
 =======================================================================
 * whk
-```
+```bash
 useradd -m -G users,wheel,audio,cdrom,usb,video -s /bin/bash whk
 passwd whk
 ```
@@ -893,7 +897,7 @@ ongoing tuning until prefered settings are determined
 
 * Original driver support
 
-    ```
+    ```text
     00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890 Northbridge only single slot PCI-e GFX Hydra part (rev 02)
 	    Subsystem: Advanced Micro Devices, Inc. [AMD/ATI] RD890 Northbridge only single slot PCI-e GFX Hydra part
     00:02.0 PCI bridge: Advanced Micro Devices, Inc. [AMD/ATI] RD890 PCI to PCI bridge (PCI express gpp port B)
@@ -1011,7 +1015,7 @@ Chromium
 
 * Add to /etc/portage/package.use
 
-    ```
+    ```text
     # required by www-client/chromium-38.0.2125.101
     # required by www-client/chromium (argument)
     >=sys-libs/zlib-1.2.8-r1 minizip
@@ -1038,7 +1042,7 @@ CUPS
 
 * /etc/portage/package.use
 
-    ```
+    ```text
     # required by net-print/cups-1.7.5
     # required by net-print/cups-filters-1.0.53
     =app-text/ghostscript-gpl-9.10-r2 cups
@@ -1065,7 +1069,7 @@ Graphviz
 
 * /etc/portage/package.use
 
-    ```
+    ```text
     # required by media-gfx/graphviz-2.26.3-r4
     # required by graphviz (argument)
     >=media-libs/gd-2.0.35-r4 jpeg png fontconfig truetype
@@ -1122,7 +1126,7 @@ proprietary blobs
 
 * Add deblob to /etc/portage/package.use
 
-    ```
+    ```text
     # Deblob kernel sources
     sys-kernel/gentoo-sources deblob
     ```
@@ -1247,7 +1251,7 @@ Update and Clean up kernel a few settings at a time
 
 * Size changes after doing following
 
-    ```
+    ```text
     -rw-r--r-- 1 root root 7.9M Nov 24 04:22 /boot/kernel-3.16.5-gentoo
     -rw-r--r-- 1 root root 7.8M Dec 20 22:19 /boot/kernel-3.17.7-gentoo
     -rw-r--r-- 1 root root 8.0M Jan  4 04:07 /boot/kernel-3.17.7-gentoo-gnu20150104-01
@@ -1267,7 +1271,7 @@ Update and Clean up kernel a few settings at a time
 
     * kernel diff
 
-        ```
+        ```diff
          ACPI n -> y
          LOCALVERSION "" -> "20150104-01"
         +ACERHDF n
@@ -1380,87 +1384,103 @@ Update and Clean up kernel a few settings at a time
 
     * Update local version to 20150105-01
 
-            General setup -> Local version 
+        ```text
+        General setup -> Local version 
+        ```
  
     * xen - running on real hardware
 
-            Processor type and features -> Linux Guest support
+        ```text
+        Processor type and features -> Linux Guest support
+        ```
 
     * Block devices - Uneeded block devices
 
-            Device Drivers -> Block devices -> Compaq Smart Array 5xxx support
-            Device Drivers -> Block devices -> Mylex DAC960/DAC1100 PCI RAID Controller support
-            Device Drivers -> Block devices -> Promise SATA SX8 support
+        ```text
+        Device Drivers -> Block devices -> Compaq Smart Array 5xxx support
+        Device Drivers -> Block devices -> Mylex DAC960/DAC1100 PCI RAID Controller support
+        Device Drivers -> Block devices -> Promise SATA SX8 support
+        ```
 
     * ISCSI
 
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> QLogic NetXtreme II iSCSI support
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> Chelsio T3 iSCSI support
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> Chelsio T4 iSCSI support
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> QLogic ISP4XXX and ISP82XX host adapter family support
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> ServerEngines 10GBps iSCSI - BladeEngine 2
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> iSCSI Boot Sysfs Interface
-            Device Drivers -> SCSI device support -> SCSI low-level drivers -> iSCSI Initiator over TCP/IP
-            Device Drivers -> SCSI device support -> SCSI Transports -> iSCSI Transport Attributes 
+        ```text
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> QLogic NetXtreme II iSCSI support
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> Chelsio T3 iSCSI support
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> Chelsio T4 iSCSI support
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> QLogic ISP4XXX and ISP82XX host adapter family support
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> ServerEngines 10GBps iSCSI - BladeEngine 2
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> iSCSI Boot Sysfs Interface
+        Device Drivers -> SCSI device support -> SCSI low-level drivers -> iSCSI Initiator over TCP/IP
+        Device Drivers -> SCSI device support -> SCSI Transports -> iSCSI Transport Attributes 
+        ```
 
     * Network device drivers 
 
-            Device Drivers -> Network device support -> Fibre Channel driver support
-            Device Drivers -> Network device support -> Wireless LAN 
-            Device Drivers -> Network device support -> VMware VMXNET3 ethernet driver
-            Device Drivers -> Network device support -> Wan interfaces support
-            Device Drivers -> Network device support -> USB Network Adapters
-            Device Drivers -> Network device support -> Ethernet driver support -> 3Com devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> Adaptec devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Alteon devices
-            Device Drivers -> Network device support -> Ethernet driver support -> AMD devices
-            Device Drivers -> Network device support -> Ethernet driver support -> ARC devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Atheros devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Broadcom devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Brocade devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Chelsio devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Cisco devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> Digital Equipment devices
-            Device Drivers -> Network device support -> Ethernet driver support -> D-Link devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Emulex devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Exar devices
-            Device Drivers -> Network device support -> Ethernet driver support -> HP devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Intel devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Marvell devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Mellanox devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> Micrel devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Myricom devices
-            Device Drivers -> Network device support -> Ethernet driver support -> National Semi-conductor devices
-            Device Drivers -> Network device support -> Ethernet driver support -> NVIDIA Devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> OKI Semiconductor devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> QLogic devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> RDC devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Samsung Ethernet devices
-            Device Drivers -> Network device support -> Ethernet driver support -> SEEQ devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Silan devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Silicon Integrated Systems (SiS) devices
-            Device Drivers -> Network device support -> Ethernet driver support -> SMC (SMSC)/Western Digital devices
-            Device Drivers -> Network device support -> Ethernet driver support -> STMicroelectronics devices 
-            Device Drivers -> Network device support -> Ethernet driver support -> Sun devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Tehuti devices
-            Device Drivers -> Network device support -> Ethernet driver support -> Texas Instruments (TI) devices
-            Device Drivers -> Network device support -> Ethernet driver support -> VIA devices
-            Device Drivers -> Network device support -> Ethernet driver support -> WIZnet devices
+        ```text
+        Device Drivers -> Network device support -> Fibre Channel driver support
+        Device Drivers -> Network device support -> Wireless LAN 
+        Device Drivers -> Network device support -> VMware VMXNET3 ethernet driver
+        Device Drivers -> Network device support -> Wan interfaces support
+        Device Drivers -> Network device support -> USB Network Adapters
+        Device Drivers -> Network device support -> Ethernet driver support -> 3Com devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> Adaptec devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Alteon devices
+        Device Drivers -> Network device support -> Ethernet driver support -> AMD devices
+        Device Drivers -> Network device support -> Ethernet driver support -> ARC devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Atheros devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Broadcom devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Brocade devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Chelsio devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Cisco devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> Digital Equipment devices
+        Device Drivers -> Network device support -> Ethernet driver support -> D-Link devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Emulex devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Exar devices
+        Device Drivers -> Network device support -> Ethernet driver support -> HP devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Intel devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Marvell devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Mellanox devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> Micrel devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Myricom devices
+        Device Drivers -> Network device support -> Ethernet driver support -> National Semi-conductor devices
+        Device Drivers -> Network device support -> Ethernet driver support -> NVIDIA Devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> OKI Semiconductor devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> QLogic devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> RDC devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Samsung Ethernet devices
+        Device Drivers -> Network device support -> Ethernet driver support -> SEEQ devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Silan devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Silicon Integrated Systems (SiS) devices
+        Device Drivers -> Network device support -> Ethernet driver support -> SMC (SMSC)/Western Digital devices
+        Device Drivers -> Network device support -> Ethernet driver support -> STMicroelectronics devices 
+        Device Drivers -> Network device support -> Ethernet driver support -> Sun devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Tehuti devices
+        Device Drivers -> Network device support -> Ethernet driver support -> Texas Instruments (TI) devices
+        Device Drivers -> Network device support -> Ethernet driver support -> VIA devices
+        Device Drivers -> Network device support -> Ethernet driver support -> WIZnet devices
+        ```
 
     * I20 Disk subsystem
 
-            Device Drivers -> I2O device support
+        ```text
+        Device Drivers -> I2O device support
+        ```
 
     * Fusion MPT
 
-            Device Drivers -> Fusion MPT device support
+        ```text
+        Device Drivers -> Fusion MPT device support
+        ```
 
     * PS/2 support
 
-            Device Drivers -> Input device support -> Keyboards -> AT Keyboard
-            Device Drivers -> Input device support -> Mice -> PS/2 Mouse
-            Device Drivers -> Input device support -> Hardware I/O ports -> i8042 PC Keyboard controller
-            Device Drivers -> Input device support -> Hardware I/O ports -> PS/2 driver library
+        ```text
+        Device Drivers -> Input device support -> Keyboards -> AT Keyboard
+        Device Drivers -> Input device support -> Mice -> PS/2 Mouse
+        Device Drivers -> Input device support -> Hardware I/O ports -> i8042 PC Keyboard controller
+        Device Drivers -> Input device support -> Hardware I/O ports -> PS/2 driver library
+        ```
 
     * Build the new kernel
 
