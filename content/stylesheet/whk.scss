@@ -371,6 +371,26 @@ div.content { /* Block element content. */
   padding: 0;
 }
 
+dl {
+  margin-top: 0.8em;
+  margin-bottom: 0.8em;
+}
+dt {
+  margin-top: 0.5em;
+  margin-bottom: 0;
+  font-style: $textfonts;
+  color: $textcolor;
+}
+dd > *:first-child {
+  margin-top: 0.1em;
+}
+dd {
+  font-style: $textfonts;
+  margin-left: 1.0em;
+  font-size: $fontsize-small
+}
+
+/********************* start review here **********************************/
 /* Block element titles. */
 div.title, caption.title {
   color: $textcolor;
@@ -454,22 +474,6 @@ div.exampleblock > div.content {
 div.imageblock div.content { padding-left: 0; }
 span.image img { border-style: none; }
 
-dl {
-  margin-top: 0.8em;
-  margin-bottom: 0.8em;
-}
-dt {
-  margin-top: 0.5em;
-  margin-bottom: 0;
-  font-style: normal;
-  color: $textcolor;
-}
-dd > *:first-child {
-  margin-top: 0.1em;
-}
-dd {
-  margin-left: 1.0em;
-}
 ul, ol {
   list-style-position: outside;
 }
