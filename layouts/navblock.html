@@ -1,0 +1,27 @@
+<!-- start navblock layout -->
+<div id="navblock">
+ <span id="logospan">
+  <img id="logo" src="/images/blank.gif" alt="whk">
+ </span>
+ <div id="navspan">
+   <nav id="menu">
+    <span class="menuitem"><a href="/">Home</a></span>
+    <span class="menuitem"><a href="/cookbook/">Cookbook</a></span>
+    <span class="menuitem"><a href="/config/">Config</a></span>
+    <span class="menuitem"><a href="/about/">About</a></span>
+   </nav>
+  <div id="breadcrumb" prefix="v: http://rdf.data-vocabulary.org/#" >Trail 
+   <% counter = 0 -%>
+   <% trail = breadcrumbs_trail -%>
+   <% trail.pop -%>
+   <% trail.each do  |crumb|  -%>
+    <% unless crumb[:title].nil? -%>
+     - <span  typeof="v:Breadcrumb">
+        <a rel="v:url" property="v:title" href="<%= crumb.path %>"><%= crumb[:title] %></a>
+       </span>
+    <% end -%>
+   <% end -%>
+  </div>
+ </div>
+</div>
+<!-- end navblock layout -->

@@ -3,10 +3,11 @@ title: sitemap
 type: sitemap
 toc: ignore
 ---
-<%= xml_sitemap :items => @items.reject{ |i| i[:is_hidden]         || 
-                                             i.binary?             ||
-                                             i[:extension] == 'js' ||
-                                             i[:extension] == 'scss'||
-                                             i[:type] == 'toc' ||
-                                             i[:type] == 'sitemap'
-                                             } %>
+<%= xml_sitemap :items => @items.reject{ |i| i[:is_hidden]           || 
+                                             i.binary?               ||
+                                             i[:extension] == 'js'   ||
+                                             i[:extension] == 'scss' ||
+                                             i[:type] == 'toc'       ||
+                                             i[:type] == 'sitemap'   ||
+                                             i.identifier.match(/^\/drafts\//)
+                                       } %>

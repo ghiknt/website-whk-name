@@ -18,8 +18,6 @@ compile '*' do
   # Do nothing with items that have no extension
  elsif item.binary?
   # don’t filter binary items
- elsif item[:extension] == 'html'
-  # do nothing
  else
   case item[:extension]
    when 'scss'
@@ -39,8 +37,12 @@ compile '*' do
     case item[:type]
      when 'article'
       layout 'article_layout'
+     when 'toc'
+      layout 'toc_layout'
      when 'person'
       layout 'person_layout'
+     when 'sitemap'
+       # No Layout
      else
       layout 'default'
     end
@@ -58,11 +60,8 @@ compile '*' do
      else
       layout 'default'
     end
-   when 'html'
-    # none
    else
-    filter :erb
-    layout 'default'
+     # Default is to transfer file as is
   end
  end
 end
@@ -79,19 +78,17 @@ route '*' do
     item.identifier.chop + '.xml' 
   else
    case item[:extension]
-    when 'html'
-      item.identifier.chop + '.' + item[:extension]
+    when'erb', 'md'
+      # Write item with identifier /foo/ to /foo/index.html
+      item.identifier + 'index.html'
     when 'scss'
       # Sass scss files to css
       item.identifier.chop + '.css' 
-    when 'css', 'js'
+    else  
       # store with the extension still on the file
       item.identifier.chop + '.' + item[:extension]
-    else  
-      # Write item with identifier /foo/ to /foo/index.html
-      item.identifier + 'index.html'
     end
   end
 end
 
-layout '*', :erb
+layout '*' ,:erb, :trim_mode=>'<>-'
