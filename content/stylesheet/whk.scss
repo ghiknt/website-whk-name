@@ -39,16 +39,9 @@ $paddingleft: 40px;
 $top-start: $pagemargin;
 
 
-$google-height:   70px;
-$navblock-height: 95px; 
-$header-content: $google-height + $navblock-height + ( $padding * 2);
-
-$top-end: $top-start + ( $padding * 2 ) + $borderwidth + $header-content;
 $left: 0.5em;
 $right: 0.5em;
-$bottom-start: $pagemargin;
 $footer-content: 70px;
-$bottom-end: $bottom-start + ( $padding * 2 ) + $borderwidth + $footer-content;
 
 $fontsize:         1.0em;
 
@@ -62,6 +55,9 @@ $fontsize-h3:       $fontsize + 0.2em;
 $fontsize-h4:       $fontsize + 0.1em;
 
 $fontsize-admonition: $fontsize-h4;
+
+
+$fontsize-bigger:   $fontsize-h4;
 
 $fontsize-small:    $fontsize - 0.1em;
 $fontsize-smaller:  $fontsize - 0.2em;
@@ -86,6 +82,14 @@ $switch-width: 800px;
 
 /************ Responsive changes ***************************/
 @media all and (max-width: $switch-width ) {
+ body {
+  /* Allow words to break anywhere so it fits width of screen */
+  word-wrap: break-word;
+ }
+ pre {
+  /* But not in pre sections we overflow auto them already*/
+  word-wrap: normal;
+ }
  header {
   #google {
     #ad {
@@ -106,13 +110,11 @@ $switch-width: 800px;
   #google {
     #ad {
      display: inline-block;
-     width: 69%;
+     width: 65%;
     }
     #search {
      display: inline-block;
      width: 29%;
-
-
     }
   }
  } 
@@ -131,26 +133,6 @@ body {
   color: $textcolor;
 }
 
-.pyg {
- margin: $padding;
- overflow-x: auto;
- font-family: $codefonts;
- font-weight: 300;
-}
-
-main {
-  background-color: $color-background;
-  min-height: 15em;
-  margin: $padding;
-}
-     .gsc-control-cse, .gsc-control-wrapper-cse {
-      background-color: $header-background !important;
-      text-color: $header-textcolor !important;
-      border-bottom-color: ButtonShadow !important;
-      border-right-color: ButtonShadow !important;
-      border-left-color: ButtonHighlight !important;
-      border-top-color: ButtonHighlight !important;
-     }
 
 header {
   background-color: $header-background;
@@ -160,38 +142,137 @@ header {
    background-color: $header-background;
    text-color: $header-textcolor;
    color: $textcolor;
+   text-decoration: none;
+  }
+  /* The google block */
+  #google {
+    #ad {
+      font-size: $fontsize-smallest;
+      border: 1px groove;
+      margin: 0.5em;
+      padding: 0.5em;
+
+      #label {
+        position: relative;
+        top: -1.1em;
+        margin: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-left: 0.5em;
+        padding-right: 0.5em;
+        border: 0px;
+        background-color: $header-background;
+      }
+
+
+      .adsbygoogle {
+        position: relative;
+        top: -1em;
+      }
+
+    }
+    #search {
+      margin: 0.5em;
+      vertical-align: top;
+      .gsc-control-cse, .gsc-control-wrapper-cse {
+        background-color: $header-background !important;
+        text-color: $header-textcolor !important;
+        border-bottom-color: ButtonShadow !important;
+        border-right-color: ButtonShadow !important;
+        border-left-color: ButtonHighlight !important;
+        border-top-color: ButtonHighlight !important;
+      }
+    }
   }
 
+  /* The navigation block */
   div#navblock {
-   #logospan {
-    display: inline-block;
-    img#logo {
-     height: 70px;
-     margin: $padding;
-     background:url(/images/androidify-whk.png) 0 0;
-     background-repeat: no-repeat;
-     background-position: center;
-     background-size: contain;
+    #logospan {
+     display: inline-block;
+     img#logo {
+      height: 70px;
+      margin: $padding;
+      background:url(/images/androidify-whk.png) 0 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+     }
     }
-   }
-   #navspan {
-    display: inline-block;
-    vertical-align: top;
-   div#title {
-       font-size: $fontsize-title;
-       font-family: $codefonts;
-       font-weight: $weightbold;
+    #navspan {
+      display: inline-block;
+      vertical-align: top;
+      div#title {
+        font-size: $fontsize-title;
+        font-family: $codefonts;
+        font-weight: $weightbold;
       }
-
+ 
       span.menuitem {
-        background-color: $border-background;
-        font-size: $fontsize-small;
+        font-size: $fontsize-bigger;
+        padding: $padding;
       }
-  
+      span.menuitem:hover {
+        border: solid 1px;
+        border-bottom-color: ButtonHighlight;
+        border-right-color: ButtonHighlight;
+        border-left-color: ButtonShadow;
+        border-top-color: ButtonShadow; 
+      } 
       div#breadcrumb {
         font-size: $fontsize-smallest;
+        span:hover {
+          border: solid 1px;
+          border-bottom-color: ButtonHighlight;
+          border-right-color: ButtonHighlight;
+          border-left-color: ButtonShadow;
+          border-top-color: ButtonShadow; 
+        } 
       }
+    }
   }
+}
+
+main {
+  background-color: $color-background;
+  min-height: 15em;
+  margin: $padding;
+
+
+  /* Details disclosure panel */
+  details  {
+    background-color: $header-background;
+    text-color: $header-textcolor;
+    border: solid 1px;
+    border-bottom-color: ButtonShadow;
+    border-right-color: ButtonShadow;
+    border-left-color: ButtonHighlight;
+    border-top-color: ButtonHighlight;
+    font-size: $fontsize-smaller;
+    a:link, a:visited {
+     background-color: $header-background;
+     text-color: $header-textcolor;
+     color: $textcolor;
+    }
+    summary {
+      font-size: $fontsize-small;
+    }
+  }
+
+  /* Identities table on personal page */ 
+  table.identities {
+    width: 96%;
+    text-align: center;
+    thead {
+      font-size: $fontsize-h3;
+      font-weight: $weightbold;
+    }
+    .identities a:link, .identities a:visited {
+      color: $textcolor;
+    }
+    .identities a:hover, .identities a:active {
+      color: $noticetext;
+      background: $noticecolor;
+    }
   }
 }
 
@@ -249,23 +330,7 @@ footer {
 
 
 
-table.identities {
-     width: 96%;
-     text-align: center;
-}
 
-table.identities thead {
-     font-size: $fontsize-h3;
-     font-weight: $weightbold;
-}
-
-table.identities a:link, .identities a:visited {
-     color: $textcolor;
-}
-table.identities a:hover, .identities a:active {
-     color: $noticetext;
-     background: $noticecolor;
-}
 
 
 h1 {
@@ -361,11 +426,6 @@ div.admonitionblock {
   background: $noticecolor;  
 }
 
-
-details {
-  color: $noticetext;
-  background: $noticecolor;
-}
 
 div.content { /* Block element content. */
   padding: 0;
