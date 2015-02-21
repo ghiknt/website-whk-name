@@ -1,6 +1,6 @@
 ---
-title: Home 
-summary: My central site for things I am working on and thinking about.
+title: WHK's Thoughts 
+summary: My central site for things I am working on and thinking about no matter how trivial
 type: article
 license: ccbysa
 author:

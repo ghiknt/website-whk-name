@@ -1,0 +1,19 @@
+<% render 'section_head' do %>
+ <%# intentionally blank %>
+<% end %>
+<h1 id="title" property="name"><%=@item[:title]%></h1>
+
+<% unless @item[:summary].nil? %>
+ <%= @item[:summary] %>
+<% end %>
+
+<section id=contents>
+ <h2>Pages</h2>
+ <%= listchildren %>
+</section>
+
+
+<% render 'section_footer' do %>
+ <%# intentionally blank %>
+<% end %>
+

@@ -16,8 +16,8 @@
    <% trail.pop -%>
    <% trail.each do  |crumb|  -%>
     <% unless crumb.nil? || crumb[:title].nil? -%>
-     &raquo; <span  typeof="v:Breadcrumb">
-        <a rel="v:url" property="v:title" href="<%= crumb.path %>"><%= crumb[:title] %></a>
+     &raquo; <span  typeof="v:Breadcrumb"><meta property="v:title" content="<%= crumb[:title] %>">
+        <a property="v:url" href="<%= crumb.path %>"><%= crumb[:title] %></a>
        </span>
     <% end -%>
    <% end -%>

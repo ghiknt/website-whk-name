@@ -5,9 +5,9 @@
  <% advertising = item[:advertising] -%>
 <% end -%>
 <div id="google">
+<% if advertising == "true" -%>
  <span id="ad">
- <span id="label">Advert</span>
-  <% if advertising == "true" -%>
+   <span id="label">Advert</span>
    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
    <!-- whk- responsive -->
    <ins class="adsbygoogle"
@@ -18,10 +18,11 @@
    <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
    </script>
-  <% else -%>
-   <!-- Advertising turned off on this page -->
-  <% end -%>
  </span>
+<% else -%>
+   <!-- Advertising turned off on this page -->
+   <span id="noad"></span>
+<% end -%>
  <span id="search">
   <script>
    (function() {

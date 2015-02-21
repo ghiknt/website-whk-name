@@ -36,29 +36,29 @@ compile '*' do
     filter :pandoc_commandline, :args => opts  
     case item[:type]
      when 'article'
-      layout 'article_layout'
+      layout 'layout_article'
      when 'toc'
-      layout 'toc_layout'
+      layout 'layout_toc'
      when 'person'
-      layout 'person_layout'
+      layout 'layout_person'
      when 'sitemap'
        # No Layout
      else
-      layout 'default'
+      layout 'layout_default'
     end
    when 'erb'
     filter :erb
     case item[:type]
      when 'article'
-      layout 'article_layout'
+      layout 'layout_article'
      when 'toc'
-      layout 'toc_layout'
+      layout 'layout_toc'
      when 'person'
-      layout 'person_layout'
+      layout 'layout_person'
      when 'sitemap'
        # No Layout
      else
-      layout 'default'
+      layout 'layout_default'
     end
    else
      # Default is to transfer file as is

@@ -67,6 +67,15 @@ $fontsize-smallest: $fontsize - 0.3em;
 $switch-width: 800px;
 
 
+
+/* Set html5 semantic elements to block for browsers that don't
+   know about them yet
+   http://www.w3.org/wiki/HTML_structural_elements#HTML5_element_support
+*/
+article, section, aside, hgroup, nav, header, footer, figure, figcaption {
+  display: block;
+}
+
 /* mixin's */
 
 @mixin footer-image($url)  
@@ -79,6 +88,10 @@ $switch-width: 800px;
  background-image: url($url);
 }
 
+* {
+  font-family: $textfonts;
+  font-weight: $weightnormal;
+}
 
 /************ Responsive changes ***************************/
 @media all and (max-width: $switch-width ) {
@@ -90,51 +103,49 @@ $switch-width: 800px;
   /* But not in pre sections we overflow auto them already*/
   word-wrap: normal;
  }
- header {
-  #google {
-    #ad {
-     display: block;
-     width: 100%;
-    }
-    #search {
-     display: block;
-     width: 100%;
-    }
-  }
- } 
+ section#header {
+ #google {
+   #ad {
+    display: block;
+    width: 92%;
+   }
+   #search {
+    display: block;
+    width: 95%;
+   }
+ }
+ }
+} 
 
-}
 
 @media all and (min-width: $switch-width +1 ) {
- header {
-  #google {
-    #ad {
-     display: inline-block;
-     width: 65%;
-    }
-    #search {
-     display: inline-block;
-     width: 29%;
-    }
-  }
- } 
+ section#header {
+ #google {
+   #ad {
+    display: inline-block;
+    width: 65%;
+   }
+   #noad {
+    display: inline-block;
+    width: 65%;
+   }
+   #search {
+    display: inline-block;
+    width: 29%;
+   }
+ }
+ }
 }
 
-* {
-  font-family: $textfonts;
-  font-weight: $weightnormal;
-}
 
 body {
   background-color: $border-background;
   left: 0px;
   right: 0px;
-  margin: 0;
+  margin: 0px;
   color: $textcolor;
-}
 
-
-header {
+ section#header {
   background-color: $header-background;
   text-color: $header-textcolor;
 
@@ -237,6 +248,15 @@ main {
   min-height: 15em;
   margin: $padding;
 
+   h1.title {
+     fontsize: $fontsize-title;
+   }
+
+   /* Each section should indent */
+   section {
+     margin-left: 0.5em;
+   }
+
 
   /* Details disclosure panel */
   details  {
@@ -329,6 +349,7 @@ footer {
 }
 
 
+}
 
 
 
@@ -380,9 +401,6 @@ h2 {
   padding-top: $padding;
 }
 
-div.sectionbody {
-  margin-left: 0;
-}
 
 hr {
   border: $borderwidth solid $bordercolor;

@@ -31,13 +31,33 @@
  </head>
 
  <body> 
-  <header class="header">
+
+ <!-- Ensure older version of IE handle html5 sematic elements
+      http://www.w3.org/wiki/HTML_structural_elements#HTML5_element_support -->
+   <script>
+     document.createElement('article');
+     document.createElement('section');
+     document.createElement('aside');
+     document.createElement('hgroup');
+     document.createElement('nav');
+     document.createElement('header'); 
+     document.createElement('footer');
+     document.createElement('figure');
+     document.createElement('figcaption'); 
+   </script>
+  <section id=header>
+   <!-- Google ads and custom search -->
    <% if ! item.identifier.match(/^\/drafts\//) -%>
-    <% render 'google' do -%>
-     <%# intentionally blank -%>
+     <% render 'section_google' do -%>
+      <%# intentionally blank -%>
+     <% end -%>
     <% end -%>
-   <% end -%>
-   <% render 'navblock' do -%>
+
+   <!-- Navigation section -->
+   <% render 'section_navblock' do -%>
     <%# intentionally blank -%>
    <% end -%>
- </header>
+  </section>
+  <!-- Start of main body -->
+  <main id="content">
+

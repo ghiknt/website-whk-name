@@ -1,0 +1,45 @@
+<% render 'section_head' do %>
+ <%# intentionally blank %>
+<% end %>
+
+
+ <article typeof="TechArticle">
+ <header>
+  <details>
+   <summary>Article metadata</summary>
+   <ul>
+    <li>Copywrite <% render 'section_copywrite' do %><%# intentionally blank %><% end %>
+    <% unless item[:author].empty? %>
+     <li>Author
+      <ul>
+       <% @item[:author].each do |author| %>
+        <li><span property="Author" typeof="Person"><a property="sameas" typeof="URL"  href="<%= author[:url]%>"><%= author[:name]%></a><meta property="name" content="<%= author[:name] %>"></span>
+       <% end %>
+      </ul>
+    <% end %>
+    <li>Created <span property="dateCreated"><%=@item[:created]%></span>
+    <li>Last updated: <span property="dateModified"><%= @item[:modified] %></span>
+   <% unless @item[:changes].nil? %>
+    <li>Changes
+     <ul>
+      <% @item[:changes].each do |change| %>
+       <li><%= change[:date] %>: <%= change[:description] %>
+      <% end %>
+     </ul>
+   <% end %>
+   </ul>
+  </details>
+   <h1 id="title" property="name"><%=@item[:title]%></h1>
+   <div id=summary property="description">
+    <%= @item[:summary] %>
+   </div>
+ </header>
+<div property="articleBody">
+<%= yield %>
+</div>
+
+
+ </article>
+<% render 'section_footer' do %>
+ <%# intentionally blank %>
+<% end %>
