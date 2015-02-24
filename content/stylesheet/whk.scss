@@ -278,6 +278,13 @@ main {
     }
   }
 
+  img#myimage {
+    float: left;
+    height: 4em;
+    padding-right: 1em;
+
+  }
+
   /* Identities table on personal page */ 
   table.identities {
     width: 96%;
