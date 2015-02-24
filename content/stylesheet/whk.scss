@@ -35,7 +35,7 @@ $borderwidth: 1px;
 
 $pagemargin: 5px;
 $padding: 5px;
-$paddingleft: 40px;
+$paddingleft: 0.5em;
 $top-start: $pagemargin;
 
 
@@ -254,7 +254,7 @@ main {
 
    /* Each section should indent */
    section {
-     margin-left: 0.5em;
+     margin-left: $paddingleft;
    }
 
 
@@ -664,7 +664,7 @@ span.footnote, span.footnoteref {
 }
 
 div.colist {
-  padding-left: $paddingleft - 15px;
+  padding-left: $paddingleft - 1em;
 }
 
 div.colist td {
