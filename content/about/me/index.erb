@@ -6,7 +6,7 @@ license: ccbysa
 author:
  -
   name: "whk"
-  url: "https://whk.name/about/me/"
+  url: "https://whk.name/about/me/#id"
 created: 2015-02-08
 modified: 2015-02-16
 reviewed: 2015-02-16
@@ -15,27 +15,21 @@ priority: 1.0
 advertising: false
 ---
 
-<section prefix="wot: http://xmlns.com/wot/0.1/ v: http://rdf.data-vocabulary.org/#" typeof="Person v:person wot:User">
+<section prefix="wot: http://xmlns.com/wot/0.1/" typeof="Person wot:User" resource="#id" id="id">
 
 
 <h1>About me</h1>
 <div>
 <img id="myimage" property="image" typeof="URL" src="/images/whk.jpg">
-I am  <span property="v:name name">Warren H Knight</span> (<span property="v:nickname">whk</span>) a
-<span property="v:role">Free Software Enthusiast</span> living in 
-<span property="v:address" typeof="v:address"><span property="v:region">Texas</span></span>. 
+I am  <span property="name">Warren H Knight</span> (<span property="additionalName">whk</span>) a
+<span property="jobTitle">Free Software Enthusiast</span> living in 
+<span property="address" typeof="PostalAddress"><span property="addressRegion">Texas</span>, <span property="addressCountry">USA</span></span>. 
 My central public online identity and my various other identities online should be able to always be found 
-<a property="url v:url" typeof="URL" href="https://whk.name/about/me/">here</a>. 
-<span property="wot:hasKey" typeof="wot:PubKey">
-  My <a property="wot:pubkeyAddress" typeof="URL" href="https://whk.name/about/me/whk.asc">GPG Key</a> for 
-  "<span property="wot:identity">https://whk.name/about/me (whk) &lt;no-reply@whk.name&gt;</span>" is 
-  <span property="wot:length">4096</span>R/<span property="wot:hex_id">3C01BF01</span> with a fingerprint of
-  <code property="wot:fingerprint">ECA2 1555 D91A 3A44 DD6E  7075 8F50 CC65 3C01 BF01</code>
-</span>
+<a property="url" typeof="URL" href="https://whk.name/about/me/#id">here</a>. 
 </div>
 
 
-<h1>Where to find me</h1>
+<h2>Where to find me</h2>
 
 <table class="identities">
  <thead>
@@ -97,6 +91,24 @@ My central public online identity and my various other identities online should 
   <td><a property="sameAs" typeof="URL" href="https://www.kickstarter.com/profile/whk">whk</a></td>
  </tr>
 </tbody>
+</table>
+
+<h2>Validation</h2>
+Currently I am using GPG to sign my code in GIT although I expect I will use it for other purposes as this and my other sites develop.
+
+<table class="gpglist" style="border: 1px solid">
+ <thead>
+  <tr><th>Key</th><th>ID</th><th>Type</th><th>Fingerprint</th><th>Purpose</th></tr>
+ </thead>
+ <tbody>
+  <tr property="wot:hasKey" typeof="wot:PubKey" resource="#codesign">
+   <td><a property="wot:pubkeyAddress" typeof="URL" href="https://whk.name/about/me/whk.asc">GPG</a>
+   <td><span property="wot:identity">https://whk.name/about/me (whk) <no-reply@whk.name></span></td>
+   <td><span property="wot:length">4096</span>R/<span property="wot:hex_id">3C01BF01</span></td>
+   <td><code property="wot:fingerprint">ECA2 1555 D91A 3A44 DD6E  7075 8F50 CC65 3C01 BF01</code></td>
+   <td>Code Signing</td>
+  </tr>
+ </tbody>
 </table>
 
 </section>

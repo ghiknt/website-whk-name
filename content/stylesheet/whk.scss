@@ -285,6 +285,30 @@ main {
 
   }
 
+  table.gpglist {
+    width: 95%;
+    text-align: center;
+    border-collapse: collapse;
+    //border: 1px solid;
+    th, td {
+     border: 1px solid;
+    }
+    thead {
+      font-size: $fontsize-h3;
+      font-weight: $weightbold;
+    }
+    a:link, a:visited {
+      text-color: $textcolor;
+      color: $textcolor;
+    }
+     a:hover, a:active {
+      text-color: $noticetext;
+      color: $noticetext;
+      background: $noticecolor;
+    }
+
+  }
+
   /* Identities table on personal page */ 
   table.identities {
     width: 96%;
@@ -293,10 +317,12 @@ main {
       font-size: $fontsize-h3;
       font-weight: $weightbold;
     }
-    .identities a:link, .identities a:visited {
+     a:link,  a:visited {
+      text-color: $textcolor;
       color: $textcolor;
     }
-    .identities a:hover, .identities a:active {
+     a:hover, a:active {
+      text-color: $noticetext;
       color: $noticetext;
       background: $noticecolor;
     }

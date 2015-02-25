@@ -5,7 +5,7 @@ summary: >
  Rooting AT&T Note 2 (older ubuntu instructions)
 type: article
 author:
- - { name: "whk", url: "https://whk.name/about/me/" }
+ - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2013-04-06
 modified: 2015-02-14
 reviewed: 2015-02-14
