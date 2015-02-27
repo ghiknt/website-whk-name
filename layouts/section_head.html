@@ -47,7 +47,11 @@
    </script>
   <section id=header>
    <!-- Google ads and custom search -->
-   <% if ! item.identifier.match(/^\/drafts\//) -%>
+   <% if item.identifier.match(/^\/drafts\//) -%>
+     <% render 'section_draft' do -%>
+      <%# intentionally blank -%>
+     <% end -%>
+   <% else %>
      <% render 'section_google' do -%>
       <%# intentionally blank -%>
      <% end -%>

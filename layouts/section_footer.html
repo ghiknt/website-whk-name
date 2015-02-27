@@ -56,6 +56,11 @@
  <% end %>
 
    </div>
+   <% if item.identifier.match(/^\/drafts\//) -%>
+     <% render 'section_draft' do -%>
+      <%# intentionally blank -%>
+     <% end -%>
+   <% end %>
   </footer>
   <!-- Support details tag on browsers that don't currently support it -->
   <script src="/js/external/details/details.js" defer="defer" type="text/javascript"></script>

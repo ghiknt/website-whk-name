@@ -35,7 +35,7 @@ $borderwidth: 1px;
 
 $pagemargin: 5px;
 $padding: 5px;
-$paddingleft: 0.5em;
+$paddingleft: 1.0em;
 $top-start: $pagemargin;
 
 
@@ -43,6 +43,7 @@ $left: 0.5em;
 $right: 0.5em;
 $footer-content: 70px;
 
+/*
 $fontsize:         1.0em;
 
 $fontsize-biggest:  $fontsize + 0.5em;
@@ -62,6 +63,29 @@ $fontsize-bigger:   $fontsize-h4;
 $fontsize-small:    $fontsize - 0.1em;
 $fontsize-smaller:  $fontsize - 0.2em;
 $fontsize-smallest: $fontsize - 0.3em;
+*/
+
+
+$fontsize:         16px;
+
+$fontsize-biggest:  $fontsize + 10px;
+
+$fontsize-title:    $fontsize + 10px; 
+
+$fontsize-h1:       $fontsize + 8px;
+$fontsize-h2:       $fontsize + 6px;
+$fontsize-h3:       $fontsize + 4px;
+$fontsize-h4:       $fontsize + 2px;
+
+$fontsize-admonition: $fontsize-h4;
+
+$fontsize-bigger:   $fontsize-h4;
+
+$fontsize-small:    $fontsize - 1px;
+$fontsize-smaller:  $fontsize - 2px;
+$fontsize-smallest: $fontsize - 3px;
+
+
 
 /* Responsive design change width */
 $switch-width: 800px;
@@ -144,6 +168,7 @@ body {
   right: 0px;
   margin: 0px;
   color: $textcolor;
+  font-size: $fontsize;
 
  section#header {
   background-color: $header-background;
@@ -384,6 +409,20 @@ footer {
 
 }
 
+
+.draft {
+  clear: both;
+  color: red;
+  font-size: $fontsize;
+  border: solid 3px;
+  h1 {
+    text-align: center;
+    border: none;
+    letter-spacing: 1em;
+    color: red;
+    font-size: $fontsize-biggest;
+  }
+}
 
 
 
