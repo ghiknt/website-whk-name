@@ -29,9 +29,9 @@ compile '*' do
     opts = [{:to => :html5,
             'base-header-level' => 2,
             :filter => 'pandoc-citeproc',
-            'data-dir' => 'content/bibliography/',
-            :bibliography => 'content/bibliography/whk.name.bib',
-            :csl => 'content/bibliography/chicago-annotated-bibliography.csl'
+            'data-dir' => 'content/about/bibliography/',
+            :bibliography => 'content/about/bibliography/whk.name.bib',
+            :csl => 'content/about/bibliography/chicago-annotated-bibliography.csl'
            }, 'section-divs']
     filter :pandoc_commandline, :args => opts  
     case item[:type]
