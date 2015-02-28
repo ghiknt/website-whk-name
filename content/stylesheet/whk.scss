@@ -353,6 +353,10 @@ main {
     }
   }
 
+  .references, .footnotes {
+    font-size: $fontsize-smaller;
+  }
+
   span.citation sup {
     font-size: $fontsize-smallest;
   }

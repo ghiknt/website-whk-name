@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" class="note" version="1.0" demote-non-dropping-particle="never" page-range-format="chicago">
   <info>
-    <title>Chicago Manual of Style 16th edition (full note)</title>
-    <id>http://www.zotero.org/styles/chicago-fullnote-bibliography</id>
-    <link href="http://www.zotero.org/styles/chicago-fullnote-bibliography" rel="self"/>
+    <title>Chicago Manual of Style 16th edition (note, annotated bibliography)</title>
+    <id>http://www.zotero.org/styles/chicago-annotated-bibliography</id>
+    <link href="http://www.zotero.org/styles/chicago-annotated-bibliography" rel="self"/>
     <link href="http://www.chicagomanualofstyle.org/tools_citationguide.html" rel="documentation"/>
     <author>
       <name>Julian Onions</name>
@@ -21,14 +21,10 @@
       <name>Frank Bennett</name>
       <email>biercenator@gmail.com</email>
     </contributor>
-    <contributor>
-      <name>Andrew Dunning</name>
-      <email>andrew.dunning@utoronto.ca</email>
-    </contributor>
     <category citation-format="note"/>
     <category field="generic-base"/>
-    <summary>Chicago format with full notes and bibliography</summary>
-    <updated>2014-05-16T16:30:10+00:00</updated>
+    <summary>Chicago format with short notes and annotated bibliography</summary>
+    <updated>2014-05-06T02:59:43+00:00</updated>
     <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
   </info>
   <locale xml:lang="en">
@@ -349,7 +345,7 @@
     <group delimiter=" ">
       <choose>
         <if type="chapter paper-conference" match="any">
-          <text term="in"/>
+          <text term="in" text-case="lowercase"/>
         </if>
       </choose>
       <choose>
@@ -615,9 +611,6 @@
       <if type="thesis">
         <text variable="publisher"/>
       </if>
-      <else-if type="speech">
-        <text variable="event-place"/>
-      </else-if>
       <else>
         <group delimiter=": ">
           <text variable="publisher-place"/>
@@ -669,7 +662,7 @@
                     <if variable="volume">
                       <group delimiter=", ">
                         <group delimiter=" ">
-                          <text term="volume" form="short"/>
+                          <text term="volume" form="short" text-case="lowercase"/>
                           <number variable="volume" form="numeric"/>
                         </group>
                         <label variable="locator" form="short"/>
@@ -884,7 +877,7 @@
       <else-if type="article-newspaper">
         <text macro="issued"/>
       </else-if>
-      <else-if variable="publisher-place event-place publisher genre" match="any">
+      <else-if variable="publisher-place publisher" match="any">
         <group prefix="(" suffix=")" delimiter=", ">
           <group delimiter=" ">
             <choose>
@@ -1080,7 +1073,7 @@
         <else-if position="ibid">
           <text term="ibid"/>
         </else-if>
-        <else-if position="subsequent">
+        <else>
           <group delimiter=", ">
             <text macro="contributors-short"/>
             <group delimiter=" ">
@@ -1093,39 +1086,6 @@
               <text macro="case-issue-subsequent"/>
             </group>
             <text macro="point-locators-subsequent"/>
-          </group>
-        </else-if>
-        <else>
-          <group delimiter=", ">
-            <group delimiter=": ">
-              <group delimiter=", ">
-                <group delimiter=" ">
-                  <group delimiter=", ">
-                    <group delimiter=" ">
-                      <group delimiter=", ">
-                        <group delimiter=", ">
-                          <text macro="contributors-note"/>
-                          <text macro="title-note"/>
-                        </group>
-                        <text macro="description-note"/>
-                        <text macro="secondary-contributors-note"/>
-                        <text macro="container-title-note"/>
-                        <text macro="container-contributors-note"/>
-                      </group>
-                      <text macro="locators-note-join-with-space"/>
-                    </group>
-                    <text macro="locators-note-join-with-comma"/>
-                    <text macro="collection-title"/>
-                    <text macro="issue-note-join-with-comma"/>
-                  </group>
-                  <text macro="issue-note-join-with-space"/>
-                </group>
-                <text macro="locators-newspaper"/>
-                <text macro="point-locators-join-with-comma"/>
-              </group>
-              <text macro="point-locators-join-with-colon"/>
-            </group>
-            <text macro="access-note"/>
           </group>
         </else>
       </choose>
@@ -1177,6 +1137,7 @@
         </group>
         <text macro="access"/>
       </group>
+      <text variable="note" display="block"/>
     </layout>
   </bibliography>
 </style>
