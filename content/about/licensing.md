@@ -8,12 +8,14 @@ license: ccbysa
 author: 
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2015-01-12
-modified: 2015-02-08
-reviewed: 2015-01-13
+modified: 2015-02-28
+reviewed: 2015-02-28
 changes: 
   -
     date: 2015-02-08
     description: based on draft license page for erpetu.info
+  - date: 2015-02-28
+    description: moved liability statements from separate file
 changefreq: monthly
 priority: 0.1
 ---
@@ -62,13 +64,24 @@ following licenses
 
 [![CC-IMAGE]][CC-3.0-LINK] **CC-BY-SA-3.0**
 
-:   * [elsevier-with-titles.csl](/bibliography/elsevier-with-titles.csl): Bibliography Style Sheet from <https://github.com/citation-style-language/styles>
+:   * [chicago-annotated-bibliography.csl](/about/bibliography/chicago-annotated-bibliography.csl): Bibliography Style Sheet[@JulianOnions2014]
 
 
 Trademark Usage
 --------------------------------------------
 
 * **Gentoo** is a trademark of Gentoo Foundation, Inc.  Usage on this site is to grant credit when a Gentoo project resource is used and is used per permissions granted at <https://www.gentoo.org/main/en/name-logo.xml>.  No original content of this site is part of the Gentoo project nor is directed or managed by Gentoo Foundation, Inc. 
+
+Disclaimer of Warranties and Limitation of Liability
+=======================================================
+
+All content (regardless of license) on this site is provided with the "Disclaimer of Warranties and Limitiation of Liablity"[@CreativeCommonsb Section 5]
+
+> a. Unless otherwise separately undertaken by the Licensor, to the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
+    
+> b. To the extent possible, in no event will the Licensor be liable to You on any legal theory (including, without limitation, negligence) or otherwise for any direct, special, indirect, incidental, consequential, punitive, exemplary, or other losses, costs, expenses, or damages arising out of this Public License or use of the Licensed Material, even if the Licensor has been advised of the possibility of such losses, costs, expenses, or damages. Where a limitation of liability is not allowed in full or in part, this limitation may not apply to You.
+
+> c. The disclaimer of warranties and limitation of liability provided above shall be interpreted in a manner that, to the extent possible, most closely approximates an absolute disclaimer and waiver of all liability.
 
 
 <!-- Links -->
@@ -99,3 +112,6 @@ Trademark Usage
 [GNU-FDL-IMAGE]: /images/gfdl-logo-tiny.png
 
 [GNU-FDL-LINK]: https://www.gnu.org/licenses/fdl.html (GFDL-1.3+ License)
+
+References
+==============================================================
