@@ -352,6 +352,11 @@ main {
       background: $noticecolor;
     }
   }
+
+  span.citation sup {
+    font-size: $fontsize-smallest;
+  }
+
 }
 
 footer {
