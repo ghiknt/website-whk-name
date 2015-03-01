@@ -19,7 +19,7 @@ reviewed: 9999-01-01
     * btrfs
 
         This one is easy for me.  I use btrfs as my root 
-        filesystem and like it. [Gravi2014]
+        filesystem and like it. [@Gravi2014]
 
 
 References

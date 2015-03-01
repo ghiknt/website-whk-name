@@ -6,8 +6,13 @@ license: ccbysa
 author:
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2015-01-25
-modified: 2015-01-25
-reviewd: 2015-01-25
+modified: 2015-02-28
+reviewd: 2015-02-29
+changes:
+  -
+    date: 2015-02-28
+    description: update haskell if it breaks update
+
 ---
 
 * Update index
@@ -29,6 +34,15 @@ reviewd: 2015-01-25
     ```bash
     emerge --ask --update --deep --newuse --with-bdeps=y @world
     ```
+
+    * If there are "Detected broken packages" issues with haskell packages during update. Then fix
+      and repeat update
+
+        ```bash
+        revdep-rebuild
+        haskell-updater
+        emerge --ask --update --deep --newuse --with-bdeps=y @world
+        ```
 
 * Clean obsolete
 

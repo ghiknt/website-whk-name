@@ -3,11 +3,63 @@
 
 module ErpetuUtilities
   def listchildren
-   returnval = ""
-   returnval += "<dl>"
+   children = item.children.reject{ |i| i[:is_hidden] ||
+                                        i.binary?     ||
+                                        ( ! i[:toc].nil? && i[:toc] == "ignore")
+                                  }
+   sorted = children.sort{ |a, b| sortchildren(a,b) }
+   returnval = "<dl>"
+   sorted.each do |child| 
+     returnval += formatitementry(child)
+   end
+   returnval += "</dl>"
+   return returnval
+  end
 
-   children = item.children
-   sorted = children.sort{ |a, b|
+  def recentactivity
+   is = @items.select  { |i| ! i[:type].nil? && 
+                                 ( i[:type] == "article" ||
+                                   i[:type] == "person"  ||
+                                   i[:type] == "blog"
+                                 ) && ! (
+                                   ( ! i[:toc].nil? && i[:toc] == "ignore") ||
+                                   i.identifier.match(/^\/drafts\//)
+                                 )
+                       } 
+   sorted = is.sort{ |a, b| sortchildren(a,b) }
+   returnval = "<dl>"
+   sorted[0..9].each do |child| 
+     returnval += formatitementry(child)
+   end
+   returnval += "</dl>"
+   return returnval
+
+
+  end
+
+
+
+  def formatitementry(i) 
+    returnval = "<dt><a href=\""+i.identifier+"\">"
+    if ! i[:title].nil?
+     returnval =returnval+i[:title]
+    else
+     returnval =returnval+i.identifier
+    end
+    returnval =returnval+"</a>"
+    if ! i[:modified].nil?
+     returnval =returnval+i[:modified].strftime(" (Modified %Y-%m-%d)")
+    end
+    returnval =returnval+"</dt>"
+    if ! i[:summary].nil?
+     returnval = returnval+"<dd>"+i[:summary] + "</dd>"
+    end
+     return returnval
+
+  end
+
+
+  def sortchildren(a,b)
      if ( ! a[:modified].nil? ) 
        a_date = a[:modified]
      else
@@ -36,31 +88,7 @@ module ErpetuUtilities
       # Most recent on top
       b_date <=> a_date
      end
-
-   }
-   sorted.each do |child|
-    if ! child[:toc].nil? && child[:toc] == "ignore"
-      next
-    elsif ! child.binary?
-     returnval =returnval+
-                "<dt><a href=\""+child.identifier+"\">"
-     if ! child[:title].nil?
-      returnval =returnval+child[:title]
-     else
-      returnval =returnval+child.identifier
-     end
-     returnval =returnval+"</a>"
-     if ! child[:modified].nil?
-      returnval =returnval+child[:modified].strftime(" (Modified %Y-%m-%d)")
-     end
-     returnval =returnval+"</dt>"
-     if ! child[:summary].nil?
-      returnval = returnval+"<dd>"+child[:summary] + "</dd>"
-     end
-    end 
-   end
-   returnval += "</dl>"
-   return returnval
   end
+
 end
 
