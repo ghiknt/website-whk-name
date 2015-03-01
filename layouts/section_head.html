@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" vocab="http://schema.org/">
+<html lang="en" vocab="http://schema.org/" prefix="foaf: http://xmlns.com/foaf/0.1/ wot: http://xmlns.com/wot/0.1/" >
 <head>
  <!-- Metadata that affects layout of page -->
   <meta charset="utf-8"/>
@@ -10,18 +10,23 @@
   <link rel="icon" type="image/png" href="/images/whk-icon.png"/>
   <!-- html 5 metadata -->
   <meta name="generator"  content="nanoc <%= Nanoc::VERSION %>"/>
-  <% unless @item[:summary].nil? %>
+  <% unless @item[:summary].nil? -%>
    <meta name="description" content="<%= @item[:summary] %>"/>
-  <% end %>
+  <% end -%>
   <meta name="referrer" content="origin"/>
 
   <!-- Information about the WebPage that doesn't fit in markup -->
   <meta property="generator" content="nanoc <%= Nanoc::VERSION %>"/>
-  <% unless @item[:reviewed].nil? %>
+  <% unless @item[:reviewed].nil? -%>
    <meta property="lastReviewed" content="<%=@item[:reviewed]%>" />
-  <% end %>
+  <% end -%>
+  <% unless item[:author].nil? || item[:author].empty? -%>
+   <% @item[:author].each do |author| -%>
+    <meta property="foaf:maker" content="<%= author[:url]%>">
+   <% end -%>
+  <% end -%>
 
- <title><%= item[:title] %></title>
+ <title property="foaf:name"><%= item[:title] %></title>
 
   <!-- Global css references -->
   <link rel="stylesheet" type="text/css" href="/stylesheet/pandoccode.css" media="screen"/>
@@ -45,7 +50,7 @@
      document.createElement('figure');
      document.createElement('figcaption'); 
    </script>
-  <section id=header>
+  <header id=header>
    <!-- Google ads and custom search -->
    <% if item.identifier.match(/^\/drafts\//) -%>
      <% render 'section_draft' do -%>
@@ -61,7 +66,7 @@
    <% render 'section_navblock' do -%>
     <%# intentionally blank -%>
    <% end -%>
-  </section>
+  </header>
   <!-- Start of main body -->
   <main id="content">
 

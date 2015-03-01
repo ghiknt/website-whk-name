@@ -8,9 +8,9 @@
 /* Open Sans font from Goolge Web fonts */
 $weightnormal: 300;
 $weightbold: 700;
-@import url("http://fonts.googleapis.com/css?family=Open+Sans:#{$weightnormal},#{$weightbold}");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:#{$weightnormal},#{$weightbold}");
 $textfonts: 'Open Sans', Times, 'Times New Roman', sans-serif;
-@import url("http://fonts.googleapis.com/css?family=Source+Code+Pro:300,700");
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:300,700");
 $codefonts:  'Source Code', Courier, 'Courier New', monospace;
 
 
@@ -127,7 +127,7 @@ article, section, aside, hgroup, nav, header, footer, figure, figcaption {
   /* But not in pre sections we overflow auto them already*/
   word-wrap: normal;
  }
- section#header {
+ #header {
  #google {
    #ad {
     display: block;
@@ -143,7 +143,7 @@ article, section, aside, hgroup, nav, header, footer, figure, figcaption {
 
 
 @media all and (min-width: $switch-width +1 ) {
- section#header {
+ #header {
  #google {
    #ad {
     display: inline-block;
@@ -183,7 +183,7 @@ body {
   }
 
 
- section#header {
+ #header {
   background-color: $header-background;
   text-color: $header-textcolor;
 

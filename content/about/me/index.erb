@@ -8,31 +8,21 @@ author:
   name: "whk"
   url: "https://whk.name/about/me/#id"
 created: 2015-02-08
-modified: 2015-02-28
-reviewed: 2015-02-28
+modified: 2015-03-01
+reviewed: 2015-03-01
 changefreq: weekly
 priority: 1.0
 advertising: false
 ---
 
-<section prefix="wot: http://xmlns.com/wot/0.1/" typeof="Person wot:User" resource="#id" id="id">
+<section typeof="foaf:Person Person wot:User" resource="#id" id="id">
 
 
-<h1>About me</h1>
-<div>
-<img id="myimage" property="image" typeof="URL" src="/images/whk.jpg">
-I am  <span property="name">Warren H Knight</span> (<span property="additionalName">whk</span>) a
-<span property="jobTitle">Free Software Enthusiast</span> living in 
-<span property="address" typeof="PostalAddress"><span property="addressRegion">Texas</span>, <span property="addressCountry">USA</span></span>. 
-My central public online identity and my various other identities online should be able to always be found 
-<a property="url" typeof="URL" href="https://whk.name/about/me/#id">here</a>. 
-</div>
-
+<h1>About <span property="foaf:name name">whk</span></h1>
+<img id="myimage" property="foaf:img image" alt="Stylalized picture of WHK" typeof="URL" src="/images/whk.jpg">
+<a property="foaf:homepage url" typeof="URL" href="https://whk.name/about/me/">This</a> is my primary public online identity and includes links to my other identities around the world. 
 
 <h2>Where to find me</h2>
-
-These are my public personal identities for those who may want to reach me.
-
 <table class="identities">
  <thead>
   <tr>
@@ -43,19 +33,24 @@ These are my public personal identities for those who may want to reach me.
  </thead>
  <tbody>
  <tr>
-  <td><a href="http://www.oftc.net/">oftc</a></td>
-  <td>IRC</td>
-  <td>whk</td>
+  <td property="address" typeof="PostalAddress"><span property="addressRegion">Texas</span>, <span property="addressCountry">USA</span></td>
+  <td>IRL</td>
+  <td><span property="additionalName">Warren H Knight</span></td>
  </tr>
- <tr>
-  <td><a href="https://freenode.net/">freenode</a></td>
+ <tr property="foaf:account" typeof="foaf:OnlineChatAccount" >
+  <td><a property="accountServiceHomepage" typeof="URL" href="http://www.oftc.net/">oftc</a></td>
   <td>IRC</td>
-  <td>whk</td>
+  <td property="foaf:accountName">whk</td>
+ </tr>
+ <tr property="foaf:account" typeof="foaf:OnlineChatAccount">
+  <td><a property="accountServiceHomepage" typeof="URL" href="https://freenode.net/">freenode</a></td>
+  <td>IRC</td>
+  <td property="foaf:accountName">whk</td>
  </tr>
  <tr>
   <td>FSF Server</td>
   <td>XMPP</td>
-  <td>whk at member.fsf.org</td>
+  <td property="foaf:jabberID">whk@member.fsf.org</td>
  </tr>
  <tr>
   <td><a href="https://gitorious.org/">Gitorious</a></td>
@@ -154,7 +149,7 @@ listen to please check them out.
    <td>Daily Tech News</td>
   </tr>
   <tr>
-   <td><a href="https://www.patreon.com/TekThing">TEKTHING</a></td>
+   <td><a href="https://www.patreon.com/TekThing">TekThing</a></td>
    <td>Video Show</td>
    <td>All things tech</td>
   </tr>

@@ -2,7 +2,7 @@
 title: Note 2 Root
 license: ccbysa
 summary: >
- Rooting AT&T Note 2 (older ubuntu instructions)
+ Rooting AT&amp;T Note 2 (older ubuntu instructions)
 type: article
 author:
  - { name: "whk", url: "https://whk.name/about/me/#id" }
