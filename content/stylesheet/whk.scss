@@ -170,6 +170,19 @@ body {
   color: $textcolor;
   font-size: $fontsize;
 
+
+  // Default link behaviour
+  a:link, a:visited {
+    text-color: $textcolor;
+    color: $textcolor;
+  }
+  a:hover, a:active {
+    text-color: $noticetext;
+    color: $noticetext;
+    background: $noticecolor;
+  }
+
+
  section#header {
   background-color: $header-background;
   text-color: $header-textcolor;
@@ -322,16 +335,6 @@ main {
       font-size: $fontsize-h3;
       font-weight: $weightbold;
     }
-    a:link, a:visited {
-      text-color: $textcolor;
-      color: $textcolor;
-    }
-     a:hover, a:active {
-      text-color: $noticetext;
-      color: $noticetext;
-      background: $noticecolor;
-    }
-
   }
 
   /* Identities table on personal page */ 
@@ -341,15 +344,6 @@ main {
     thead {
       font-size: $fontsize-h3;
       font-weight: $weightbold;
-    }
-     a:link,  a:visited {
-      text-color: $textcolor;
-      color: $textcolor;
-    }
-     a:hover, a:active {
-      text-color: $noticetext;
-      color: $noticetext;
-      background: $noticecolor;
     }
   }
 
@@ -362,16 +356,6 @@ main {
    sup {
      font-size: $fontsize-smallest;
    }
-    a:link, a:visited {
-      text-color: $textcolor;
-      color: $textcolor;
-      text-decoration: none;
-    }
-     a:hover, a:active {
-      text-color: $noticetext;
-      color: $noticetext;
-      background: $noticecolor;
-    }
   }
 
 }
