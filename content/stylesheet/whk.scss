@@ -357,8 +357,21 @@ main {
     font-size: $fontsize-smaller;
   }
 
-  span.citation sup {
-    font-size: $fontsize-smallest;
+  span.citation {
+
+   sup {
+     font-size: $fontsize-smallest;
+   }
+    a:link, a:visited {
+      text-color: $textcolor;
+      color: $textcolor;
+      text-decoration: none;
+    }
+     a:hover, a:active {
+      text-color: $noticetext;
+      color: $noticetext;
+      background: $noticecolor;
+    }
   }
 
 }
