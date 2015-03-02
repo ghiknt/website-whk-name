@@ -13,10 +13,9 @@
   <% unless @item[:summary].nil? -%>
    <meta name="description" content="<%= @item[:summary] %>"/>
   <% end -%>
-  <meta name="referrer" content="origin"/>
+  <meta name="referrer" content="origin-when-crossorigin"/>
 
   <!-- Information about the WebPage that doesn't fit in markup -->
-  <meta property="generator" content="nanoc <%= Nanoc::VERSION %>"/>
   <% unless @item[:reviewed].nil? -%>
    <meta property="lastReviewed" content="<%=@item[:reviewed]%>" />
   <% end -%>
