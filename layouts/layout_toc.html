@@ -9,9 +9,12 @@
   </div>
  <% end %>
 
+
  <section id=contents>
   <h2>Pages</h2>
   <%= listchildren %>
+
+  <%= yield %>
  </section>
 
 <% render 'section_footer' do %>
