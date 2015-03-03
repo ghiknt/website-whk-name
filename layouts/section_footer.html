@@ -1,5 +1,5 @@
   </main>
-  <footer class="footer">
+  <footer property="hasPart" typeof="WPFooter" class="footer">
    <%= yield %>
    <div id="footer-badges-left">
 <!--    <img id="osi" 
@@ -47,7 +47,16 @@
    <% else %>
     <h2>TBD: ADD LICENSE</h2>.
    <% end %>
-     See <a href="/about/licensing/">licensing</a> for additional details
+    <span about="#page">
+     <span property="isPartOf" typeof="WebSite">
+     Further details and Terms of Service for this
+      <a property="sameAs" typeof="URL" href="https://whk.name/">site</a>
+     are available on the
+     <a href="/about/licensing/" property="license" typeof="URL">
+      licensing page</a>.
+      <meta property="name" content="whk's thoughts"/>
+     </span>
+    </span>
 
    <% unless @item[:disclaimers].nil? %>
     <% @item[:disclaimers].each do |disclaimer| %>

@@ -10,18 +10,25 @@
     <span class="menuitem"><a href="/config/">Config</a></span>
     <span class="menuitem"><a href="/about/">About</a></span>
    </nav>
-  <div id="breadcrumb" prefix="v: http://rdf.data-vocabulary.org/#" >Trail 
    <% counter = 0 -%>
    <% trail = breadcrumbs_trail -%>
    <% trail.pop -%>
    <% trail.each do  |crumb|  -%>
     <% unless crumb.nil? || crumb[:title].nil? -%>
-     &raquo; <span  typeof="v:Breadcrumb"><meta property="v:title" content="<%= crumb[:title] %>">
-        <a property="v:url" href="<%= crumb.path %>"><%= crumb[:title] %></a>
+     <% if counter == 0 -%>
+       <div about="#page">
+        <div id="breadcrumb" property="breadcrumb" typeof="BreadcrumbList">Trail
+     <% end -%>   
+     <% counter += 1 -%>
+     &raquo; <span  property="itemListElement" typeof="WebPage"><meta property="name" content="<%= crumb[:title] %>">
+        <a property="url" typeof="URL" href="<%= crumb.path %>"><%= crumb[:title] %></a>
        </span>
     <% end -%>
    <% end -%>
+     <% if counter != 0 -%>
+      </div>
   </div>
+     <% end %>
  </div>
 </div>
 <!-- end navblock layout -->

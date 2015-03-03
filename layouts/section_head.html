@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html lang="en" vocab="http://schema.org/" prefix="foaf: http://xmlns.com/foaf/0.1/ wot: http://xmlns.com/wot/0.1/" >
 <head>
- <!-- Metadata that affects layout of page -->
   <meta charset="utf-8"/>
   <!-- Indicate Mobile Friendly see: http://stackoverflow.com/questions/548892/tips-for-optimizing-a-website-for-androids-browser  -->
   <meta name="HandheldFriendly" content="true" />
@@ -34,7 +33,7 @@
   <%= yield %>
  </head>
 
- <body> 
+ <body typeof="WebPage" resource="#page">
 
  <!-- Ensure older version of IE handle html5 sematic elements
       http://www.w3.org/wiki/HTML_structural_elements#HTML5_element_support -->
@@ -49,7 +48,7 @@
      document.createElement('figure');
      document.createElement('figcaption'); 
    </script>
-  <header id=header>
+  <header property="hasPart" typeof="WPHeader" id=header>
    <!-- Google ads and custom search -->
    <% if item.identifier.match(/^\/drafts\//) -%>
      <% render 'section_draft' do -%>
@@ -67,5 +66,5 @@
    <% end -%>
   </header>
   <!-- Start of main body -->
-  <main id="content">
+  <main property="mainContentOfPage" typeof="WebPageElement" id="content">
 
