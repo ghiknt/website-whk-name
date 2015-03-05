@@ -13,6 +13,27 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
+
+preprocess do
+  # set sitemap priority based on type if not set
+ items.each do |i|
+  if i[:priority].nil? && ! i[:type].nil?
+   case i[:type]
+    when 'person'
+     i[:priority] = 1.0
+    when 'blog'
+     i[:priority] = 0.8
+    when 'article'
+     i[:priority] = 0.6
+    when 'toc'
+     i[:priority] = 0.3
+    else
+     i[:priority] = 0.5
+   end
+  end
+ end
+end
+
 compile '*' do
  if item[:extension].nil?
   # Do nothing with items that have no extension
