@@ -1,13 +1,13 @@
 <!-- start navblock layout -->
-<div id="navblock">
- <span id="logospan">
+<div class="navblock">
+ <span class="logospan">
   <img id="logo" src="/images/blank.gif" alt="whk">
  </span>
  <div id="navspan">
    <nav id="menu">
-    <span class="menuitem"><a href="/about/">About</a></span>
-    <span class="menuitem"><a href="/cookbook/">Cookbook</a></span>
-    <span class="menuitem"><a href="/config/">Config</a></span>
+    <span class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL"  href="/about/">About</a></span>
+    <span class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/cookbook/">Cookbook</a></span>
+    <span class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/config/">Config</a></span>
    </nav>
    <% counter = 0 -%>
    <% trail = breadcrumbs_trail -%>
@@ -16,7 +16,7 @@
     <% unless crumb.nil? || crumb[:title].nil? -%>
      <% if counter == 0 -%>
        <div about="#page">
-        <div id="breadcrumb" property="breadcrumb" typeof="BreadcrumbList">Trail
+        <div id="breadcrumb" resource="#breadcrumb" property="breadcrumb" typeof="BreadcrumbList">Trail
      <% end -%>   
      <% counter += 1 -%>
      &raquo; <span  property="itemListElement" typeof="WebPage"><meta property="name" content="<%= crumb[:title] %>">

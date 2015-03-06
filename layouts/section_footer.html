@@ -1,5 +1,5 @@
   </main>
-  <footer property="hasPart" typeof="WPFooter" class="footer">
+  <footer property="hasPart" typeof="WPFooter" class="footer" id="footer" resource="#footer">
    <%= yield %>
    <div id="footer-badges-left">
 <!--    <img id="osi" 
@@ -33,7 +33,7 @@
          alt="Hacker emblem" 
          /></a>
    </div>
-   <div id="footer-text">
+   <div class="footer-text">
     This page is licensed under
    <% if @item[:license] == "ccbysa" %>
      <a href="http://creativecommons.org/licenses/by-sa/4.0/">
@@ -50,11 +50,10 @@
     <span about="#page">
      <span property="isPartOf" typeof="WebSite">
      Further details and Terms of Service for this
-      <a property="sameAs" typeof="URL" href="https://whk.name/">site</a>
+      <a property="sameAs" typeof="URL" href="https://whk.name/about/#site">site</a>
      are available on the
-     <a href="/about/licensing/" property="license" typeof="URL">
+     <a href="/about/licensing/#content" property="license" typeof="URL">
       licensing page</a>.
-      <meta property="name" content="whk's thoughts"/>
      </span>
     </span>
 

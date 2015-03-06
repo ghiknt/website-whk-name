@@ -3,7 +3,7 @@
 <% end %>
 
 
- <article property= "hasPart" typeof="TechArticle" resource="#techArticle">
+ <article property= "hasPart" typeof="TechArticle" id="techArticle" resource="#techArticle">
  <header>
   <details>
    <summary>Article metadata</summary>
@@ -13,7 +13,7 @@
      <li>Author
       <ul>
        <% @item[:author].each do |author| %>
-        <li><span property="Author" typeof="Person"><a property="url" typeof="URL"  href="<%= author[:url]%>"><%= author[:name]%></a><meta property="name" content="<%= author[:name] %>"></span>
+        <li><span property="Author" typeof="Person"><a property="sameAs" typeof="URL"  href="<%= author[:url]%>"><%= author[:name]%></a><meta property="name" content="<%= author[:name] %>"></span>
        <% end %>
       </ul>
     <% end %>
@@ -29,8 +29,8 @@
    <% end %>
    </ul>
   </details>
-   <h1 id="title" property="name"><%=@item[:title]%></h1>
-   <div id=summary property="description">
+   <h1 class="title" property="name"><%=@item[:title]%></h1>
+   <div class="summary" property="description">
     <%= @item[:summary] %>
    </div>
  </header>

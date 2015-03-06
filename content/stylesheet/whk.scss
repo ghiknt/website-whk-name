@@ -201,7 +201,7 @@ body {
       margin: 0.5em;
       padding: 0.5em;
 
-      #label {
+      .label {
         position: relative;
         top: -1.1em;
         margin: 0px;
@@ -235,8 +235,8 @@ body {
   }
 
   /* The navigation block */
-  div#navblock {
-    #logospan {
+  .navblock {
+    .logospan {
      display: inline-block;
      img#logo {
       height: 70px;
@@ -250,7 +250,7 @@ body {
     #navspan {
       display: inline-block;
       vertical-align: top;
-      div#title {
+      div.title {
         font-size: $fontsize-title;
         font-family: $codefonts;
         font-weight: $weightbold;
@@ -371,7 +371,7 @@ footer {
    text-color: $header-textcolor;
    color: $textcolor;
   }
-  div#footer-text
+  .footer-text
   {
     margin-left: 100px;
     margin-right: 100px;

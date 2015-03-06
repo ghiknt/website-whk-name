@@ -33,7 +33,7 @@
   <%= yield %>
  </head>
 
- <body typeof="WebPage" resource="#page">
+ <body typeof="WebPage" id="page" resource="#page">
 
  <!-- Ensure older version of IE handle html5 sematic elements
       http://www.w3.org/wiki/HTML_structural_elements#HTML5_element_support -->
@@ -48,7 +48,7 @@
      document.createElement('figure');
      document.createElement('figcaption'); 
    </script>
-  <header property="hasPart" typeof="WPHeader" id=header>
+  <header property="hasPart" typeof="WPHeader" id=header resource="#header">
    <!-- Google ads and custom search -->
    <% if item.identifier.match(/^\/drafts\//) -%>
      <% render 'section_draft' do -%>
@@ -66,5 +66,5 @@
    <% end -%>
   </header>
   <!-- Start of main body -->
-  <main property="mainContentOfPage" typeof="WebPageElement" id="content">
+  <main property="mainContentOfPage" typeof="WebPageElement" id="content" resource="#content">
 

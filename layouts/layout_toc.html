@@ -1,7 +1,7 @@
 <% render 'section_head' do %>
  <%# intentionally blank %>
 <% end %>
- <h1 id="title" property="name"><%=@item[:title]%></h1>
+ <h1 class="title" property="name"><%=@item[:title]%></h1>
 
  <% unless @item[:summary].nil? %>
   <div property="description">
@@ -10,7 +10,7 @@
  <% end %>
 
 
- <section id=contents>
+ <section>
   <h2>Pages</h2>
   <%= listchildren %>
 
