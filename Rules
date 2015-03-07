@@ -47,6 +47,7 @@ compile '*' do
    when 'css', 'js'
     # don't filter or layout
    when 'md'
+    # Manually patched with "Allow generic Pandoc options with :args #535"
     opts = [{:to => :html5,
             'base-header-level' => 2,
             :filter => 'pandoc-citeproc',
@@ -54,7 +55,7 @@ compile '*' do
             :bibliography => 'content/about/bibliography/whk.name.bib',
             :csl => 'content/about/bibliography/chicago-annotated-bibliography.csl'
            }, 'section-divs']
-    filter :pandoc_commandline, :args => opts  
+    filter :pandoc, :args => opts  
     case item[:type]
      when 'article'
       layout 'layout_article'

@@ -22,3 +22,20 @@ python-updater
 # Install pip
 emerge --ask dev-python/pip
 ```
+
+Nodejs - npm
+======================================
+
+```bash
+# Installed as part of nodejs
+emerge --ask net-libs/nodejs
+```
+
+Web - bower
+======================================
+
+```bash
+# requires npm (see above)
+npm install -g bower
+```
+
