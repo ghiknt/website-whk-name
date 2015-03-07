@@ -250,32 +250,20 @@ body {
     #navspan {
       display: inline-block;
       vertical-align: top;
-      div.title {
-        font-size: $fontsize-title;
-        font-family: $codefonts;
-        font-weight: $weightbold;
-      }
- 
+      width: 100%;
       span.menuitem {
+        vertical-align: middle;
         font-size: $fontsize-bigger;
-        padding: $padding;
+        margin: 0px;
       }
-      span.menuitem:hover {
-        border: solid 1px;
-        border-bottom-color: ButtonHighlight;
-        border-right-color: ButtonHighlight;
-        border-left-color: ButtonShadow;
-        border-top-color: ButtonShadow; 
-      } 
+      paper-icon-button {
+        vertical-align: middle;
+      }
       div#breadcrumb {
         font-size: $fontsize-smallest;
-        span:hover {
-          border: solid 1px;
-          border-bottom-color: ButtonHighlight;
-          border-right-color: ButtonHighlight;
-          border-left-color: ButtonShadow;
-          border-top-color: ButtonShadow; 
-        } 
+        .button > paper-ripple {
+          overflow: hidden;
+        }
       }
     }
   }
