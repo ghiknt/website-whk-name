@@ -69,8 +69,8 @@ Install referenced components
 
 ```bash
 cd .../whk.name/static/webcomponents/
-bower install Polymer/core-header-panel
-
+bower install --save Polymer/core-elements
+bower install --save Polymer/paper-elements
 ```
 
 References
