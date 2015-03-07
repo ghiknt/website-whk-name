@@ -1,0 +1,20 @@
+{
+  "name": "webcomponents",
+  "version": "0.0.1",
+  "authors": [
+    "https://whk.name/about/me/ (whk) <no-reply@whk.name>"
+  ],
+  "description": "The webcomponents used by whk.name",
+  "license": "AGPL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~0.5.5"
+  }
+}

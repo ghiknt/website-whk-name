@@ -13,6 +13,7 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
+passthrough "/assets/*/"
 
 preprocess do
   # set sitemap priority based on type if not set

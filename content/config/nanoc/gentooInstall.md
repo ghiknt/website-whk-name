@@ -88,6 +88,35 @@ cd ~/web
 nanoc create_site whk.name
 ```
 
+
+
+Configure static directory for static data source [@Defreyne Solution #2: Using the static data source]
+==========================================================================================================
+
+* Create the static dir
+
+    ```bash
+    cd .../whk.name
+    mkdir static
+    ```
+
+* Add to nanoc.yaml
+
+    ```yaml
+    data_sources:
+    # ... filesystem data source here ...
+    -
+      type: static
+      items_root: /assets/
+
+    ```
+
+* Update Rules
+
+    ```ruby
+    passthrough '/assets/*'
+    ```
+
 References
 =======================================================================
 
