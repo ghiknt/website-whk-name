@@ -3,16 +3,16 @@
  <!-- span class="logospan">
   <img id="logo" src="/images/blank.gif" alt="whk">
  </span-->
- <core-toolbar class="medium-tall" id="navspan">
-  
-   <nav id="menu">
-    <span flex>
+ <core-toolbar class="tall" id="navspan">
+   <core-icon class="middle" src="/images/androidify-whk.png" style="height: 70px; width: 70px"></core-icon> 
+   <nav class="middle" flex id="menu">
     <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL"  href="/about/">About</a></paper-button>
     <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/cookbook/">Cookbook</a></paper-button>
     <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/config/">Config</a></paper-button>
-    </span>
-   <paper-icon-button icon="search"></paper-icon-button>
    </nav>
+   <erpetu-search class="middle">
+   </erpetu-search>
+   <paper-icon-button class="middle" icon="settings"></paper-icon-button>
  <% counter = 0 -%>
    <% trail = breadcrumbs_trail -%>
    <% trail.pop -%>

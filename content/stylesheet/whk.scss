@@ -15,17 +15,13 @@ $codefonts:  'Source Code', Courier, 'Courier New', monospace;
 
 
 /* Colors */
-$color-background: Window;
 $textcolor: WindowText;
 
 $bordercolor: WindowText;
-$border-background: Window;
 
 $noticecolor: Highlight;
 $noticetext: HighlightText;
-$backgroundhilight: $color-background;
 
-$header-background: Menu;
 $header-textcolor: MenuText;
 
 
@@ -163,7 +159,6 @@ article, section, aside, hgroup, nav, header, footer, figure, figcaption {
 
 
 body {
-  background-color: $border-background;
   left: 0px;
   right: 0px;
   margin: 0px;
@@ -179,22 +174,20 @@ body {
   a:hover, a:active {
     text-color: $noticetext;
     color: $noticetext;
-    background: $noticecolor;
   }
 
 
  #header {
-  background-color: $header-background;
   text-color: $header-textcolor;
 
   a:link, a:visited {
-   background-color: $header-background;
    text-color: $header-textcolor;
    color: $textcolor;
    text-decoration: none;
   }
   /* The google block */
   #google {
+    background-color: lightgray;
     #ad {
       font-size: $fontsize-smallest;
       border: 1px groove;
@@ -203,6 +196,7 @@ body {
 
       .label {
         position: relative;
+        background-color: lightgray;
         top: -1.1em;
         margin: 0px;
         padding-top: 0px;
@@ -210,7 +204,6 @@ body {
         padding-left: 0.5em;
         padding-right: 0.5em;
         border: 0px;
-        background-color: $header-background;
       }
 
 
@@ -224,7 +217,6 @@ body {
       margin: 0.5em;
       vertical-align: top;
       .gsc-control-cse, .gsc-control-wrapper-cse {
-        background-color: $header-background !important;
         text-color: $header-textcolor !important;
         border-bottom-color: ButtonShadow !important;
         border-right-color: ButtonShadow !important;
@@ -233,6 +225,7 @@ body {
       }
     }
   }
+
 
   /* The navigation block */
   .navblock {
@@ -270,7 +263,6 @@ body {
 }
 
 main {
-  background-color: $color-background;
   min-height: 15em;
   margin: $padding;
 
@@ -286,7 +278,6 @@ main {
 
   /* Details disclosure panel */
   details  {
-    background-color: $header-background;
     text-color: $header-textcolor;
     border: solid 1px;
     border-bottom-color: ButtonShadow;
@@ -295,7 +286,6 @@ main {
     border-top-color: ButtonHighlight;
     font-size: $fontsize-smaller;
     a:link, a:visited {
-     background-color: $header-background;
      text-color: $header-textcolor;
      color: $textcolor;
     }
@@ -351,11 +341,9 @@ main {
 footer {
   font-size: $fontsize-smaller;
   border-top: $borderwidth solid $bordercolor;
-  background-color: $header-background;
   text-color: $header-textcolor;
   min-height: 80px;
   a:link, a:visited {
-   background-color: $header-background;
    text-color: $header-textcolor;
    color: $textcolor;
   }
@@ -558,7 +546,6 @@ div.content + div.title {
 }
 
 div.sidebarblock > div.content {
-  background: $backgroundhilight;
   border: $borderwidth solid $bordercolor;
   border-left: $borderwidth + 3px solid $bordercolor;
   padding: 0.5em;
@@ -567,7 +554,6 @@ div.sidebarblock > div.content {
 div.listingblock > div.content {
   border: $borderwidth solid $bordercolor;
   border-left: $borderwidth solid $bordercolor;
-  background: $backgroundhilight;
   padding: 0.5em;
 }
 

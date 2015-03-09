@@ -12,7 +12,7 @@
   <% unless @item[:summary].nil? -%>
    <meta name="description" content="<%= @item[:summary] %>"/>
   <% end -%>
-  <meta name="referrer" content="origin-when-crossorigin"/>
+  <meta name="referrer" content="origin"/>
 
   <!-- Information about the WebPage that doesn't fit in markup -->
   <% unless @item[:reviewed].nil? -%>
@@ -31,17 +31,22 @@
   <link rel="stylesheet" type="text/css" href="/stylesheet/whk.css" media="screen"/>
 
     <script src="/assets/webcomponents/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+    <link rel="import" href="/assets/webcomponents/bower_components/polymer/polymer.html">
     <link rel="import" href="/assets/webcomponents/bower_components/paper-button/paper-button.html">
     <link rel="import" href="/assets/webcomponents/bower_components/paper-item/paper-item.html">
     <link rel="import" href="/assets/webcomponents/bower_components/paper-ripple/paper-ripple.html">
     <link rel="import" href="/assets/webcomponents/bower_components/core-icons/core-icons.html">
     <link rel="import" href="/assets/webcomponents/bower_components/paper-icon-button/paper-icon-button.html">
     <link rel="import" href="/assets/webcomponents/bower_components/core-toolbar/core-toolbar.html">
+    <link rel="import" href="/assets/webcomponents/bower_components/core-icon/core-icon.html">
+    <link rel="import" href="/assets/webcomponents/bower_components/paper-dialog/paper-dialog.html">
+
+     <link rel="import" href="/assets/erpetu/erpetu-search/erpetu-search.html">
 
   <%= yield %>
  </head>
 
- <body typeof="WebPage" id="page" resource="#page">
+ <body typeof="WebPage" id="page" resource="#page" unresolved>
 
  <!-- Ensure older version of IE handle html5 sematic elements
       http://www.w3.org/wiki/HTML_structural_elements#HTML5_element_support -->
@@ -74,5 +79,5 @@
    <% end -%>
   </header>
   <!-- Start of main body -->
-  <main property="mainContentOfPage" typeof="WebPageElement" id="content" resource="#content">
+  <main flex property="mainContentOfPage" typeof="WebPageElement" id="content" resource="#content">
 

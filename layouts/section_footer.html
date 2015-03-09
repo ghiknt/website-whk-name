@@ -1,17 +1,24 @@
   </main>
   <footer property="hasPart" typeof="WPFooter" class="footer" id="footer" resource="#footer">
    <%= yield %>
-   <div id="footer-badges-left">
+   <core-toolbar class="tall">
+   <div class="middle" id="footer-badges-left">
 <!--    <img id="osi" 
          src="/images/blank.gif" 
          title="all original source code samples additionally available under the GNU AGPL 3 or later"
          />a -->
    <% if @item[:license] == "ccbysa" %>
-    <img id="creativecommons"
+    <core-icon src="https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png" 
+         title="Creative Commons Attribution-ShareAlike 4.0 International License" 
+         alt="CC BY-SA image"
+         style="width:88px;height:31px"
+         ></core-icon>
+
+    <!--img id="creativecommons"
          src="/images/blank.gif"
          title="Creative Commons Attribution-ShareAlike 4.0 International License" 
          alt="CC BY-SA image"
-         />
+         /-->
    <% elsif @item[:license] == "agpl" %>
     <img id="agpl"
          src="/images/blank.gif"
@@ -25,15 +32,8 @@
          alt="GFDL image"
          />
    <% end %>
-    </div>
-   <div id="footer-badges-right">
-   <a href="http://www.catb.org/~esr/faqs/hacker-howto.html"><img id="hacker-emblem" 
-         src="/images/blank.gif" 
-         title="" 
-         alt="Hacker emblem" 
-         /></a>
    </div>
-   <div class="footer-text">
+   <div class="middle" flex class="footer-text">
     This page is licensed under
    <% if @item[:license] == "ccbysa" %>
      <a href="http://creativecommons.org/licenses/by-sa/4.0/">
@@ -64,6 +64,14 @@
  <% end %>
 
    </div>
+   <paper-button class="middle" id="footer-badges-right">
+   <a href="http://www.catb.org/~esr/faqs/hacker-howto.html"><img id="hacker-emblem" 
+         src="/images/blank.gif" 
+         title="" 
+         alt="Hacker emblem" 
+         /></a>
+   </paper-button>
+   </core-toolbar>
    <% if item.identifier.match(/^\/drafts\//) -%>
      <% render 'section_draft' do -%>
       <%# intentionally blank -%>

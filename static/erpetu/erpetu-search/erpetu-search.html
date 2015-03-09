@@ -1,0 +1,87 @@
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<link rel="import" href="../../webcomponents/bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../webcomponents/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../webcomponents/bower_components/paper-dialog/paper-dialog.html">
+
+    <style>
+       html /deep/ paper-dialog::shadow #scroller {
+/*         top: 0px;
+         bottom: 0px;
+         left: 0px;
+         right: 0px; */
+         margin: 0px;
+         padding: 0px;
+         overflow: hidden;
+       }
+
+       paper-dialog #scroller {
+/*         top: 0px;
+         bottom: 0px;
+         left: 0px;
+         right: 0px; */
+         margin: 0px;
+         padding: 0px;
+         overflow: hidden;
+       }
+
+
+       iframe {
+        border: none;
+       }
+
+     </style>
+
+     
+
+
+<polymer-element name="erpetu-search" >
+  <template>
+     <paper-icon-button on-tap="{{toggledisplay}}" icon="search"></paper-icon-button>
+     <paper-dialog id="dialog" title="Site Search" on-core-overlay-open-completed="{{sizeframe}}">
+     <iframe id="iframe" src="search.html" seamless >
+     </iframe> 
+     </paper-dialog>
+  </template>
+  <script>
+   Polymer({
+     toggledisplay: function() { 
+       this.$.dialog.toggle();
+     },
+     sizeframe: function() {
+       var maxwidth = this.$.dialog.sizingTarget.style.getPropertyValue("max-width");
+       var maxheight = this.$.dialog.sizingTarget.style.getPropertyValue("max-height");
+       var width = parseFloat(maxwidth);
+       var height = parseFloat(maxheight);
+       // Sensible sizes if max's aren't set yet
+       if (isNaN(height) || height < 1) { height = document.documentElement.clientHeight - 250 }
+       if (isNaN(width)  || width  < 1) { width = document.documentElement.clientWidth    -  60 }
+
+       this.$.iframe.setAttribute('width',width) ;
+       this.$.iframe.setAttribute('height',height);
+
+       if (this.$.dialog.opened) {
+         this.$.dialog.resizeHandler();
+       }
+     },
+     created: function() {
+      //alert("created was just called");
+     },
+     ready: function() {
+      //alert("ready was just called");
+
+     },
+     attached: function() {
+      //alert("attached was just called");
+     },
+     domReady: function() {
+      //Get the size close
+      this.sizeframe();
+      // See http://stackoverflow.com/questions/183214/javascript-callback-scope for bind
+      // TODO: Create shim as recommended
+      window.addEventListener('resize', this.sizeframe.bind(this));
+      //alert("Dom ready was just called");
+     }
+   });
+     
+  </script>
+</polymer-element>
