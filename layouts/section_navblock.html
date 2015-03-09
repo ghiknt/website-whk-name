@@ -6,13 +6,13 @@
  <core-toolbar class="tall" id="navspan">
    <core-icon class="middle" src="/images/androidify-whk.png" style="height: 70px; width: 70px"></core-icon> 
    <nav class="middle" flex id="menu">
-    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL"  href="/about/">About</a></paper-button>
-    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/cookbook/">Cookbook</a></paper-button>
-    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="url" typeof="URL" href="/config/">Config</a></paper-button>
+    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="sameas" typeof="URL"  href="/about/">About</a><meta property="name" content="About"></paper-button>
+    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="sameas" typeof="URL" href="/cookbook/">Cookbook</a><meta property="name" content="Cookbook"></paper-button>
+    <paper-button  class="menuitem" property="hasPart" typeof="SiteNavigationElement"><a property="sameas" typeof="URL" href="/config/">Config</a><meta property="name" content="Config"></paper-button>
    </nav>
    <erpetu-search class="middle">
    </erpetu-search>
-   <paper-icon-button class="middle" icon="settings"></paper-icon-button>
+   <!--paper-icon-button class="middle" icon="settings"></paper-icon-button-->
  <% counter = 0 -%>
    <% trail = breadcrumbs_trail -%>
    <% trail.pop -%>
@@ -24,7 +24,7 @@
      <% end -%>   
      <% counter += 1 -%>
      &raquo; <span  class="button" property="itemListElement" typeof="WebPage"><meta property="name" content="<%= crumb[:title] %>">
-        <a property="url" typeof="URL" href="<%= crumb.path %>"><%= crumb[:title] %></a>
+        <a property="sameas" typeof="URL" href="<%= crumb.path %>"><%= crumb[:title] %></a>
        </span>
     <% end -%>
    <% end -%>

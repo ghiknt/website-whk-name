@@ -13,12 +13,6 @@
          alt="CC BY-SA image"
          style="width:88px;height:31px"
          ></core-icon>
-
-    <!--img id="creativecommons"
-         src="/images/blank.gif"
-         title="Creative Commons Attribution-ShareAlike 4.0 International License" 
-         alt="CC BY-SA image"
-         /-->
    <% elsif @item[:license] == "agpl" %>
     <img id="agpl"
          src="/images/blank.gif"
@@ -33,7 +27,7 @@
          />
    <% end %>
    </div>
-   <div class="middle" flex class="footer-text">
+   <div class="middle footer-text" flex >
     This page is licensed under
    <% if @item[:license] == "ccbysa" %>
      <a href="http://creativecommons.org/licenses/by-sa/4.0/">
@@ -52,8 +46,10 @@
      Further details and Terms of Service for this
       <a property="sameAs" typeof="URL" href="https://whk.name/about/#site">site</a>
      are available on the
-     <a href="/about/licensing/#content" property="license" typeof="URL">
+     <span property="license" typeof="CreativeWork">
+     <a href="/about/licensing/#content" property="sameas" typeof=URL">
       licensing page</a>.
+     </span>
      </span>
     </span>
 

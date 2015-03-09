@@ -39,29 +39,6 @@ $left: 0.5em;
 $right: 0.5em;
 $footer-content: 70px;
 
-/*
-$fontsize:         1.0em;
-
-$fontsize-biggest:  $fontsize + 0.5em;
-
-$fontsize-title:    $fontsize + 0.5em; 
-
-$fontsize-h1:       $fontsize + 0.4em;
-$fontsize-h2:       $fontsize + 0.3em;
-$fontsize-h3:       $fontsize + 0.2em;
-$fontsize-h4:       $fontsize + 0.1em;
-
-$fontsize-admonition: $fontsize-h4;
-
-
-$fontsize-bigger:   $fontsize-h4;
-
-$fontsize-small:    $fontsize - 0.1em;
-$fontsize-smaller:  $fontsize - 0.2em;
-$fontsize-smallest: $fontsize - 0.3em;
-*/
-
-
 $fontsize:         16px;
 
 $fontsize-biggest:  $fontsize + 10px;
@@ -123,40 +100,7 @@ article, section, aside, hgroup, nav, header, footer, figure, figcaption {
   /* But not in pre sections we overflow auto them already*/
   word-wrap: normal;
  }
- #header {
- #google {
-   #ad {
-    display: block;
-    width: 92%;
-   }
-   #search {
-    display: block;
-    width: 95%;
-   }
- }
- }
-} 
-
-
-@media all and (min-width: $switch-width +1 ) {
- #header {
- #google {
-   #ad {
-    display: inline-block;
-    width: 65%;
-   }
-   #noad {
-    display: inline-block;
-    width: 65%;
-   }
-   #search {
-    display: inline-block;
-    width: 29%;
-   }
- }
- }
 }
-
 
 body {
   left: 0px;
@@ -171,24 +115,24 @@ body {
     text-color: $textcolor;
     color: $textcolor;
   }
-  a:hover, a:active {
+/*  a:hover, a:active {
     text-color: $noticetext;
     color: $noticetext;
-  }
+  }*/
 
 
- #header {
-  text-color: $header-textcolor;
+  #header {
+    text-color: $header-textcolor;
 
-  a:link, a:visited {
-   text-color: $header-textcolor;
-   color: $textcolor;
-   text-decoration: none;
-  }
-  /* The google block */
-  #google {
-    background-color: lightgray;
+    a:link, a:visited {
+     text-color: $header-textcolor;
+     color: $textcolor;
+     text-decoration: none;
+    }
+
+    /* The google block */
     #ad {
+      /* width: 99%; */
       font-size: $fontsize-smallest;
       border: 1px groove;
       margin: 0.5em;
@@ -196,7 +140,8 @@ body {
 
       .label {
         position: relative;
-        background-color: lightgray;
+        background-color: black;
+        color: white;
         top: -1.1em;
         margin: 0px;
         padding-top: 0px;
@@ -213,180 +158,171 @@ body {
       }
 
     }
-    #search {
-      margin: 0.5em;
-      vertical-align: top;
-      .gsc-control-cse, .gsc-control-wrapper-cse {
-        text-color: $header-textcolor !important;
-        border-bottom-color: ButtonShadow !important;
-        border-right-color: ButtonShadow !important;
-        border-left-color: ButtonHighlight !important;
-        border-top-color: ButtonHighlight !important;
-      }
-    }
-  }
 
 
-  /* The navigation block */
-  .navblock {
-    .logospan {
-     display: inline-block;
-     img#logo {
-      height: 70px;
-      margin: $padding;
-      background:url(/images/androidify-whk.png) 0 0;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
-     }
-    }
-    #navspan {
-      display: inline-block;
-      vertical-align: top;
-      width: 100%;
-      span.menuitem {
-        vertical-align: middle;
-        font-size: $fontsize-bigger;
-        margin: 0px;
+    /* The navigation block */
+    .navblock {
+      .logospan {
+        display: inline-block;
+        img#logo {
+          height: 70px;
+          margin: $padding;
+          background:url(/images/androidify-whk.png) 0 0;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+        }
       }
-      paper-icon-button {
-        vertical-align: middle;
-      }
-      div#breadcrumb {
-        font-size: $fontsize-smallest;
-        .button > paper-ripple {
-          overflow: hidden;
+
+      #navspan {
+        display: inline-block;
+        vertical-align: top;
+        width: 100%;
+        span.menuitem {
+          vertical-align: middle;
+          font-size: $fontsize-bigger;
+          margin: 0px;
+        }
+        paper-icon-button {
+          vertical-align: middle;
+        }
+        div#breadcrumb {
+          font-size: $fontsize-smallest;
+          .button > paper-ripple {
+            overflow: hidden;
+          }
         }
       }
     }
   }
-}
+  main {
+    min-height: 15em;
+    margin: $padding;
 
-main {
-  min-height: 15em;
-  margin: $padding;
+     h1.title {
+       fontsize: $fontsize-title;
+     }
 
-   h1.title {
-     fontsize: $fontsize-title;
-   }
-
-   /* Each section should indent */
-   section {
-     margin-left: $paddingleft;
-   }
+     /* Each section should indent */
+     section {
+       margin-left: $paddingleft;
+     }
 
 
-  /* Details disclosure panel */
-  details  {
-    text-color: $header-textcolor;
-    border: solid 1px;
-    border-bottom-color: ButtonShadow;
-    border-right-color: ButtonShadow;
-    border-left-color: ButtonHighlight;
-    border-top-color: ButtonHighlight;
+    /* Details disclosure panel */
+    details  {
+      text-color: $header-textcolor;
+      border: solid 1px;
+      border-bottom-color: ButtonShadow;
+      border-right-color: ButtonShadow;
+      border-left-color: ButtonHighlight;
+      border-top-color: ButtonHighlight;
+      font-size: $fontsize-smaller;
+      a:link, a:visited {
+       text-color: $header-textcolor;
+       color: $textcolor;
+      }
+      summary {
+        font-size: $fontsize-small;
+      }
+    }
+
+    img#myimage {
+      float: left;
+      height: 4em;
+      padding-right: 1em;
+
+    }
+
+    /* Identities table on personal page */ 
+    table.identities {
+      width: 96%;
+      text-align: center;
+      thead {
+        font-size: $fontsize-h3;
+        font-weight: $weightbold;
+      }
+    }
+
+    table.gpglist {
+      // Need even tighter for smaller screens
+      word-break: break-all;
+      width: 95%;
+      text-align: center;
+      border-collapse: collapse;
+      //border: 1px solid;
+      th, td {
+       border: 1px solid;
+      }
+      thead {
+        font-size: $fontsize-h3;
+        font-weight: $weightbold;
+      }
+    }
+
+
+    .references, .footnotes {
+      font-size: $fontsize-smaller;
+    }
+
+    span.citation {
+
+     sup {
+       font-size: $fontsize-smallest;
+     }
+    }
+
+  }
+
+  footer {
     font-size: $fontsize-smaller;
+    border-top: $borderwidth solid $bordercolor;
+    text-color: $header-textcolor;
+    min-height: 80px;
     a:link, a:visited {
      text-color: $header-textcolor;
      color: $textcolor;
     }
-    summary {
-      font-size: $fontsize-small;
+  
+    .footer-text
+    {
+      font-size: $fontsize-smallest;
+    }
+    div#footer-badges-left
+    {
+      float: left;
+    }
+    div#footer-badges-right
+    {
+      float: right;
+    }
+    img#osi
+    {
+       @include footer-image("http://www.opensource.org/trademarks/opensource/web/opensource-55x48.gif");
+    }
+    img#creativecommons
+    {
+       @include footer-image("https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png");
+       width: 88px;
+       padding:  $padding;
+    }
+    img#agpl
+    {
+       @include footer-image("/images/agplv3-88x31.png");
+       width: 88px;
+       padding:  $padding;
+    }
+    img#gfdl
+    {
+       @include footer-image("/images/gfdl-logo-tiny.png");
+       width: 88px;
+       padding:  $padding;
+    }
+    img#hacker-emblem
+    {
+       @include footer-image("/images/glider.png");
     }
   }
-
-  img#myimage {
-    float: left;
-    height: 4em;
-    padding-right: 1em;
-
-  }
-
-  table.gpglist {
-    width: 95%;
-    text-align: center;
-    border-collapse: collapse;
-    //border: 1px solid;
-    th, td {
-     border: 1px solid;
-    }
-    thead {
-      font-size: $fontsize-h3;
-      font-weight: $weightbold;
-    }
-  }
-
-  /* Identities table on personal page */ 
-  table.identities {
-    width: 96%;
-    text-align: center;
-    thead {
-      font-size: $fontsize-h3;
-      font-weight: $weightbold;
-    }
-  }
-
-  .references, .footnotes {
-    font-size: $fontsize-smaller;
-  }
-
-  span.citation {
-
-   sup {
-     font-size: $fontsize-smallest;
-   }
-  }
-
-}
-
-footer {
-  font-size: $fontsize-smaller;
-  border-top: $borderwidth solid $bordercolor;
-  text-color: $header-textcolor;
-  min-height: 80px;
-  a:link, a:visited {
-   text-color: $header-textcolor;
-   color: $textcolor;
-  }
-  .footer-text
-  {
-    margin-left: 100px;
-    margin-right: 100px;
-  }
-  div#footer-badges-left
-  {
-    float: left;
-  }
-  div#footer-badges-right
-  {
-    float: right;
-  }
-  img#osi
-  {
-     @include footer-image("http://www.opensource.org/trademarks/opensource/web/opensource-55x48.gif");
-  }
-  img#creativecommons
-  {
-     @include footer-image("https://i.creativecommons.org/l/by-sa/3.0/us/88x31.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#agpl
-  {
-     @include footer-image("/images/agplv3-88x31.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#gfdl
-  {
-     @include footer-image("/images/gfdl-logo-tiny.png");
-     width: 88px;
-     padding:  $padding;
-  }
-  img#hacker-emblem
-  {
-     @include footer-image("/images/glider.png");
-  }
-}
 
 
 }

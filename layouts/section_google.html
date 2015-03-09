@@ -4,9 +4,8 @@
 <% else -%>
  <% advertising = item[:advertising] -%>
 <% end -%>
-<div id="google">
 <% if advertising == "true" -%>
- <span property="hasPart" typeof="WPAdBlock" id="ad" resource="#ad">
+<div property="hasPart" typeof="WPAdBlock" id="ad" resource="#ad">
    <span property="name" class="label">Advert</span>
    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
    <!-- whk- responsive -->
@@ -18,26 +17,7 @@
    <script>
     (adsbygoogle = window.adsbygoogle || []).push({});
    </script>
- </span>
-<% else -%>
-   <!-- Advertising turned off on this page -->
-   <span id="noad"></span>
-<% end -%>
- <!--span id="search">
-  <script>
-   (function() {
-     var cx = '001004471267990019129:tqddpxna8dq';
-     var gcse = document.createElement('script');
-     gcse.type = 'text/javascript';
-     gcse.async = true;
-     gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
-      '//www.google.com/cse/cse.js?cx=' + cx;
-     var s = document.getElementsByTagName('script')[0];
-     s.parentNode.insertBefore(gcse, s);
-   })();
-  </script>
-   <gcse:search></gcse:search>
- </span-->
 </div>
+<% end -%>
 <!-- End google layout -->
 
