@@ -1,66 +1,79 @@
+<!-- Copywrite 2015 Erpetu.info developers.  Individual contributors are in the git change log.
+
+    This file is part of erpetu-components.
+
+    erpetu-components is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    erpetu-components is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
 <link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
 <link rel="import" href="../../webcomponents/bower_components/core-icons/core-icons.html">
 <link rel="import" href="../../webcomponents/bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../webcomponents/bower_components/paper-dialog/paper-dialog.html">
 
-    <style>
-       html /deep/ paper-dialog::shadow #scroller {
-/*         top: 0px;
-         bottom: 0px;
-         left: 0px;
-         right: 0px; */
-         margin: 0px;
-         padding: 0px;
-         overflow: hidden;
-       }
 
-       paper-dialog #scroller {
-/*         top: 0px;
-         bottom: 0px;
-         left: 0px;
-         right: 0px; */
-         margin: 0px;
-         padding: 0px;
-         overflow: hidden;
-       }
+<!-- Style must be global because paper-dialog is layered and attached to the top of the DOM */ -->
+<style>
+   html /deep/ paper-dialog::shadow #scroller {
+     margin: 0px;
+     padding: 0px;
+     overflow: hidden;
+   }
 
+   /* Needed for firefox for now.  Above is not picked up under polyfill?? */
+   paper-dialog #scroller {
+     margin: 0px;
+     padding: 0px;
+     overflow: hidden;
+   }
 
-       iframe {
-        border: none;
-       }
+   html /deep/ paper-dialog iframe {
+     border: none;
+   }
+</style>
 
-     </style>
-
-     
-
-
-<polymer-element name="erpetu-search" >
+<polymer-element name="erpetu-search" attributes="src">
   <template>
      <paper-icon-button on-tap="{{toggledisplay}}" icon="search"></paper-icon-button>
-     <paper-dialog id="dialog" title="Site Search" on-core-overlay-open-completed="{{sizeframe}}">
-     <iframe id="iframe" src="search.html" seamless >
+     <paper-dialog id="erpetusearchdialog" title="Site Search" on-core-overlay-open-completed="{{sizeframe}}">
+     <iframe id="erpetusearchiframe" src="{{src}}" seamless >
      </iframe> 
      </paper-dialog>
   </template>
   <script>
    Polymer({
      toggledisplay: function() { 
-       this.$.dialog.toggle();
+       this.$.erpetusearchdialog.toggle();
      },
      sizeframe: function() {
-       var maxwidth = this.$.dialog.sizingTarget.style.getPropertyValue("max-width");
-       var maxheight = this.$.dialog.sizingTarget.style.getPropertyValue("max-height");
+
+       // Preferable to size iframe to the maximum paper-dialog size if it is available
+       var maxwidth = this.$.erpetusearchdialog.sizingTarget.style.getPropertyValue("max-width");
+       var maxheight = this.$.erpetusearchdialog.sizingTarget.style.getPropertyValue("max-height");
        var width = parseFloat(maxwidth);
        var height = parseFloat(maxheight);
        // Sensible sizes if max's aren't set yet
        if (isNaN(height) || height < 1) { height = document.documentElement.clientHeight - 250 }
        if (isNaN(width)  || width  < 1) { width = document.documentElement.clientWidth    -  60 }
 
-       this.$.iframe.setAttribute('width',width) ;
-       this.$.iframe.setAttribute('height',height);
+       // Set the size
+       this.$.erpetusearchiframe.setAttribute('width',width) ;
+       this.$.erpetusearchiframe.setAttribute('height',height);
 
-       if (this.$.dialog.opened) {
-         this.$.dialog.resizeHandler();
+       // If the dialog is open tell it so it might reposition/resize
+       if (this.$.erpetusearchdialog.opened) {
+         this.$.erpetusearchdialog.resizeHandler();
        }
      },
      created: function() {
@@ -75,6 +88,7 @@
      },
      domReady: function() {
       //Get the size close
+      //  max-width and max-height will not be set yet
       this.sizeframe();
       // See http://stackoverflow.com/questions/183214/javascript-callback-scope for bind
       // TODO: Create shim as recommended
@@ -82,6 +96,5 @@
       //alert("Dom ready was just called");
      }
    });
-     
   </script>
 </polymer-element>
