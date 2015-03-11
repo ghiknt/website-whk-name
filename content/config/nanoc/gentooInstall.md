@@ -1,6 +1,6 @@
 ---
-title: nanoc 
-summary: The nanoc configuration used to generate this site
+title: Gentoo install and basic configuration 
+summary: Installation steps for installing nanoc on Gentoo Linux
 type: article
 license: ccbysa
 author:
@@ -8,8 +8,8 @@ author:
   name: "whk"
   url: "https://whk.name/about/me/#id"
 created: 2015-01-11
-modified: 2015-02-12
-reviewed: 2015-02-12
+modified: 2015-03-09
+reviewed: 2015-03-09
 changes:
   - 
     date: 2015-01-31
@@ -17,6 +17,9 @@ changes:
   - 
     date: 2015-02-11
     description: "Added builder gem"
+  - 
+    date: 2015-03-08
+    description: "Added static data source config and updated title"
 
 ---
 ---
