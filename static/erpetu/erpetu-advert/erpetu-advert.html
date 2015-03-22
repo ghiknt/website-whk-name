@@ -1,0 +1,148 @@
+<!-- Copywrite 2015 Erpetu.info developers.  Individual copywrite holders are in the git change log.
+
+    This file is part of erpetu-components.
+
+    erpetu-components is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    erpetu-components is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with erpetu-components.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+
+<polymer-element name="erpetu-advert" attributes="adsrc mobilesrc adWidth adHeight mobileWidth mobileHeight">
+  <template>
+    <style>
+
+      :host {
+        display: block;
+        font-size: 12px;
+        margin-top: {{margin}}px;
+        margin-bottom: {{margin}}px;
+        margin-left: auto;
+        margin-right: auto;
+        padding: {{padding}}px;
+        border: {{borderWidth}}px groove;
+        width: {{ width }}px; 
+        height: {{ height }}px;
+      }
+
+
+      .label {
+        font-size: {{labelSize}}px;
+        display: inline;
+        position: relative;
+        background-color: black;
+        color: white;
+        top: {{ topShift}}px;
+        margin: 0px;
+        padding-top: 0px;
+        padding-bottom: 0px;
+        padding-left: {{padding}}px;
+        padding-right: {{padding}}px;
+        border: 0px;
+        z-index: 1;
+      }
+
+      .ad {
+        display: inline;
+        position: relative;
+        top: -15px;
+        border: none;
+        margin: 0px;
+        padding: 0px;
+        overflow: hidden;
+        z-index: 0;
+      }
+    </style>
+
+    <span property="name"id="adLabel" class="label">Advert</span>
+    <iframe src={{src}}" id="ad"      class="ad" seamless sandbox="allow-scripts allow-same-origin"></iframe>
+  </template>
+  <script>
+   Polymer({
+    mobile: false,
+    src:"",
+    labelSize:12,
+    width: this.adWidth,
+    height: this.adHeight,
+    borderWidth: 1,
+    computed: {
+      margin: 'labelSize / 2',
+      padding: 'margin',
+      topShift: '-1*(margin + padding + borderWidth) ',
+      // The minimum width required to show the larger ad
+      switchWidth: ' +adWidth + margin*2 + padding*2 + borderWidth',
+      width: 'mobile ? mobileWidth : adWidth',
+      height: 'mobile ? mobileHeight : adHeight'
+    },
+    resize: function() {
+     if (! this.mobile && document.documentElement.clientWidth <= this.switchWidth) {
+       this.configureMobile();
+     } else if (this.mobile && document.documentElement.clientWidth > this.switchWidth) {
+       this.configureNormal();
+     } 
+    },
+    configureMobile: function() {
+      this.mobile=true;
+      this.$.ad.width=this.width;
+      this.$.ad.height=this.height;
+      this.$.ad.src = this.mobilesrc;
+    },
+    configureNormal: function() {
+      this.mobile = false;
+      this.$.ad.width=this.width;
+      this.$.ad.height=this.height;
+      this.$.ad.src = this.adsrc;
+    },
+    domReady: function() {
+     if (document.documentElement.clientWidth <= this.switchWidth) {
+      this.configureMobile();
+     } else {
+      this.configureNormal();
+     }
+     window.addEventListener('resize', this.resize.bind(this));
+     if (window.ShadowDOMPolyfill) {
+       // Ref: http://stackoverflow.com/questions/21238478/why-does-the-data-binding-polyfill-in-polymer-not-work-within-style-tags
+       this.polyfillFix();
+       var observer = new CompoundObserver();
+       observer.addPath(this, 'margin');
+       observer.addPath(this, 'padding');
+       observer.addPath(this, 'borderWidth');
+       observer.addPath(this, 'width');
+       observer.addPath(this, 'height');
+       observer.addPath(this, 'labelSize');
+       observer.addPath(this, 'topShift');
+       observer.open(this.polyfillFix.bind(this));
+     }
+    },
+    polyfillFix: function() {
+       // Running with the ShadowDOM polyfill so CSS databinding won't work
+       // so do it manually
+       this.style.width                  = this.width      + "px";
+       this.style.height                 = this.height     + "px";
+       this.style.marginTop              = this.margin     + "px";
+       this.style.marginBottom           = this.margin     + "px";
+       this.style.padding                = this.padding    + "px";
+       this.style.border                 = this.borderWidth+ "px groove";
+       this.$.adLabel.style.fontSize     = this.labelSize  + "px";
+       this.$.adLabel.style.top          = this.topShift   + "px";
+       this.$.adLabel.style.paddingLeft  = this.padding    + "px";
+       this.$.adLabel.style.paddingRight = this.padding    + "px";
+       console.log(this.style);
+       console.log(this.$.adLabel.style);
+    }
+   });
+
+  </script>
+  
+</polymer-element>

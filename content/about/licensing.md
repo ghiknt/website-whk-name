@@ -42,6 +42,37 @@ Original Content
 
     https://whk.name/ is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Permissions beyond the scope of this license may be available at <a href="https://whk.name/about/licensing">https://whk.name/about/licensing</a>.
 
+[![OSI-IMAGE]][OSI-AGPL-LINK][![GNU-AGPL-IMAGE]][GNU-AGPL-LINK] **GNU AGPL 3.0+**
+
+:   The majority of original code on this site is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    It is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    If not, see <http://www.gnu.org/licenses/>.
+                                    
+    * In particular code under the following urls
+
+        * <https://whk.name/assets/erpetu/>
+
+[![CC0-IMAGE]][CC0-1.0-LINK] CC0 1.0 Universal Public Domain Dedication
+
+:   Selected code samples/demos are released under the Creative Common's CC0 1.0 Public Domain Dedication
+
+    To the extent possible under law, whk (<https://whk.name/about/me>) has waived all copyright and related
+    or neighboring rights to these code samples
+
+    * In particular code under the following urls
+
+        * <https://whk.name/assets/demo/>
+
+
 
 Third party code
 --------------------------------------------
@@ -87,9 +118,13 @@ All content (regardless of license) on this site is provided with the "Disclaime
 <!-- Links -->
 
 [CC-IMAGE]: /images/by-sa-4.0-88x31.png 
+[CC0-IMAGE]: /images/cc0-88x31.png
 
+[CC0-1.0-LINK]: http://creativecommons.org/publicdomain/zero/1.0/ (CC0 1.0 Universal)
 [CC-3.0-LINK]: http://creativecommons.org/licenses/by-sa/3.0/ (CC-BY-SA-3.0 License)
 [CC-4.0-LINK]: http://creativecommons.org/licenses/by-sa/4.0/ (CC-BY-SA-4.0 License)
+
+
 
 [OSI-IMAGE]: /images/osi_keyhole_31x31.png
 

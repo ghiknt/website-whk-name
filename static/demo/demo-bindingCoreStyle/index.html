@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- Inspired by StackOverflow question "Polymer - binding core-style"                                      -->
+<!--     http://stackoverflow.com/q/24574025/4671702                                                        -->
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<html lang="en">
+ <head>
+  <script src="../../webcomponents/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+  <link rel="import" href="demo-bindingCoreStyle.html">
+  <title>demo-bindingCoreStyle test page</title>
+ </head>
+ <body>
+  <h1>Demo</h1>
+  <h2>Using Global</h2>
+  <demo-bindingcorestyle-global bgcolor="red"></demo-bindingcorestyle-global>
+  <hr>
+  <demo-bindingcorestyle-global bgcolor="green"></demo-bindingcorestyle-global>
+  <hr>
+  <demo-bindingcorestyle-global bgcolor="blue"></demo-bindingcorestyle-global>
+  <h2>Using substyles</h2>
+  <demo-bindingcorestyle-substyles theme="blue"></demo-bindingcorestyle-substyles>
+  <hr>
+  <demo-bindingcorestyle-substyles theme="red"></demo-bindingcorestyle-substyles>
+  <hr>
+  <demo-bindingcorestyle-substyles theme="green"></demo-bindingcorestyle-substyles>
+  <h2>Using theming with attribute css selector</h2>
+  <demo-bindingcorestyle-themeable theme="blue"></demo-bindingcorestyle-themeable>
+  <hr>
+  <demo-bindingcorestyle-themeable theme="green"></demo-bindingcorestyle-themeable>
+  <hr>
+  <demo-bindingcorestyle-themeable theme="red"></demo-bindingcorestyle-themeable>
+  <h2>Just set background</h2>
+  <demo-bindingcorestyle-justdoit bgcolor="blue"></demo-bindingcorestyle-justdoit>
+  <hr>
+  <demo-bindingcorestyle-justdoit bgcolor="green"></demo-bindingcorestyle-justdoit>
+  <hr>
+  <demo-bindingcorestyle-justdoit bgcolor="red"></demo-bindingcorestyle-justdoit>
+ </body>
+</html>

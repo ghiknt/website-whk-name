@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- Inspired by stackoverflow question "How to dynamically create properties in polymer as needed          -->
+<!--     http://stackoverflow.com/q/28639863/4671702                                                        -->
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<html lang="en">
+ <head>
+  <script src="../../webcomponents/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+  <title>demo-dynamicProperties test page</title>
+ </head>
+ <body>
+
+  <h1>Demo</h1>
+
+   <polymer-element name=demo-testit>
+    <template>
+     testit element: <input type="text" value="{{test}}"><br>
+     testit element: <input type="text" value="{{test2}}">
+
+    </template>
+    <script>
+     Polymer({
+       register: function(name, extendeeName) {
+        console.log("register called");
+
+       },
+       // Called by desugarAfterChaining in https://github.com/Polymer/polymer/blob/e4f64ff770b8c0673c65102a882e6cb37c38b1e8/src/declaration/prototype.js
+       registerCallback: function(context) {
+         console.log("registerCallback called");
+         //this.super(arguments);
+         console.log(this);
+         console.log(context);
+         console.log(context.prototype);
+         console.log(context.prototype.publish);
+         context.prototype.publish["test2"] = undefined;
+        // this.publishLC = Polymer.api.declaration.properties.lowerCaseMap(this.publish);
+        // https://github.com/Polymer/polymer/blob/e4f64ff770b8c0673c65102a882e6cb37c38b1e8/src/declaration/properties.js
+        // Polymer.api.declaration.properties.optimizePropertyMaps(context.prototype)
+         Polymer.api.declaration.properties.publishProperties(context.prototype)
+         console.log(context.prototype.publish);
+         
+       },
+       publish: {
+         test: undefined,
+       }
+     });
+
+    </script>
+
+   </polymer-element>
+
+   <template is="auto-binding">
+    <h2>Dynamic tag</h2>
+    
+
+    <demo-testit test="{{item1choice2}}" test2="{{item1choice1}}"></demo-testit>
+
+    <h2>Input</h2>
+      <input type="text" value="{{item1choice2}}"><br>
+      <input type="text" value="{{item1choice1}}">
+    <h3>Produces</h3>
+     {{item1choice2}}
+  </template>
+
+
+
+</body>
+</html>

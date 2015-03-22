@@ -130,36 +130,6 @@ body {
      text-decoration: none;
     }
 
-    /* The google block */
-    #ad {
-      /* width: 99%; */
-      font-size: $fontsize-smallest;
-      border: 1px groove;
-      margin: 0.5em;
-      padding: 0.5em;
-
-      .label {
-        position: relative;
-        background-color: black;
-        color: white;
-        top: -1.1em;
-        margin: 0px;
-        padding-top: 0px;
-        padding-bottom: 0px;
-        padding-left: 0.5em;
-        padding-right: 0.5em;
-        border: 0px;
-      }
-
-
-      .adsbygoogle {
-        position: relative;
-        top: -1em;
-      }
-
-    }
-
-
     /* The navigation block */
     .navblock {
       .logospan {

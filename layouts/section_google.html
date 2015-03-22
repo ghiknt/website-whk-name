@@ -5,19 +5,8 @@
  <% advertising = item[:advertising] -%>
 <% end -%>
 <% if advertising == "true" -%>
-<div property="hasPart" typeof="WPAdBlock" id="ad" resource="#ad">
-   <span property="name" class="label">Advert</span>
-   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-   <!-- whk- responsive -->
-   <ins class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-9296112121490173"
-        data-ad-slot="1748203447"
-        data-ad-format="auto"></ins>
-   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-   </script>
-</div>
+<erpetu-advert adsrc="/assets/google/adsense_728x90.html" mobilesrc="/assets/google/adsense_320x100.html"  property="hasPart" typeof="WPAdBlock" id="ad" resource="#ad" adWidth=728 adHeight=100 mobileWidth=320 mobileHeight=100>
+</erpetu-advert>
 <% end -%>
 <!-- End google layout -->
 

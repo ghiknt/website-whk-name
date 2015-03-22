@@ -1,0 +1,28 @@
+   <link class="myimports" rel="import" href="demo-templates.html">
+
+
+<polymer-element name="demo-importTemplates-list">
+  <template>
+    <template repeat="{{ li in data }}">
+      <h1>{{li}}</h1>
+      <template bind ref="hello"></template> -- <template bind ref="goodbye"></template>
+    </template>
+  </template>
+  <script>
+    Polymer({
+      data: ['first','second','third']
+    });
+
+    // http://www.html5rocks.com/en/tutorials/webcomponents/imports/#usingcontent
+    // http://www.html5rocks.com/en/tutorials/webcomponents/imports/#include-templates
+    var importDoc = document.currentScript.ownerDocument;
+    console.log(importDoc);
+    var link = importDoc.querySelector('.myimports');
+    console.log(link);
+    var templates = link.import.querySelectorAll('template');
+    for (var i=0;i<templates.length;i++) {
+      importDoc.head.appendChild(templates[i]);
+    }
+  </script>
+</polymer-element>
+

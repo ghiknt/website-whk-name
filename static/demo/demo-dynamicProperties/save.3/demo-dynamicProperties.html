@@ -1,0 +1,165 @@
+<!--                                                                                                        -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- Inspired by stackoverflow question "How to dynamically create properties in polymer as needed          -->
+<!--     http://stackoverflow.com/q/28639863/4671702                                                        -->
+<!--                                                                                                        -->
+
+
+
+
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<polymer-element name=demo-dynamicProperties>
+ <template>This is here</template>
+ <script> 
+  console.log(this);
+  (function() {
+    //Private and static counter 
+    var numExtended = 0;
+    // Run for every instance
+    Polymer({
+
+
+      publish: function(arg1, arg2) {
+       console.log("publish called");
+       console.log(arg1);
+       console.log(arg2);
+
+
+      },
+      // Validate that it is an attribute that is allowed
+      //  For the example we will allow anything starting with validitem
+      isValidAttribute: function(name) {
+        return (name.match('^validitem'));
+      },
+      parseDeclaration: function(elementElement) {
+        console.log("Called with...");
+        console.log(this);
+        console.log(elementElement);
+        console.log(this.fetchTemplate(elementElement));
+        var attributesList = document.createAttribute("attributes");
+        for (var i=0; i<this.attributes.length; i++) {
+         console.log("Checking: "+this.attributes[i].name);
+         if (this.isValidAttribute(this.attributes[i].name)) {
+           console.log("Accepting: "+this.attributes[i].name+" = "+ this.attributes[i].value);
+           this.publish[this.attributes[i].name] = {
+             value: this.attributes[i].value,
+             reflect: true
+           }
+         }
+        }
+        //this.super(elementElement);
+      },
+      created: function() {
+        // Sequencing based on the register test case
+        //   https://github.com/Polymer/polymer/blob/e4f64ff770b8c0673c65102a882e6cb37c38b1e8/test/js/register.js
+        var attributeNodeList = [] ;
+        var attributesList = document.createAttribute("attributes");
+        attributesList.value = "";
+        // Unique name for each copy in document
+        var extendedName = "demo-dynamicproperties-copy-"+numExtended++;
+
+        console.log(this.templateInstance);
+
+        // Register the template
+        Polymer(extendedName, {forceReady:true});
+
+        // Determine attributes that will need to be published
+        // Add them to the attributes list of the extended element template
+        // Put the values on the extended element
+        for (var i=0; i<this.attributes.length; i++) {
+         console.log("Checking: "+this.attributes[i].name);
+         if (this.isValidAttribute(this.attributes[i].name)) {
+          console.log("Accepting: "+this.attributes[i].name+" = "+ this.attributes[i].value);
+          attributesList.value += " "+this.attributes[i].name;
+          attributeNodeList[attributeNodeList.length] = this.attributes[i].cloneNode(true);
+         }
+        }
+
+        // This has to be done with an innerHTML of a tag and not directly with createElement. 
+        // I don't know why the following doesn't work 
+        // but if done with createElement as below the elements are not upgraded
+             //  var el_template = document.createElement('polymer-element');
+             //  el_template.setAttribute("name",extendedName);
+             //  el_template.setAttribute("extends","demo-dynamicProperties-base");
+             //  el_template.setAttributeNode(attributesList);
+                 // Add template for polymer-element
+             //  document.body.appendChild(el_template);
+        var work = document.createElement('div');
+        document.body.appendChild(work);
+        work.innerHTML='<polymer-element name="'+extendedName+'" extends="demo-dynamicProperties-base" attributes="'+attributesList.value+'"></polymer-element>';
+
+        // Ensure IE Goes
+        CustomElements.takeRecords();
+
+        // Create the node
+        this.async(function() {
+          // Actual child node
+          var el_node = document.createElement(extendedName);
+          for (var i=0; i<attributeNodeList.length; i++) {
+            el_node.setAttributeNode(attributeNodeList[i]);
+          }
+          // Add node as light dom child
+          this.appendChild(el_node);
+        }.bind(this));
+
+      },
+      constructor: function() {
+         this.super();
+         console.log("constructor called");
+      }
+    });
+  })();
+ </script>
+
+
+</polymer-element>
+
+
+
+<polymer-element name=demo-dynamicProperties-base >
+ <template>
+   <h2>dynamic properties</h2>
+   See the console for changes
+ </template>
+ <script>
+  Polymer({
+    // Validate that it is an attribute that is allowed
+    //  For the example we will allow anything starting with validitem
+    isValidAttribute: function(name) {
+      return (name.match('^validitem'));
+    },
+    // Get attributes
+    created: function() {
+      for (name in this.publish) {
+        console.log("Trying: "+name);
+      // Verify that it is one of the dynamic attributes
+      if (this.isValidAttribute(name)) {
+         console.log("Accepting: "+name);
+         this[name]="Pull from DB";
+         // References:
+         // https://www.polymer-project.org/0.5/docs/polymer/node_bind.html
+         // https://github.com/Polymer/NodeBind/blob/master/tests/tests.js
+         // https://github.com/polymer/observe-js
+         var observer = new PathObserver(this,name);
+         observer.open(makeHandler(this,name));
+      }
+    }
+    /************* TEST **********************************/
+        // Verify that dynamic updates worked by updating
+        this.job('update_validitem1', function() {
+          this.validitem1="Updated after 10 seconds";
+        }, 10000);
+    /************ End Test ******************************/
+   }
+  });
+  // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures
+  function makeHandler(element, property) {
+    function handler(newval,oldval) {
+       console.log("element" + element,"property:" + property,"from:"+oldval,"to:"+newval);
+    }
+    return handler;
+  }
+ </script>
+</polymer-element>

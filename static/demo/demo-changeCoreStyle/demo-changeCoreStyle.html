@@ -1,0 +1,37 @@
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<link rel="import" href="../../webcomponents/bower_components/core-style/core-style.html">
+
+<core-style id="demo-changeCoreStyle-Style">
+ :host {
+     background-image: url({{ someUrlField }});
+     background-repeat: no-repeat;
+     background-size: contain;
+     display: block;
+     width:500px;
+     height:500px;
+  }
+</core-style>
+<polymer-element name="demo-changeCoreStyle" >
+ <template>
+  <core-style ref="demo-changeCoreStyle-Style"></core-style>
+    <h1>Test</h1>
+    There is some content here<br>
+    and here<br>
+    and even here
+ </template>
+  <script>
+    Polymer({
+      ready: function() {
+        CoreStyle.list["demo-changeCoreStyle-Style"].someUrlField = 'http://www.gnu.org/graphics/gnu-head-30-years-anniversary.png';
+      }
+    });
+  </script>
+</polymer-element>
+

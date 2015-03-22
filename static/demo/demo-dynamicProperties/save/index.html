@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- Inspired by stackoverflow question "How to dynamically create properties in polymer as needed          -->
+<!--     http://stackoverflow.com/q/28639863/4671702                                                        -->
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<html lang="en">
+ <head>
+  <script src="../../webcomponents/bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+  <link rel="import" href="demo-dynamicProperties.html">
+  <title>demo-dynamicProperties test page</title>
+ </head>
+ <body>
+
+<polymer-element name=demo-usedb extends="demo-dynamicProperties" attributes="validitem1 validitem2 invaliditem" noscript>
+</polymer-element>
+
+  <h1>Demo</h1>
+
+   <template is="auto-binding">
+    <h2>Dynamic tag</h2>
+     <demo-usedb validitem1="{{item1choice2}}" item2="setthis"></demo-usedb>
+    <h2>Input</h2>
+      <input type="text" value="{{item1choice2}}">
+    <h3>Produces</h3>
+     {{item1choice2}}
+  </template>
+
+
+
+</body>
+</html>

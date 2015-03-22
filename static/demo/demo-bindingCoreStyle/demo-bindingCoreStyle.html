@@ -1,0 +1,145 @@
+<!-- ------------------------------------------------------------------------------------------------------ -->
+<!-- This code demo is released under the Creative Common's CC0 1.0 Public Domain Dedication                -->
+<!-- To the extent possible under law, whk (https://whk.name/about/me) has waived all copyright and related -->
+<!-- or neighboring rights to this code demo                                                                -->
+<!-- Inspired by StackOverflow question "Polymer - binding core-style"                                      -->
+<!--     http://stackoverflow.com/q/24574025/4671702                                                        -->
+<!-- ------------------------------------------------------------------------------------------------------ -->
+
+
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<link rel="import" href="../../webcomponents/bower_components/core-style/core-style.html">
+
+<!-- Based on ideas from https://www.polymer-project.org/0.5/docs/elements/core-style.html -->
+
+<!-- Using global sets all core-styles that use the global variable -->
+<core-style id="demo-bindingcorestyle-style-global">
+ :host {
+   display:            block;
+   background-color:   {{g.bgcolor}};
+  }
+</core-style>
+
+<polymer-element name="demo-bindingcorestyle-global" attributes="bgcolor">
+ <template>
+  <core-style ref="demo-bindingcorestyle-style-global"></core-style>
+    GLOBAL: This is a test trying to set the background to {{bgcolor}} but all elements share global and will be the last color
+ </template>
+  <script>
+    Polymer({
+      observe: {
+        bgcolor: function() {
+          console.log("Setting color to " + this.bgcolor);
+          //  All elements get this global style
+          CoreStyle.g.bgcolor = this.bgcolor;
+        }
+      }
+    });
+  </script>
+</polymer-element>
+
+<!-- To specify different colors use a Common base style and then themed styles that can be changed -->
+<!-- NOTE: id cannot use "-" in name if it is going to be used with list. syntax because it is treated as subtractions -->
+
+    <!-- To specify different colors use a Common base style and then themed styles that can be changed -->
+    <!-- NOTE: id cannot use "-" in name if it is going to be used with list. syntax because it is treated as subtractions -->
+    <core-style id="demobindingcorestylestylecommon">
+     :host {
+       display:            block;
+      }
+    </core-style>
+    
+    <core-style id="demo-bindingcorestyle-style-red">
+     {{list.demobindingcorestylestylecommon.cssText}}
+     :host {
+       background-color:            red;
+       color:                       yellow;
+      }
+    </core-style>
+    
+    <core-style id="demo-bindingcorestyle-style-blue">
+     {{list.demobindingcorestylestylecommon.cssText}}
+     :host {
+       background-color:            blue;
+       color:                       white;
+      }
+    </core-style>
+    
+    <core-style id="demo-bindingcorestyle-style-green">
+     {{list.demobindingcorestylestylecommon.cssText}}
+     :host {
+       background-color:            green;
+       color:                       black;
+      }
+    </core-style>
+    
+    <polymer-element name="demo-bindingcorestyle-substyles" attributes="theme">
+     <template>
+      <core-style ref={{themename}}></core-style>
+        Themed: This is a test trying to specify the theme as {{theme}} works in latest chrome with shadowdom but fails in polyfill browsers.
+     </template>
+      <script>
+        Polymer({
+          theme: 'blue',
+          computed: {
+           themename: '"demo-bindingcorestyle-style-"+theme'
+          },
+          observe: {
+            theme: function() {
+              console.log("Setting theme to " + this.theme);
+              //  All elements get this global style
+              //this.$.mystyle.ref = "demo-bindingcorestyle-style-" + this.theme;
+            }
+          }
+        });
+      </script>
+    </polymer-element>
+ 
+
+<!-- Using attribute selectors works both with shadowdom and polyfill -->
+
+<core-style id="demo-bindingcorestyle-style-themeable">
+ :host {
+   display:            block;
+  }
+  :host([theme="red"]) {
+    background-color:            red;
+    <!-- Probably will want other themed color here -->
+  }
+  :host([theme="green"]) {
+    background-color:            green; 
+    <!-- Probably will want other themed color here -->
+  }
+  :host([theme="blue"]) {
+    background-color:            blue;
+    <!-- Probably will want other themed color here -->
+  }
+</core-style>
+
+<polymer-element name="demo-bindingcorestyle-themeable" attributes="theme" noscript>
+ <template>
+  <core-style ref="demo-bindingcorestyle-style-themeable"></core-style>
+    Themed: This is a test trying to specify the theme as {{theme}} it should actually work.
+ </template>
+</polymer-element>
+
+<!-- Set background based on bgcolor attribute -->
+<polymer-element name="demo-bindingcorestyle-justdoit" attributes="bgcolor">
+ <template>
+    Just set bgcolor: This is a test trying to set the background to {{bgcolor}} but all elements share global and will be the last color
+ </template>
+  <script>
+    Polymer({
+      observe: {
+        bgcolor: function() {
+          console.log("Setting color to " + this.bgcolor);
+          this.style.backgroundColor = this.bgcolor; 
+        }
+      }
+    });
+  </script>
+</polymer-element>
+
+
+
+

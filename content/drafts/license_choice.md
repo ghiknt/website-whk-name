@@ -24,7 +24,7 @@ Philosophically I am an Intellectual Property (IP) minimalist.
     their real property.
 
 * IP law should be scrapped
-    * Disolve copywrite and trademark
+    * Disolve copyright and trademark
     * Limited trademark and trade secret
 
 * Historically it did damage but it could be limited
@@ -55,6 +55,13 @@ Hacking the System
     * Viral nature is a good thing 
 * Follow the rules, don't ignore them, do something about it
 
+
+
+Exceptions
+===========================================================
+
+* Code samples that are going to be posted to other sites such as StackExchange will be released under the CC0 Public Domain
+  Dedication.  This allows them to be included in the CC BY-SA text of the page and also to be used later in AGPL code.
 
 
 References
