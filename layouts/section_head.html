@@ -63,6 +63,15 @@
      document.createElement('figcaption'); 
    </script>
   <header property="hasPart" typeof="WPHeader" id=header resource="#header">
+
+  <noscript>
+    <div class="admonitionblock">
+     This site is optimized to use javascript.  Basic functionality should work without it
+     but for the intended experience please turn javascript on.
+    </div>
+
+  </noscript>
+
    <!-- Google ads and custom search -->
    <% if item.identifier.match(/^\/drafts\//) -%>
      <% render 'section_draft' do -%>
