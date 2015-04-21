@@ -1,0 +1,91 @@
+<!-- Copywrite 2015 Erpetu.info developers.  Individual copywrite are in the git change log.
+
+    This file is part of erpetu-components.
+
+    erpetu-components is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    erpetu-components is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with erpetu-components.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<link rel="import" href="../../webcomponents/bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../webcomponents/bower_components/core-localstorage/core-localstorage.html">
+<link rel="import" href="../../webcomponents/bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../webcomponents/bower_components/paper-dialog/paper-dialog.html">
+
+
+<polymer-element name="erpetu-settings-provider">
+  <script>
+    (function() {
+      // Shared by all instances
+      var allSettings = undefined;
+    
+      Polymer({
+        publish: {
+         settings: {},
+         defaults: {},
+         name: undefined,
+         version: undefined,
+        },
+        ready: function() {
+          // First usage so sync up to store 
+          if (typeof(allSettings) == "undefined") {
+            // Check html localstorage
+            if (typeof(Storage) !== "undefined") {
+              // Check of localstorage has settings
+              var savedSettings = localStorage.getItem("erpetu-settings");
+              if (savedSettings !== null) {
+                try {
+                  allSettings = JSON.parse(saveSettings);
+                } catch (err) {
+                  console.log("Unable to restore settings: "+err);
+                }
+              }
+            } else {
+              allSettings = {};
+            }
+          }
+
+         if (typeof(this.name) == "undefined" || typeof(this.version) == "undefined") {
+           console.error("erpetu-settings-provider: name/version must be supplied.  Local settings returned");
+         } else {
+           if (typeof(allSettings[this.name]) == "undefined") {
+             allSettings[this.name] = {};
+             allSettings[this.name].settings = this.defaults ;
+             allSettings[this.name].version = this.version;
+           }
+           this.settings = allSettings[this.name].settings;
+         }
+       }
+      });
+    })();
+  </script>
+
+</polymer-element>
+
+<polymer-element name="erpetu-settings">
+  <template>
+     <paper-icon-button on-tap="{{toggledisplay}}" icon="settings" title="Change Web Site Settings"></paper-icon-button>
+     <paper-dialog id="erpetuSettingsDialog" title="Settings">
+      <h1>Settings</h1>
+      <content></content>
+     </paper-dialog>
+  </template>
+  <script>
+   Polymer({
+     toggledisplay: function() { 
+       this.$.erpetuSettingsDialog.toggle();
+     }
+   });
+  </script>
+</polymer-element>

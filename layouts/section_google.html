@@ -1,12 +1,21 @@
 <!-- Start google layout -->
 <% if item[:advertising].nil? -%>
- <% advertising = 'true' -%>
+ <% advertising = "true" -%>
 <% else -%>
  <% advertising = item[:advertising] -%>
 <% end -%>
-<% if advertising == "true" -%>
-<erpetu-advert adsrc="/assets/google/adsense_728x90.html" mobilesrc="/assets/google/adsense_320x100.html"  property="hasPart" typeof="WPAdBlock" id="ad" resource="#ad" adWidth=728 adHeight=100 mobileWidth=320 mobileHeight=100>
+<erpetu-advert
+               display="<%= advertising %>"
+               property="hasPart"
+               typeof="WPAdBlock"
+               id="ad"
+               resource="#ad"
+               adsrc="/assets/google/adsense_728x90.html" 
+               adWidth=728
+               adHeight=100
+               mobilesrc="/assets/google/adsense_320x100.html"
+               mobileWidth=320
+               mobileHeight=100>
 </erpetu-advert>
-<% end -%>
 <!-- End google layout -->
 

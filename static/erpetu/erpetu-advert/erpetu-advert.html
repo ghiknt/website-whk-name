@@ -18,8 +18,49 @@
 
 
 <link rel="import" href="../../webcomponents/bower_components/polymer/polymer.html">
+<link rel="import" href="../../webcomponents/bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../erpetu-settings/erpetu-settings.html">
 
-<polymer-element name="erpetu-advert" attributes="adsrc mobilesrc adWidth adHeight mobileWidth mobileHeight">
+<!-- Global settings view that can be used to adjust settings -->
+<polymer-element name="erpetu-advert-settings-view">
+  <template>
+    <div center horizontal layout>
+      <div flex>Show advertising:&nbsp;</div>
+      <paper-toggle-button checked={{settings.allowads}}></paper-toggle-button>
+    </div>
+  </template>
+
+  <script>
+   (function() {
+     Polymer({
+       publish: {
+        settings: {},
+       }
+     });
+   })();
+  </script>
+</polymer-element>
+
+<!-- Per instance data model -->
+<polymer-element name="erpetu-advert-model">
+ <script>
+  Polymer({
+    publish: {
+      // Local settings
+      display: true,
+      adsrc: undefined,
+      adWidth: undefined,
+      adHeight: undefined,
+      mobilesrc: undefined,
+      mobileWidth: undefined,
+      mobileHeight: undefined,
+    }
+  });
+ </script>
+</polymer-element>
+
+<!-- View -->
+<polymer-element name="erpetu-advert-view">
   <template>
     <style>
 
@@ -70,6 +111,14 @@
   </template>
   <script>
    Polymer({
+    publish: {
+      adsrc: undefined,
+      adWidth: undefined,
+      adHeight: undefined,
+      mobilesrc: undefined,
+      mobileWidth: undefined,
+      mobileHeight: undefined
+    },
     mobile: false,
     src:"",
     labelSize:12,
@@ -142,7 +191,57 @@
        console.log(this.$.adLabel.style);
     }
    });
-
   </script>
-  
 </polymer-element>
+
+
+<!-- Presenter -->
+<polymer-element name="erpetu-advert">
+  <template>
+    <!-- Shared data -->
+    <erpetu-settings-provider name="erpetu-advert" version="{{version}}" settings="{{ settings }}" defaults="{{ defaults }}"></erpetu-settings-provider>
+    <!-- Instance data -->
+    <erpetu-advert-model display="{{display}}" 
+                         adsrc="{{adsrc}}"
+                         adWidth="{{adWidth}}"
+                         adHeight="{{adHeight}}"
+                         mobilesrc="{{mobilesrc}}"
+                         mobileWidth="{{mobileWidth}}"
+                         mobileHeight="{{mobileHeight}}"
+                        >
+    </erpetu-advert-model>
+    <!-- Settings view -->
+    <template if="{{displaySettings}}">
+     <erpetu-advert-settings-view settings="{{ settings }}"></erpetu-advert-settings-view>
+    </template>
+    <!-- Advert view -->
+    <template if="{{!displaySettings && display && settings.allowads}}">
+     <erpetu-advert-view adsrc="{{adsrc}}"
+                         adWidth="{{adWidth}}"
+                         adHeight="{{adHeight}}"
+                         mobilesrc="{{mobilesrc}}"
+                         mobileWidth="{{mobileWidth}}"
+                         mobileHeight="{{mobileHeight}}">
+      </erpetu-advert-view> 
+    </template>
+ </template>
+ <script>
+  Polymer({
+    publish: {
+      display: undefined,
+      displaySettings: false,
+      adsrc: undefined,
+      adWidth: undefined,
+      adHeight: undefined,
+      mobilesrc: undefined,
+      mobileWidth: undefined,
+      mobileHeight: undefined
+    },
+    version: "0.0.1",
+    defaults: {
+      allowads: true
+    }
+  });
+ </script>
+</polymer-element>
+

@@ -6,11 +6,25 @@ license: ccbysa
 author:
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2014-11-13
-modified: 2015-01-24
-reviewed: 2015-01-24
+modified: 2015-04-05
+reviewed: 2015-04-05
 changes:
- - { date: 2015-01-24, description: "Moved from docs to erpetu and updated metadata" }
+ - 
+   date: 2015-01-24
+   description: "Moved from docs to erpetu and updated metadata" 
+ -
+   date: 2015-04-05
+   description: "Added intro comments"
 ---
+
+Comments
+=======================================================================
+This represents my move to Gentoo after many years of running Ubuntu.
+I have attempted to consolidate false paths to match how the final system
+turned out so the configuration can be reproduced but I may have missed 
+something.  For a more consistent build example see 
+[Development Workstation Install on Intel NUC 5i5RYK](../nucDevelopmentInstall/)
+which is my second attempt after using Gentoo for a couple of months.
 
 
 Configure Disks
