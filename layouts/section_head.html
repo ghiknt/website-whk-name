@@ -117,14 +117,10 @@
 
    <!-- Google ads and custom search -->
    <% if item.identifier =~ /^\/drafts\// -%>
-     <% render 'section_draft' do -%>
-      <%# intentionally blank -%>
-     <% end -%>
-   <% else %>
-     <% render 'section_google' do -%>
-      <%# intentionally blank -%>
-     <% end -%>
+    <% render 'section_draft' do -%>
+     <%# intentionally blank -%>
     <% end -%>
+   <% end -%>
 
    <!-- Navigation section -->
    <% render 'section_navblock' do -%>
