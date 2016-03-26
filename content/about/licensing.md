@@ -18,6 +18,8 @@ changes:
     description: moved liability statements from separate file
   - date: 2015-05-17
     description: Update pandoc and nanoc references.  Add Polymer license.  Update Trademark Usage section.
+  - date: 2016-03-26
+  - description: Update external repo link for this site.
 changefreq: monthly
 priority: 0.1
 ---
@@ -40,7 +42,7 @@ Original Content
 :   The majority of the orginal text, graphics, music and other media
     on this site, with the exception of the services and documents outlined
     below, are released under CC BY-SA 4.0.
-    The source files to generate this site with nanoc are at <https://gitorious.org/whk/whk-name> 
+    The source files to generate this site with nanoc are at <https://github.com/ghiknt/website-whk-name> 
 
     https://whk.name/ is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Permissions beyond the scope of this license may be available at <a href="https://whk.name/about/licensing">https://whk.name/about/licensing</a>.
 
