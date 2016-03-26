@@ -15,6 +15,31 @@ changes:
 
 ---
 
+Excluding Kernel Sources from being deleted[@Kazantsev2009]
+====================================================================================
+TODO: Verify that this doesn't block getting new kernel sources
+
+
+```bash
+cat <<EOF >> /etc/portage/sets.conf
+# Exclude kernel sources from being purged by "emerge --depclean"
+# https://archives.gentoo.org/gentoo-user/message/05119579cc8ab2b1030ee6eb74bf65a3
+[kernels]
+class = portage.sets.dbapi.OwnerSet
+world-candidate = False
+files = /usr/src
+EOF
+
+cat <<EOF >> /var/lib/portage/world_sets
+@kernels
+EOF
+
+```
+
+
+Doing an update
+====================================================================================
+
 * Update index
 
     ```bash
@@ -69,3 +94,6 @@ changes:
     # perl?
     # ???
     ```
+
+References
+==============================================================

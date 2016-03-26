@@ -193,6 +193,163 @@ Hard Drive SAMSUNG XP941 MZHPU256HCGL-00000 M.2 256GB PCI Express MLC Enterprise
         Kernel modules: ahci
     ```
 
+* lsscsi
+
+    ```text
+     sysfsroot: /sys
+    [0:0:0:0]    disk    ATA      SAMSUNG MZHPU256 UXM6  /dev/sda 
+      dir: /sys/bus/scsi/devices/0:0:0:0  [/sys/devices/pci0000:00/0000:00:1c.4/0000:03:00.0/ata1/host0/target0:0:0/0:0:0:0]
+    [1:0:0:0]    disk    Kanguru  FlashBlu 30      PMAP  /dev/sdb 
+      dir: /sys/bus/scsi/devices/1:0:0:0  [/sys/devices/pci0000:00/0000:00:14.0/usb3/3-1/3-1:1.0/host1/target1:0:0/1:0:0:0]
+    ```
+
+* lsusb
+
+    ```text
+    Bus 001 Device 002: ID 8087:8001 Intel Corp. 
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               2.00
+      bDeviceClass            9 Hub
+      bDeviceSubClass         0 Unused
+      bDeviceProtocol         1 Single TT
+      bMaxPacketSize0        64
+      idVendor           0x8087 Intel Corp.
+      idProduct          0x8001 
+      bcdDevice            0.03
+      iManufacturer           0 
+      iProduct                0 
+      iSerial                 0 
+    --
+    Bus 001 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               2.00
+      bDeviceClass            9 Hub
+      bDeviceSubClass         0 Unused
+      bDeviceProtocol         0 Full speed (or root) hub
+      bMaxPacketSize0        64
+      idVendor           0x1d6b Linux Foundation
+      idProduct          0x0002 2.0 root hub
+      bcdDevice            3.15
+      iManufacturer           3 Linux 3.15.6-aufs-r1 ehci_hcd
+      iProduct                2 EHCI Host Controller
+      iSerial                 1 0000:00:1d.0
+    --
+    Bus 003 Device 002: ID 1e1d:1104 Lumension Security 
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               3.00
+      bDeviceClass            0 (Defined at Interface level)
+      bDeviceSubClass         0 
+      bDeviceProtocol         0 
+      bMaxPacketSize0         9
+      idVendor           0x1e1d Lumension Security
+      idProduct          0x1104 
+      bcdDevice            1.00
+      iManufacturer           1 Kanguru
+      iProduct                2 FlashBlu 30
+      iSerial                 3 070848CE9D90C744
+    --
+    Bus 003 Device 001: ID 1d6b:0003 Linux Foundation 3.0 root hub
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               3.00
+      bDeviceClass            9 Hub
+      bDeviceSubClass         0 Unused
+      bDeviceProtocol         3 
+      bMaxPacketSize0         9
+      idVendor           0x1d6b Linux Foundation
+      idProduct          0x0003 3.0 root hub
+      bcdDevice            3.15
+      iManufacturer           3 Linux 3.15.6-aufs-r1 xhci_hcd
+      iProduct                2 xHCI Host Controller
+      iSerial                 1 0000:00:14.0
+    --
+    Bus 002 Device 004: ID 8087:0a2a Intel Corp. 
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               2.01
+      bDeviceClass          224 Wireless
+      bDeviceSubClass         1 Radio Frequency
+      bDeviceProtocol         1 Bluetooth
+      bMaxPacketSize0        64
+      idVendor           0x8087 Intel Corp.
+      idProduct          0x0a2a 
+      bcdDevice            0.01
+      iManufacturer           0 
+      iProduct                0 
+      iSerial                 0 
+    --
+    Bus 002 Device 005: ID 0557:2213 ATEN International Co., Ltd CS682 2-Port USB 2.0 DVI KVM Switch
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               1.10
+      bDeviceClass            0 (Defined at Interface level)
+      bDeviceSubClass         0 
+      bDeviceProtocol         0 
+      bMaxPacketSize0         8
+      idVendor           0x0557 ATEN International Co., Ltd
+      idProduct          0x2213 CS682 2-Port USB 2.0 DVI KVM Switch
+      bcdDevice            1.00
+      iManufacturer           1 ATEN
+      iProduct                2 DVI DL DV KVMP
+      iSerial                 0 
+    --
+    Bus 002 Device 003: ID 0409:005a NEC Corp. HighSpeed Hub
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               2.00
+      bDeviceClass            9 Hub
+      bDeviceSubClass         0 Unused
+      bDeviceProtocol         1 Single TT
+      bMaxPacketSize0        64
+      idVendor           0x0409 NEC Corp.
+      idProduct          0x005a HighSpeed Hub
+      bcdDevice            1.00
+      iManufacturer           0 
+      iProduct                0 
+      iSerial                 0 
+    --
+    Bus 002 Device 001: ID 1d6b:0002 Linux Foundation 2.0 root hub
+    Device Descriptor:
+      bLength                18
+      bDescriptorType         1
+      bcdUSB               2.00
+      bDeviceClass            9 Hub
+      bDeviceSubClass         0 Unused
+      bDeviceProtocol         1 Single TT
+      bMaxPacketSize0        64
+      idVendor           0x1d6b Linux Foundation
+      idProduct          0x0002 2.0 root hub
+      bcdDevice            3.15
+      iManufacturer           3 Linux 3.15.6-aufs-r1 xhci_hcd
+      iProduct                2 xHCI Host Controller
+      iSerial                 1 0000:00:14.0
+    ```
+
+* Required kernel modules for hardware
+
+    * PCI
+        * i915
+        * snd_hda_intel
+        * xhci_hcd
+        * e1000e
+        * pcieport
+        * ehci-pci
+        * i2c_i801
+        * iwlwifi
+        * ahci
+
+
+
 
 Preconfiguration
 ===============================================================================================
@@ -282,13 +439,22 @@ Encrypt entire SSD drive [@GentooProjectb]
     lsscsi
     ```
 
+* Setup gpt partitioning
+
+    ```bash
+    parted /dev/sda mklabel gpt
+    parted  /dev/sda mkpart primary 2048s 100%   
+    parted /dev/sda name 1 EncryptedRoot
+    parted /dev/sda print
+    ```
+
 * Encrypt using passphrase
 
     ```bash
-    cryptsetup -s 512 luksFormat <SCSIDevice>
+    cryptsetup -s 512 luksFormat /dev/sda1
         # WARNING!
         # ========
-        # This will overwrite data on /dev/sda irrevocably.
+        # This will overwrite data on /dev/sda1 irrevocably.
 
         # Are you sure? (Type uppercase yes): YES
         # Enter passphrase: 
@@ -299,7 +465,7 @@ Encrypt entire SSD drive [@GentooProjectb]
 * unlock the encrypted disk
 
     ```bash
-    cryptsetup luksOpen <SCSIDevice> bootssd
+    cryptsetup luksOpen /dev/sda1 bootssd
         # Enter passphrase for /dev/sda: 
     ls /dev/mapper/bootssd
     ```
@@ -355,9 +521,9 @@ Install stage 3
 mkdir -p /mnt/sources
 mount -t btrfs -osubvol=sources,noatime,autodefrag,ssd --label BOOTSSD /mnt/sources
 cd /mnt/sources
-curl --remote-name http://distfiles.gentoo.org/releases/amd64/autobuilds/20150402/hardened/stage3-amd64-hardened-20150402.tar.bz2
+curl --remote-name http://distfiles.gentoo.org/releases/amd64/autobuilds/20150521/hardened/stage3-amd64-hardened-20150521.tar.bz2
 cd /mnt/gentoo
-tar -xvjpf /mnt/sources/stage3-amd64-hardened-20150402.tar.bz2
+tar -xvjpf /mnt/sources/stage3-amd64-hardened-20150521.tar.bz2
 ```
 
 Configure Stage 3
@@ -410,7 +576,6 @@ Configure Stage 3
      # Only accept FSF & OSI marked Free licenses and for now accept binary blobs
      ACCEPT_LICENSE="-* @FREE freedist"
     +
-    +GENTOO_MIRRORS="rsync://rsync.gtlib.gatech.edu/gentoo http://lug.mtu.edu/gentoo/ http://mirror.iawnet.sandia.gov/gentoo/ http://gentoo.cites.uiuc.edu/pub/gentoo/"
     +
     +SYNC="rsync://rsync.us.gentoo.org/gentoo-portage"
     ```
@@ -497,6 +662,11 @@ emerge --ask app-crypt/gnupg
 # Source: <https://wwwold.gentoo.org/proj/en/releng/index.xml>
 #         <https://wiki.gentoo.org/wiki/Handbook:AMD64/Working/Features>
 
+# Create dir
+mkdir -p /etc/portage/gpg
+chmod go-rx /etc/portage/gpg
+
+
 # Pull Keys
 # Expires 2015/11/24 Gentoo Portage Snapshot Signing Key (Automated Signing Key)
 gpg --homedir /etc/portage/gpg --keyserver pgp.mit.edu --recv-keys 0xDB6B8C1F96D8BF6D
@@ -519,7 +689,7 @@ gpg --homedir /etc/portage/gpg --edit-key 0xBB572E0E2D182910 trust
 # Only use gpg from now on
 cd /etc/portage/
 cp make.conf make.conf.mirrors
-vi make.conf
+nano make.conf
 ```
 ```diff
 --- make.conf.mirrors   2015-04-06 03:16:25.219799676 +0000
@@ -616,6 +786,100 @@ make localyesconfig
 # Customize
 make menuconfig
 ```
+
+Settings
+-------------------------------------------------------------
+* General setup
+    + Local Version - **20150523-01** where ## is one up number when building more than one version a day
+    + Control Group Support
+        - Freezer cgroup subsystem - **built-in** - required by app-emulation/docker
+        - Device controller for cgroups - **built-in** - required by app-emulation/docker
+        - Resource counters - **built-in** - Optional for Docker
+            - Memory Resource Controller for Control Groups - **built-in** - for below dep
+                - Memory Resource Controller Swap Extension - **built-in** - optional for app-emulation/docker
+        - Enable perf_event per-cpu per-container group (cgroup) monitoring - **built-in** - optional for app-emulation/docker
+    + Initial RAM filesystem and RAM disk (initramfs/initrd) support
+        + Initramfs source file(s):  **/usr/src/linux/initramfs/initramfs_list** - Builds intramfs with the specified list
+
+* Processor type and features
+    * ~~Linux Guest support~~ 
+    * Supported processor vendors
+        * Support Intel processors  
+        * ~~Support AMD processors~~ 
+        * ~~Support Centaur processors~~
+    * ~~IBM Calgary IOMMU support~~
+    * Intel MCE features 
+    * ~~Dell laptop support~~
+    * Intel microcode loading support 
+
+* Power management and ACPI options
+    + ACPI (Advanced Configuration and Power Interface) Support - **built-in**: Allow linux to control power
+
+* Bus options
+    * ~~PCCard (PCMCIA/CardBus) support~~
+
+* Networking support
+    * Networking options
+        * 802.1d Ethernet Bridging - **module**: required by app-emulation/docker
+        * Network packet filtering framework (Netfilter)
+            * Core Netfilter Configuration
+                * Netfilter connection tracking support - **Module**: required by "IPv4 connection tracking support"
+                * Netfilter Xtables support
+                    * "addrtype" address type match support - **Module**: required by app-emulation/docker
+                    * "conntrack" connection tracking match support - **Module**: required by app-emulation/docker
+            * IP: Netfilter Configuration
+                * IPv4 connection tracking support - **Module**:  required by "IPv4 NAT"
+                * IPv4 NAT - **Module** - required by app-emulation/docker
+                * IP tables support
+                    * Packet filtering - **Module**: required by app-emulation/docker
+                    * iptables NAT suppoort
+                        * MASQUERADE target support - **Module**: required by app-emulation/docker
+
+* Device Drivers
+    + Generic Driver Options
+        - Automount devtmpfs at /dev, after the kernel mounted the rootfs - **built-in**
+    * ~~Macintosh device drivers~~
+    + Network Device support
+        + Ethernet driver suppot
+            - Realtek 8169 gigabit ethernet support - **CHOOSE** if realtek 8169 card
+        + MAC-VLAN support - **module**: required by app-emulation/docker
+        + Virtual ethernet pair device - **module**: required by app-emulation/docker
+    + Input device support
+        + Event interface    - **built-in**: needed for Xorg
+    * Character devices
+        * Support multiple instances of devpts - **ON** - required by app-emulation/docker
+    + Graphics Support
+        + Direct Rendering Manger
+            + Nouveau (nVidia) cards - **CHOOSE** if nVidia card
+    * Sound Card support
+        * Advanced Linux Sound Architecture
+            * HD-Audio
+                * Pre-Allocated buffer size for HD-audio driver - **2048** - recommend by media-sound/pulseaudio
+    * ~~Ultra Wideband devices~~
+    * ~~LED Support~~
+    * ~~Accessibility support~~
+    * ~~InfiniBand support~~
+
+* File Systems
+    + The Extended 4 (ext4) filesystem -**module**: Not needed on boot
+    + Reiserfs support -**module**: Not needed on boot
+    + JFS filesystem support -**module**: Not needed on boot
+    + XFS filesystem support -**module**: Not needed on boot
+    + Btrfs filesystem support - **built-in**: btrfs used as primary filesystem
+        + Btrfs POSIX Access Control Lists - **built-in**
+        + Btrfs will run sanity tests upon loading - **built-in**
+    * ~~Quota support~~
+    * Network File Systems
+        * ~~NFS client support~~
+        * Ceph distributed file system - **module**: Going to be experimenting with ceph as backend
+
+* Library routines
+    * ~~PowerPC BCJ filter decoder~~
+    * ~~ARM BCJ filter decoder~~
+    * ~~ARM-Thumb BCJ filter decoder~~
+    * ~~SPARC BCJ filter decoder~~
+
+
 
 
 References

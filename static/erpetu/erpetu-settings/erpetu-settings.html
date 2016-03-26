@@ -38,22 +38,23 @@
          version: undefined,
         },
         ready: function() {
+          console.info("Starting ready");
           // First usage so sync up to store 
-          if (typeof(allSettings) == "undefined") {
-            // Check html localstorage
-            if (typeof(Storage) !== "undefined") {
-              // Check of localstorage has settings
-              var savedSettings = localStorage.getItem("erpetu-settings");
-              if (savedSettings !== null) {
-                try {
-                  allSettings = JSON.parse(saveSettings);
-                } catch (err) {
-                  console.log("Unable to restore settings: "+err);
-                }
+          if (typeof(allSettings) == "undefined" && typeof(Storage) !== "undefined") {
+            // Check of localstorage has settings
+            var savedSettings = localStorage.getItem("erpetu-settings");
+            if (savedSettings !== null) {
+              try {
+                //TODO: Version and verify
+                allSettings = JSON.parse(savedSettings);
+              } catch (err) {
+                console.log("Unable to restore settings: "+err);
               }
-            } else {
-              allSettings = {};
             }
+          }
+          // Was unable to restore so start with a new one
+          if (typeof(allSettings) == "undefined") {
+            allSettings = {};
           }
 
          if (typeof(this.name) == "undefined" || typeof(this.version) == "undefined") {
@@ -70,7 +71,6 @@
       });
     })();
   </script>
-
 </polymer-element>
 
 <polymer-element name="erpetu-settings">

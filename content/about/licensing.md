@@ -8,14 +8,16 @@ license: ccbysa
 author: 
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2015-01-12
-modified: 2015-02-28
-reviewed: 2015-02-28
+modified: 2015-05-17
+reviewed: 2015-05-17
 changes: 
   -
     date: 2015-02-08
     description: based on draft license page for erpetu.info
   - date: 2015-02-28
     description: moved liability statements from separate file
+  - date: 2015-05-17
+    description: Update pandoc and nanoc references.  Add Polymer license.  Update Trademark Usage section.
 changefreq: monthly
 priority: 0.1
 ---
@@ -82,14 +84,14 @@ following licenses
 
 [![OSI-IMAGE]][OSI-MIT-LINK] **MIT**
 
-:   * [nanoc](https://github.com/nanoc/nanoc): Static site generator by Denis Defreyne and contributors
+:   * [nanoc](https://nanoc.ws): Static site generator by [Denis Defreyne](http://stoneship.org/) and contributors
 
 
 [![OSI-IMAGE]][OSI-GPL-2-LINK] **GPL-2.0+**
 
-:   * [Pandoc](http://johnmacfarlane.net/pandoc/): Convert between formats 
+:   * [Pandoc](http://pandoc.org): Converter between markdown and other formats by [John MacFarlane](http://johnmacfarlane.net)
 
-[![OSI-IMAGE]][OSI-MIT-LINK] [**MIT**](http://rem.mit-license.org/ "MIT License Remy's Site")
+[![OSI-IMAGE]][OSI-MIT-LINK] [**Remy Sharp's MIT License**](http://rem.mit-license.org/ "MIT License Remy's Site")
 
 :   * [details.js](/js/external/details/details.js): Support details element in browsers that don't have support by [Remy Sharp](https://remysharp.com/) from [GitHub Gist](https://gist.github.com/remy/370590) 
 
@@ -98,15 +100,52 @@ following licenses
 :   * [chicago-annotated-bibliography.csl](/about/bibliography/chicago-annotated-bibliography.csl): Bibliography Style Sheet[@JulianOnions2014]
 
 
+[![OSI-IMAGE]][OSI-BSD3-LINK] [**Polymer BSD 3-Clause License**](http://polymer.github.io/LICENSE.txt "Polymer BSD 3-Clause Style License")
+
+:   * Most of the WebComponent Polyfills, Polymer WebComponents, and Bower management software located under <https://whk.name/assets/webcomponents/bower_components/> 
+      are licensed under a BSD 3-Clause Style License with the following notice.  Check the metadata.html in each component for specifics
+
+        
+        * Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+        * This code may only be used under the BSD style license found at <http://polymer.github.io/LICENSE.txt>
+        * The complete set of authors may be found at <http://polymer.github.io/AUTHORS.txt>
+        * The complete set of contributors may be found at <http://polymer.github.io/CONTRIBUTORS.txt>
+        * Code distributed by Google as part of the polymer project is also subject to an additional IP rights grant found at <http://polymer.github.io/PATENTS.txt>
+        
+
+
 Trademark Usage
 --------------------------------------------
 
-* **Gentoo** is a trademark of Gentoo Foundation, Inc.  Usage on this site is to grant credit when a Gentoo project resource is used and is used per permissions granted at <https://www.gentoo.org/main/en/name-logo.xml>.  No original content of this site is part of the Gentoo project nor is directed or managed by Gentoo Foundation, Inc. 
+* In general usage of 3rd Party Trademarks on this site are to:[@DigitalMediaLawProject]
+
+    * Grant credit as required under various software and Creative Commons Licenses
+
+    * To identify a specific service or piece of software when used in a configuration
+
+    * For commentary, critisism and news reporting
+
+    * None of the usages imply endorsement, direction or management by the Trademark holder unless specifically identified
+
+* Specific trademarks that are used in multiple places on this site include:
+
+    * **Gentoo**<sup>&#8482;</sup> is a trademark of Gentoo Foundation, Inc.  Usage on this site is to grant credit when a Gentoo project resource is used 
+      and is used per permissions granted at <https://www.gentoo.org/inside-gentoo/foundation/name-logo-guidelines.html>[@GentooProjectc].
+      No original content of this site is part of the Gentoo project nor is directed or managed by Gentoo Foundation, Inc. 
+
+    * **Google**<sup>&#8482;</sup> is a trademark of Google Inc.  It usage is not intended to convey that any original content of this site is endorsed or promoted by Google.
+
+    * ![OSI-IMAGE]<sup>&reg;</sup>,  **Open Source Initiative**<sup>&reg;</sup> and **OSI**<sup>&reg;</sup> are registered trademarks
+      of the [Open Source Initiative](http://opensource.org) and used per the guidelines at 
+      <http://opensource.org/trademark-guidelines>[@OpenSourceInitiative] and <http://opensource.org/logo-usage-guidelines>[@OpenSourceInitiativea]
+
+    * ![CC-IMAGE]<sup>&#8482;</sup>, ![CC0-IMAGE]<sup>&#8482;</sup>,  **CC0**<sup>&#8482;</sup> and **Creative Commons**<sup>&#8482;</sup> are trademarks of [Creative Commons](https://creativecommons.org) and
+      used per the guidelines at <https://creativecommons.org/policies>[@CreativeCommonsc]
 
 Disclaimer of Warranties and Limitation of Liability
 =======================================================
 
-All content (regardless of license) on this site is provided with the "Disclaimer of Warranties and Limitiation of Liablity"[@CreativeCommonsb Section 5]
+All content (regardless of license) on this site is provided with the following "Disclaimer of Warranties and Limitiation of Liability"[@CreativeCommonsb Section 5]
 
 > a. Unless otherwise separately undertaken by the Licensor, to the extent possible, the Licensor offers the Licensed Material as-is and as-available, and makes no representations or warranties of any kind concerning the Licensed Material, whether express, implied, statutory, or other. This includes, without limitation, warranties of title, merchantability, fitness for a particular purpose, non-infringement, absence of latent or other defects, accuracy, or the presence or absence of errors, whether or not known or discoverable. Where disclaimers of warranties are not allowed in full or in part, this disclaimer may not apply to You.
     
@@ -135,6 +174,8 @@ All content (regardless of license) on this site is provided with the "Disclaime
 [OSI-AGPL-LINK]: http://opensource.org/licenses/AGPL-3.0 (AGPL-3.0+ License OSI Site)
 
 [OSI-MIT-LINK]: http://opensource.org/licenses/MIT (MIT License OSI Site)
+
+[OSI-BSD3-LINK]: http://opensource.org/licenses/BSD-3-Clause (The BSD 3-Clause License)
 
 [GNU-GPL-2-LINK]: https://www.gnu.org/licenses/old-licenses/gpl-2.0.html (GPL-2.0+ License GNU Site)
 

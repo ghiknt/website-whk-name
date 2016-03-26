@@ -283,7 +283,7 @@ uci delete multiwan.wan2
 /etc/init.d/multiwan single
 
 
-
+# To Be continued.  Wired interface works for current trip
 
 
 
