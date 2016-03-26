@@ -32,6 +32,10 @@ prune:
   # .git, .svn etc.
   exclude: [ '.git', '.hg', '.svn', 'CVS' ]
 
+
+# Upgrade to nanoc4
+string_pattern_type: legacy
+
 # The data sources where nanoc loads its data from. This is an array of
 # hashes; each array element represents a single data source. By default,
 # there is only a single data source that reads data from the “content/” and
@@ -65,9 +69,16 @@ data_sources:
     # UTF-8 (which they should be!), change this.
     encoding: utf-8
 
+    # Upgrade to nanoc4
+    identifier_type: legacy
+
   -
-    type: static
-    items_root: /assets/
+    # Upgrade to nanoc4
+    type: filesystem
+    items_root: /assets
+    content_dir: 'static'
+    layouts_dir: null
+    encoding: utf-8
 
 # Configuration for the “check” command, which run unit tests on the site.
 checks:

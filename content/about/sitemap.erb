@@ -8,6 +8,6 @@ toc: ignore
                                              i[:extension] == 'js'   ||
                                              i[:extension] == 'scss' ||
                                              i[:type] == 'sitemap'   ||
-                                             i.identifier.match(/^\/error\//) ||
-                                             i.identifier.match(/^\/drafts\//)
+                                             i.identifier =~ /^\/error\// ||
+                                             i.identifier =~ /^\/drafts\//
                                        } %>

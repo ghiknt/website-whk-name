@@ -23,7 +23,7 @@ module ErpetuUtilities
                                    i[:type] == "blog"
                                  ) && ! (
                                    ( ! i[:toc].nil? && i[:toc] == "ignore") ||
-                                   i.identifier.match(/^\/drafts\//)
+                                   i.identifier =~ /^\/drafts\//
                                  )
                        } 
    sorted = is.sort{ |a, b| sortchildren(a,b) }

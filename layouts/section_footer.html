@@ -47,7 +47,7 @@
       <a property="sameAs" typeof="URL" href="https://whk.name/about/#site">site</a>
      are available on the
      <span property="license" typeof="CreativeWork">
-     <a href="/about/licensing/#content" property="sameas" typeof=URL">
+     <a href="/about/licensing/#content" property="sameas" typeof="URL">
       licensing page</a>.
      </span>
      </span>
@@ -68,7 +68,7 @@
          /></a>
    </paper-button>
    </core-toolbar>
-   <% if item.identifier.match(/^\/drafts\//) -%>
+   <% if item.identifier =~ /^\/drafts\// -%>
      <% render 'section_draft' do -%>
       <%# intentionally blank -%>
      <% end -%>

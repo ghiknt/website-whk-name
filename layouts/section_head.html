@@ -74,7 +74,7 @@
   </noscript>
 
    <!-- Google ads and custom search -->
-   <% if item.identifier.match(/^\/drafts\//) -%>
+   <% if item.identifier =~ /^\/drafts\// -%>
      <% render 'section_draft' do -%>
       <%# intentionally blank -%>
      <% end -%>

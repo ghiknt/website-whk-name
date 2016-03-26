@@ -13,7 +13,18 @@
 #   item, use the pattern “/about/*/”; “/about/*” will also select the parent,
 #   because “*” matches zero or more characters.
 
-passthrough "/assets/*/"
+#passthrough "/assets/*/"
+
+# nanoc4 upgrade
+compile '/assets/**/*' do
+end
+
+route '/assets/**/*' do
+  # /static/foo.html → /foo.html
+  #item.identifier.to_s.sub(/\A\/static/, '')
+  #item.identifier.chop + '.' + item[:extension]
+  item.identifier.to_s
+end
 
 preprocess do
   # set sitemap priority based on type if not set
