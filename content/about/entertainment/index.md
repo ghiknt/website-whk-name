@@ -107,7 +107,7 @@ Video
 ==========================================================================================================================================
 
 My video watching time is limited and mostly consists of Technology, Anime, Sci-Fi/Fantasy, and Mysteries.  I consume most of my content
-on a Roku with the remainder on my phone.   I would love to have a tool like a podcatcher that always me to subscribe to what I am interested
+on a Roku with the remainder on my phone.   I would love to have a tool like a podcatcher that allows me to subscribe to what I am interested
 it and have it queue up for watching but unfortunately it does not seem to exist.  
 
 My current network source for shows in prority order are:
