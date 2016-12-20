@@ -32,7 +32,7 @@
      <meta itemprop="description" content="<%= @item[:summary] %>">
     <% end -%>
 
-    <!--meta itemprop="image" content="<%= url_for(@items['/images/androidify-whk/']) %>"-->
+    <!--meta itemprop="image" content="<%= url_for(@items['/images/androidify-whk.png']) %>"-->
 
      <!-- Twitter Card data -->
      <meta name="twitter:card" content="summary">
@@ -43,13 +43,13 @@
     <% end -%>
 <meta name="twitter:creator" content="@ghiknt">
 <!-- Twitter summary card with large image must be at least 280x150px -->
-<!--meta name="twitter:image" content="<%= url_for(@items['/images/androidify-whk/']) %>"-->
+<!--meta name="twitter:image" content="<%= url_for(@items['/images/androidify-whk.png']) %>"-->
 
 <!-- Open Graph data -->
 <meta property="og:title" content="<%= item[:title] %>" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="<%= url_for(item)%>" />
-<!--meta property="og:image" content="<%= url_for(@items['/images/androidify-whk/']) %>" /-->
+<!--meta property="og:image" content="<%= url_for(@items['/images/androidify-whk.png']) %>" /-->
     <% unless @item[:summary].nil? -%>
 <meta property="og:description" content="<%= @item[:summary] %>" />
     <% end -%>
@@ -117,13 +117,13 @@
 
    <!-- Google ads and custom search -->
    <% if item.identifier =~ /^\/drafts\// -%>
-    <% render 'section_draft' do -%>
+    <% render '/section_draft.*' do -%>
      <%# intentionally blank -%>
     <% end -%>
    <% end -%>
 
    <!-- Navigation section -->
-   <% render 'section_navblock' do -%>
+   <% render '/section_navblock.*' do -%>
     <%# intentionally blank -%>
    <% end -%>
   </header>

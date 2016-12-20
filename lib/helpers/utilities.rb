@@ -3,7 +3,10 @@
 
 module ErpetuUtilities
   def listchildren
-   children = item.children.reject{ |i| i[:is_hidden] ||
+#   children = item.children.reject{ |i| i[:is_hidden] ||
+   all_children = my_children_of(@item)
+#    children =[ @item ]
+   children = all_children.reject{ |i| i[:is_hidden] ||
                                         i.binary?     ||
                                         ( ! i[:toc].nil? && i[:toc] == "ignore")
                                   }
@@ -37,14 +40,31 @@ module ErpetuUtilities
 
   end
 
-
+  # Based on Nanoc::Helpers::ChildParent with the addition of handling index.* special
+  def my_children_of(item)
+    if item.identifier.legacy?
+      item.children
+    else
+      identifier = item.identifier.without_ext
+      if base = identifier.match(/(.*\/)index/)
+        pattern_1 = Regexp.new(Regexp.escape(base[1]) + '[^/]+$')
+        pattern_2 = Regexp.new(Regexp.escape(base[1]) + '[^/]+/index\..*$') 
+      else
+        pattern_1 = Regexp.new(Regexp.escape(identifier + '/') + '[^/]+$')
+        pattern_2 = Regexp.new(Regexp.escape(identifier + '/') + '[^/]+/index\..*$') 
+      end
+      @items.select { |i| ( pattern_1.match(i.identifier) ||
+                            pattern_2.match(i.identifier) ) &&
+                           i.identifier != item.identifier}
+    end
+  end
 
   def formatitementry(i) 
-    returnval = "<dt><a href=\""+i.identifier+"\">"
+    returnval = "<dt><a href=\""+i.path+"\">"
     if ! i[:title].nil?
      returnval =returnval+i[:title]
     else
-     returnval =returnval+i.identifier
+     returnval =returnval+i.identifier.without_ext
     end
     returnval =returnval+"</a>"
     if ! i[:modified].nil?

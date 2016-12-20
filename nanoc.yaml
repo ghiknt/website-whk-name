@@ -33,8 +33,7 @@ prune:
   exclude: [ '.git', '.hg', '.svn', 'CVS' ]
 
 
-# Upgrade to nanoc4
-string_pattern_type: legacy
+string_pattern_type: glob
 
 # The data sources where nanoc loads its data from. This is an array of
 # hashes; each array element represents a single data source. By default,
@@ -70,7 +69,7 @@ data_sources:
     encoding: utf-8
 
     # Upgrade to nanoc4
-    identifier_type: legacy
+    identifier_type: full
 
   -
     # Upgrade to nanoc4

@@ -20,9 +20,6 @@ compile '/assets/**/*' do
 end
 
 route '/assets/**/*' do
-  # /static/foo.html → /foo.html
-  #item.identifier.to_s.sub(/\A\/static/, '')
-  #item.identifier.chop + '.' + item[:extension]
   item.identifier.to_s
 end
 
@@ -46,7 +43,7 @@ preprocess do
  end
 end
 
-compile '*' do
+compile '/**/*' do
  if item[:extension].nil?
   # Do nothing with items that have no extension
  elsif item.binary?
@@ -70,29 +67,29 @@ compile '*' do
     filter :pandoc, :args => opts  
     case item[:type]
      when 'article'
-      layout 'layout_article'
+      layout '/layout_article.*'
      when 'toc'
-      layout 'layout_toc'
+      layout '/layout_toc.*'
      when 'person'
-      layout 'layout_person'
+      layout '/layout_person.*'
      when 'sitemap'
        # No Layout
      else
-      layout 'layout_default'
+      layout '/layout_default.*'
     end
    when 'erb'
     filter :erb
     case item[:type]
      when 'article'
-      layout 'layout_article'
+      layout '/layout_article.*'
      when 'toc'
-      layout 'layout_toc'
+      layout '/layout_toc.*'
      when 'person'
-      layout 'layout_person'
+      layout '/layout_person.*'
      when 'sitemap'
        # No Layout
      else
-      layout 'layout_default'
+      layout '/layout_default.*'
     end
    else
      # Default is to transfer file as is
@@ -100,29 +97,35 @@ compile '*' do
  end
 end
 
-route '*' do
+
+route '/**/index.*' do
+  # /projects/index.md gets written to /projects/index.html
+  item.identifier.without_ext + '.html'
+end
+
+route '/**/*' do
   if item[:extension].nil?
     # Handle files in icon directory like README that do not
     # have a file extension
-    item.identifier.chop 
+    item.identifier.to_str
   elsif item.binary?
     # Write item with identifier /foo/ to /foo.ext
-    item.identifier.chop + '.' + item[:extension]
+    item.identifier.to_str
   elsif item[:type] == 'sitemap'
-    item.identifier.chop + '.xml' 
+    item.identifier.without_ext + '.xml' 
   else
    case item[:extension]
     when'erb', 'md'
       # Write item with identifier /foo/ to /foo/index.html
-      item.identifier + 'index.html'
+      item.identifier.without_ext + '/index.html'
     when 'scss'
       # Sass scss files to css
-      item.identifier.chop + '.css' 
+      item.identifier.without_ext + '.css' 
     else  
       # store with the extension still on the file
-      item.identifier.chop + '.' + item[:extension]
+      item.identifier.to_str
     end
   end
 end
 
-layout '*' ,:erb, :trim_mode=>'<>-'
+layout '/**/*' ,:erb, :trim_mode=>'<>-'

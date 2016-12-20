@@ -1,4 +1,4 @@
-<% render 'section_head' do %>
+<% render '/section_head.*' do %>
  <%# intentionally blank %>
 <% end %>
  <h1 class="title" property="name"><%=@item[:title]%></h1>
@@ -17,7 +17,7 @@
   <%= yield %>
  </section>
 
-<% render 'section_footer' do %>
+<% render '/section_footer.*' do %>
  <%# intentionally blank %>
 <% end %>
 
