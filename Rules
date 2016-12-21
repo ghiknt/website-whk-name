@@ -23,6 +23,16 @@ route '/assets/**/*' do
   item.identifier.to_s
 end
 
+# Make sure not to change and git repo files
+compile '/repos/**/*.git/**/*' do
+end
+
+route '/repos/**/*.git/**/*' do
+  item.identifier.to_s
+end
+
+
+
 preprocess do
   # set sitemap priority based on type if not set
  items.each do |i|

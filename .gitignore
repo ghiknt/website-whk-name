@@ -1,5 +1,6 @@
 /tmp
 /output
+/gitrepos
 /crash.log*
 /.sass-cache*
 /.swp
