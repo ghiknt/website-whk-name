@@ -8,8 +8,8 @@ license: ccbysa
 author: 
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2015-01-12
-modified: 2015-05-17
-reviewed: 2015-05-17
+modified: 2016-12-20
+reviewed: 2015-12-20
 changes: 
   -
     date: 2015-02-08
@@ -19,7 +19,9 @@ changes:
   - date: 2015-05-17
     description: Update pandoc and nanoc references.  Add Polymer license.  Update Trademark Usage section.
   - date: 2016-03-26
-  - description: Update external repo link for this site.
+    description: Update external repo link for this site.
+  - date: 2016-12-20
+    description: Update repository urls to use self hosted
 changefreq: monthly
 priority: 0.1
 ---
@@ -42,7 +44,7 @@ Original Content
 :   The majority of the orginal text, graphics, music and other media
     on this site, with the exception of the services and documents outlined
     below, are released under CC BY-SA 4.0.
-    The source files to generate this site with nanoc are at <https://github.com/ghiknt/website-whk-name> 
+    The source files to generate this site with nanoc are at <https://whk.name/repos/websites/whk.name/> 
 
     https://whk.name/ is licensed under a <a href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>. Permissions beyond the scope of this license may be available at <a href="https://whk.name/about/licensing">https://whk.name/about/licensing</a>.
 
@@ -61,9 +63,6 @@ Original Content
     You should have received a copy of the GNU General Public License
     If not, see <http://www.gnu.org/licenses/>.
                                     
-    * In particular code under the following urls
-
-        * <https://whk.name/assets/erpetu/>
 
 [![CC0-IMAGE]][CC0-1.0-LINK] CC0 1.0 Universal Public Domain Dedication
 
