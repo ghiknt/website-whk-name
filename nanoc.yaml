@@ -81,7 +81,7 @@ data_sources:
 
   -
     type: filesystem
-    items_root: /repos
+    items_root: /src
     content_dir: 'gitrepos'
     layouts_dir: null
     encoding: utf-8

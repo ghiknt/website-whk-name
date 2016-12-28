@@ -16,6 +16,8 @@ changes:
 
 ---
 
+* [Source code](/src/containers/gentoo-base/)
+
 * Trust Gentoo keys
 
 ```bash

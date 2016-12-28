@@ -47,11 +47,11 @@ module ErpetuUtilities
     else
       identifier = item.identifier.without_ext
       if base = identifier.match(/(.*\/)index/)
-        pattern_1 = Regexp.new(Regexp.escape(base[1]) + '[^/]+$')
-        pattern_2 = Regexp.new(Regexp.escape(base[1]) + '[^/]+/index\..*$') 
+        pattern_1 = Regexp.new('^'+Regexp.escape(base[1]) + '[^/]+$')
+        pattern_2 = Regexp.new('^'+Regexp.escape(base[1]) + '[^/]+/index\..*$') 
       else
-        pattern_1 = Regexp.new(Regexp.escape(identifier + '/') + '[^/]+$')
-        pattern_2 = Regexp.new(Regexp.escape(identifier + '/') + '[^/]+/index\..*$') 
+        pattern_1 = Regexp.new('^'+Regexp.escape(identifier + '/') + '[^/]+$')
+        pattern_2 = Regexp.new('^'+Regexp.escape(identifier + '/') + '[^/]+/index\..*$') 
       end
       @items.select { |i| ( pattern_1.match(i.identifier) ||
                             pattern_2.match(i.identifier) ) &&

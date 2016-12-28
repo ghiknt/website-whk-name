@@ -35,5 +35,10 @@ git2markdown.pl --project tool-nanoc \
                 --license=agpl \
                 --description="Nanoc Static Site Builder built on top of lang-ruby-23" \
                 gitrepos/containers/tool-nanoc
+git2markdown.pl --project service-lighttpd \
+                --repository=$HOME/docker/containers/service-lighttpd \
+                --license=agpl \
+                --description="Basic lighttpd instalation for a backend server" \
+                gitrepos/containers/service-lighttpd
 nanoc compile
 
