@@ -1,7 +1,7 @@
 ---
 title: Entertainment
 summary: >
- You can tell alot about people by how they spend their freetime.  Here is what I am listening to, reading, or watching
+ You can tell a lot about people by how they spend their free time.  Here is what I am listening to, reading, or watching
 type: article
 license: ccbysa
 author:
@@ -147,8 +147,8 @@ My current network source for shows in prority order are:
 * ITPro.tv (annual subscription)
 * Amazon Prime
 * ComicCon HQ
-* Netflix
 * YouTube
+* CBS All Access
 
 
 
