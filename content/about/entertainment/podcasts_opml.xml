@@ -16,6 +16,7 @@
       <outline type="rss" text="Cordkillers Audio Podcast" xmlUrl="http://feeds.feedburner.com/Cordkillers" />
       <outline type="rss" text="The Legal Geeks" xmlUrl="http://www.buzzsprout.com/7346.rss" />
       <outline type="rss" text="This Week in Computer Hardware (MP3)" xmlUrl="http://leoville.tv/podcasts/twich.xml" />
+      <outline type="rss" text="Episodes - TekThing" xmlUrl="http://feeds.feedburner.com/Tekthing?format=xml" />
       <outline type="rss" text="Know How... (MP3)" xmlUrl="http://feeds.twit.tv/kh.xml" />
       <outline type="rss" text="NosillaCast Mac Podcast" xmlUrl="https://www.podfeet.com/NosillaCast/rss.xml" />
       <outline type="rss" text="RatholeRadio.org (Ogg Version)" xmlUrl="http://feeds.feedburner.com/RatholeRadio-ogg?format=xml" />
@@ -27,6 +28,8 @@
       <outline type="rss" text="This Week in Enterprise Tech (MP3)" xmlUrl="http://feeds.twit.tv/twiet" />
       <outline type="rss" text="Episodes - Talking Machines" xmlUrl="http://www.thetalkingmachines.com/blog/?format=RSS" />
       <outline type="rss" text="Risky Business" xmlUrl="http://risky.biz/feeds/risky-business" />
+      <outline type="rss" text="Threat Wire" xmlUrl="http://shannonmorse.podbean.com/feed/" />
+      <outline type="rss" text="Make Me Smart with Kai and Molly" xmlUrl="https://feeds.publicradio.org/public_feeds/make-me-smart-with-kai-and-molly/itunes/rss" />
     </outline>
   </body>
 </opml>

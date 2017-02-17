@@ -1,15 +1,18 @@
 ---
 title: Entertainment
 summary: >
- What I am listening to, reading, or watching
+ You can tell alot about people by how they spend their freetime.  Here is what I am listening to, reading, or watching
 type: article
 license: ccbysa
 author:
  - { name: "whk", url: "https://whk.name/about/me/#id" }
 created: 2016-03-27
-modified: 2017-01-11
-reviewed: 2017-01-11
+modified: 2017-02-17
+reviewed: 2017-02-17
 changes:
+  -
+    date: 2017-02-17
+    description: Update podcast list
   -
     date: 2017-01-11
     description: Update podcast list
@@ -32,30 +35,44 @@ effort I go to to make sure I catch each show.
 
  Rank   Show                                          Topic                                                        License                                                           Access
 ------ --------------------------------------------- -----------------------------------------------------------  ----------------------------------------------------------------- -------------------------------
-   1   [Free as In Freedom][FAIF Site]               FLOSS legal and policy discussions (in unannounced hiatus)   [CC BY-SA 3.0 USA][FAIF Lic]                                      [Audio OGG RSS][FAIF Url]
-   2   [Daily Tech News Show][DTNS Site]             Daily Tech News                                              [CC BY 4.0 Intl][DTNS Lic]                                        [Audio RSS][DTNS Url]
-   3   [Short Circuit][SHRT Site]                    Short break down of some of the week’s appellate decisions   All Rights Reserved                                               [Audio RSS][SHRT Url]
-   4   [Free Thoughts][FT Site]                      A show about libertarianism and the ideas that influence it  All Rights Reserved                                               [Audio RSS][FT Url]
-   5   [Late Night Linux][LLL Site]                  Linux News                                                   CC BY-NC 4.0 Intl                                                 [Audio OGG RSS][LLL Url]
-   6   [Cord Killers][CordK Site]                    News about cord cutting, digital media, and entertainment    All Rights Reserved (unmarked)                                    [Audio RSS][CordK Url]
-   7   [The Legal Geeks][LG Site]                    Super Hero Law                                               All Rights Reserved (unmarked)                                    [Audio RSS][LG Url] 
-   8   [Security Now][SecNow Site]                   Tech Security News                                           CC BY-NC-ND 4.0 Intl                                              [Audio RSS][SecNow Url]
-   9   [Risky Business][Risky Site]                  Tech Security News                                           All Rights Reserved                                               [Audio RSS][Risky Url]
-  10   [FLOSS Weekly][FLOSS Site]                    FLOSS Project Discussions                                    CC BY-NC-ND 4.0 Intl                                              [Audio RSS][FLOSS Url]
-  11   [This Week in Law][TWIL Site]                 Technology Law discussions                                   CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWIL Url]
-  12   [Sword and Laser][SandL Site]                 Science fiction and fantasy book discussions                 All Rights Reserved (unmarked)                                    [Audio RSS][SandL Url]
-  13   [Know How...][KH Site]                        Tech Projects                                                CC BY-NC-ND 4.0 Intl                                              [Audio RSS][KH Url]
-  14   [Talking Machines][Talking Site]              Machine Learning Discussions                                 All Rights Reserved (unmarked)                                    [Audio RSS][Talking Url]
-  15   [Chit Chat across the pond][CCatp Site]       Technology show with a slight MAC bias                       CC BY-NC-SA 3.0 US                                                [Audio RSS][CCatp Url]
-  16   [NosillaCast][Nosilla Site]                   Technology Interview Show                                    CC BY-NC-SA 3.0 US                                                [Audio RSS][Nosilla Url]
-  17   [This Week in Enterprise Tech][TWIET Site]    Enterprise Tech news                                         CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWIET Url]
-  18   [All About Android][AAA Site]                 Android news                                                 CC BY-NC-ND 4.0 Intl                                              [Audio RSS][AAA Url]
-  19   [This Week in Computer Hardware][TWITCH Site] Computer Hardware news                                       CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWITCH Url]
-  20   [PC Perspective][PCPER Site]                  Computer Hardware news                                       All Rights Reserved                                               [Audio RSS][PCPER Url]
-  21   [The Phileas Club][Phileas Site]              Monthly world news discussions                               All Rights Reserved                                               [Audio RSS][Phileas Url]
-  22   [Rathole Radio][Rathole Site]                 Music (mostly Creative Commons) (in announced hiatus)        Original content [CC BY-SA 2.0 UK][Rathole Lic], Songs: As marked [Audio OGG RSS][Rathole Url]
+   1   [Daily Tech News Show][DTNS Site]             Daily Tech News                                              [CC BY 4.0 Intl][DTNS Lic]                                        [Audio RSS][DTNS Url]
+   2   [Short Circuit][SHRT Site]                    Short break down of some of the week’s appellate decisions   All Rights Reserved                                               [Audio RSS][SHRT Url]
+   3   [Free Thoughts][FT Site]                      A show about libertarianism and the ideas that influence it  All Rights Reserved                                               [Audio RSS][FT Url]
+   4   [Late Night Linux][LLL Site]                  Linux News                                                   CC BY-NC 4.0 Intl                                                 [Audio OGG RSS][LLL Url]
+   5   [Cord Killers][CordK Site]                    News about cord cutting, digital media, and entertainment    All Rights Reserved (unmarked)                                    [Audio RSS][CordK Url]
+   6   [The Legal Geeks][LG Site]                    Super Hero Law                                               All Rights Reserved (unmarked)                                    [Audio RSS][LG Url] 
+   7   [Security Now][SecNow Site]                   Tech Security News                                           CC BY-NC-ND 4.0 Intl                                              [Audio RSS][SecNow Url]
+   8   [Risky Business][Risky Site]                  Tech Security News                                           All Rights Reserved                                               [Audio RSS][Risky Url]
+   9   [FLOSS Weekly][FLOSS Site]                    FLOSS Project Discussions                                    CC BY-NC-ND 4.0 Intl                                              [Audio RSS][FLOSS Url]
+  10   [This Week in Law][TWIL Site]                 Technology Law discussions                                   CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWIL Url]
+  11   [Sword and Laser][SandL Site]                 Science fiction and fantasy book discussions                 All Rights Reserved (unmarked)                                    [Audio RSS][SandL Url]
+  12   [Know How...][KH Site]                        Tech Projects                                                CC BY-NC-ND 4.0 Intl                                              [Audio RSS][KH Url]
+  13   [Chit Chat across the pond][CCatp Site]       Technology show with a slight MAC bias                       CC BY-NC-SA 3.0 US                                                [Audio RSS][CCatp Url]
+  14   [NosillaCast][Nosilla Site]                   Technology Interview Show                                    CC BY-NC-SA 3.0 US                                                [Audio RSS][Nosilla Url]
+  15   [This Week in Enterprise Tech][TWIET Site]    Enterprise Tech news                                         CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWIET Url]
+  16   [All About Android][AAA Site]                 Android news                                                 CC BY-NC-ND 4.0 Intl                                              [Audio RSS][AAA Url]
+  17   [This Week in Computer Hardware][TWITCH Site] Computer Hardware news                                       CC BY-NC-ND 4.0 Intl                                              [Audio RSS][TWITCH Url]
+  18   [PC Perspective][PCPER Site]                  Computer Hardware news                                       All Rights Reserved                                               [Audio RSS][PCPER Url]
+  19   [The Phileas Club][Phileas Site]              Monthly world news discussions                               All Rights Reserved                                               [Audio RSS][Phileas Url]
+  20   [Threat Wire][Threat Wire Site]               Tech Security News                                           All Rights Reserved (unmarked)                                    [Video RSS][Threat Wire Url]
+  21   [TekThing][TekThing Site]                     Tech News and Projects                                       All Rights Reserved (unmarked)                                    [Video RSS][TekThing Url]
+
+
+* Hiatus - These shows appear to be in hiatus but will hopefully return so I am keeping them in my podcatcher
+
+ Rank   Show                                          Topic                                                        License                                                           Access
+------ --------------------------------------------- -----------------------------------------------------------  ----------------------------------------------------------------- -------------------------------
+       [Free as In Freedom][FAIF Site]               FLOSS legal and policy discussions                           [CC BY-SA 3.0 USA][FAIF Lic]                                      [Audio OGG RSS][FAIF Url]
+       [Talking Machines][Talking Site]              Machine Learning Discussions                                 All Rights Reserved (unmarked)                                    [Audio RSS][Talking Url]
+       [Rathole Radio][Rathole Site]                 Music (mostly Creative Commons) (in announced hiatus)        Original content [CC BY-SA 2.0 UK][Rathole Lic], Songs: As marked [Audio OGG RSS][Rathole Url]
+
+
 
 <!-- Show URLs -->
+[Threat Wire Site]: http://threatwire.net
+[Threat Wire Url]:  https://shannonmorse.podbean.com/feed/
+[TekThing Site]:    https://www.tekthing.com/
+[TekThing Url]:     https://feeds.feedburner.com/Tekthing
 [CCatp Site]:   https://www.podfeet.com/blog/category/ccatp/
 [CCatp Url]:    https://podfeet.com/ccatp/ccatp-rss.xml
 [Nosilla Site]: https://www.podfeet.com/blog/category/nosillacast/

@@ -31,19 +31,17 @@
     <% unless @item[:summary].nil? -%>
      <meta itemprop="description" content="<%= @item[:summary] %>">
     <% end -%>
-
-    <!--meta itemprop="image" content="<%= url_for(@items['/images/androidify-whk.png']) %>"-->
+    <meta itemprop="image" content="https://whk.name/images/dwarves/whk_dwarf_FF_128x128.png">
 
      <!-- Twitter Card data -->
      <meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@ghiknt">
-<meta name="twitter:title" content="<%= item[:title] %>">
-    <% unless @item[:summary].nil? -%>
-     <meta name="twitter:description" content="<%= @item[:summary] %>">
-    <% end -%>
-<meta name="twitter:creator" content="@ghiknt">
-<!-- Twitter summary card with large image must be at least 280x150px -->
-<!--meta name="twitter:image" content="<%= url_for(@items['/images/androidify-whk.png']) %>"-->
+     <meta name="twitter:site" content="@ghiknt">
+     <meta name="twitter:title" content="<%= item[:title] %>">
+     <% unless @item[:summary].nil? -%>
+      <meta name="twitter:description" content="<%= @item[:summary] %>">
+     <% end -%>
+     <meta name="twitter:creator" content="@ghiknt">
+     <meta name="twitter:image" content="https://whk.name/images/dwarves/whk_dwarf_FF_128x128.png">
 
 <!-- Open Graph data -->
 <meta property="og:title" content="<%= item[:title] %>" />
