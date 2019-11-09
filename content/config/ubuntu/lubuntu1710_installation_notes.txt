@@ -1,0 +1,35 @@
+Notes on install of lubuntu 17.10
+1/2018
+
+sudo apt update
+sudo apt upgrade
+sudo su -
+  /usr/local/sbin/refreshgrub
+reboot
+
+# Add System76 packages
+sudo apt-add-repository ppa:system76-dev/stable
+sudo apt update
+sudo apt install system76-driver
+sudo apt upgrade
+reboot
+
+
+# Install docker 
+sudo apt install docker.io ifupdown aufs-tools docker-doc
+sudo systemctl enable docker
+ sudo addgroup whk docker
+
+# Install virt-manager
+sudo apt install virt-manager
+sudo su -
+  /usr/local/sbin/refreshgrub
+reboot
+
+# Set swappiness to only use in emergency
+sudo su -
+echo "vm.swappiness = 1" > /etc/sysctl.d/60-minimal-swap.conf
+service procps restart
+cat /proc/sys/vm/swappiness
+
+# Enable NVIDIA and intel-microcode using Preferences | Additional Drivers

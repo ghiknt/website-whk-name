@@ -1,0 +1,101 @@
+# Western Digital My Book 6TB model
+
+## WBMyBook6T_01
+
+* Primary usage - Backup drive
+
+### Change from EXFAT to Encrypted EXT4 
+
+```
+ sudo gdisk /dev/sda
+
+GPT fdisk (gdisk) version 1.0.3
+
+Partition table scan:
+  MBR: protective
+  BSD: not present
+  APM: not present
+  GPT: present
+
+Found valid GPT with protective MBR; using GPT.
+
+Command (? for help): p
+Disk /dev/sda: 11721043968 sectors, 5.5 TiB
+Model: My Book 25EE    
+Sector size (logical/physical): 512/4096 bytes
+Disk identifier (GUID): 82968CBA-018F-4D1D-944F-246E181FD6B5
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 11721043934
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 4029 sectors (2.0 MiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048     11721041919   5.5 TiB     0700  My Book
+
+Command (? for help): d 1
+Using 1
+
+Command (? for help): n
+Partition number (1-128, default 1): 
+First sector (34-11721043934, default = 2048) or {+-}size{KMGTP}: 
+Last sector (2048-11721043934, default = 11721043934) or {+-}size{KMGTP}: 
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300): 
+Changed type of partition to 'Linux filesystem'
+
+Command (? for help): p
+Disk /dev/sda: 11721043968 sectors, 5.5 TiB
+Model: My Book 25EE    
+Sector size (logical/physical): 512/4096 bytes
+Disk identifier (GUID): 82968CBA-018F-4D1D-944F-246E181FD6B5
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 11721043934
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048     11721043934   5.5 TiB     8300  Linux filesystem
+
+Command (? for help): c 1
+Using 1
+Enter name: WBMyBook6T_01
+
+Command (? for help): p
+Disk /dev/sda: 11721043968 sectors, 5.5 TiB
+Model: My Book 25EE    
+Sector size (logical/physical): 512/4096 bytes
+Disk identifier (GUID): 82968CBA-018F-4D1D-944F-246E181FD6B5
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 11721043934
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048     11721043934   5.5 TiB     8300  WBMyBook6T_01
+Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/sda.
+The operation has completed successfully.
+```
+
+```bash
+sudo cryptsetup luksFormat /dev/sda1
+
+mkdir /media/whk/Personal/disks/WBMyBook6T_01
+dd if=/dev/urandom of=/media/whk/Personal/disks/WBMyBook6T_01/keyfile bs=1024 count=8
+sudo cryptsetup luksAddKey --key-slot 1 /dev/sda1 /media/whk/Personal/disks/WBMyBook6T_01/keyfile
+sudo cryptsetup luksHeaderBackup /dev/sda1 --header-backup-file /media/whk/Personal/disks/WBMyBook6T_01/luks-header.backup
+```
+
+```bash
+sudo cryptsetup luksOpen /dev/sda1 WBMyBook6T_01
+sudo mkfs.ext4 -t ext4 -L WBMYBook6T_01 -U time /dev/mapper/WBMyBook6T_01
+```
+

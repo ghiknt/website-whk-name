@@ -1,0 +1,11 @@
+digraph containers {
+
+gentoo              -> gentooBase
+gentooBase          -> kernelDependent
+gentooBase          -> langHaskellUnstable
+gentooBase          -> toolGraphviz
+gentooBase          -> lighttpd
+langHaskellUnstable -> basePandoc
+basePandoc          -> langRuby23
+langRuby23          -> toolNanoc
+}

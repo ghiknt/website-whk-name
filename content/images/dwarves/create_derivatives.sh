@@ -72,4 +72,5 @@ myprocessdnd w_knight_dnd_stnick.jpg   whk_dwarf_stnick
 
 
 
+# montage *_128x166.jpg -tile 5x1 -background black geometry +2+2 -frame 4 whktest.jpg 
 

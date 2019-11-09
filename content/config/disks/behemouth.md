@@ -1,0 +1,167 @@
+# Disk setup for behemouth
+
+## System files
+
+* /etc/crypttab
+
+    ```text
+    #name> <source device>                           <key file>        <options>
+    system UUID=b3129bad-ea54-4775-a724-4376f0323256 /etc/crypt.system luks,discard,noearly,keyscript=/lib/cryptsetup/scripts/getinitramfskey.sh
+    data   UUID=f10647e6-175c-47eb-b852-34bf58388e63 /etc/crypt.data   luks,discard,noearly,keyscript=/lib/cryptsetup/scripts/getinitramfskey.sh
+    ```
+
+* /etc/fstab
+
+    ```text
+    # /etc/fstab: static file system information.
+    #
+    # Use 'blkid' to print the universally unique identifier for a
+    # device; this may be used with UUID= as a more robust way to name devices
+    # that works even if disks are added and removed. See fstab(5).
+    #
+    # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+    /dev/mapper/system-root /               ext4    errors=remount-ro 0       1
+    /dev/mapper/system-boot /boot           ext3    defaults        0       2
+    # /boot/efi was on /dev/nvme0n1p1 during installation
+    UUID=E0E4-0F09  /boot/efi       vfat    umask=0077      0       1
+    /dev/mapper/system-swap none            swap    sw              0       0
+    # Data disk
+    /dev/mapper/data        /data   ext4    defaults                0       2
+    ```
+
+* /lib/cryptsetup/scripts/getinitramfskey.sh
+
+    ```bash
+    # File:
+    #       /lib/cryptsetup/scripts/getinitramfskey.sh
+    #
+    # Description:
+    #       Called by initramfs using busybox ash to obtain the decryption key for the system.
+    #
+    # Purpose:
+    #       Used with loadinitramfskey.sh in full disk encryption to decrypt the system LUKS partition,
+    #       to prevent being asked twice for the same passphrase.
+    
+    KEY="${1}"
+    
+    if [ -f "${KEY}" ]
+    then
+            cat "${KEY}"
+    else
+            PASS=/bin/plymouth ask-for-password --prompt="Key not found. Enter LUKS Password: "
+            echo "${PASS}"
+    fi
+    ```
+
+
+## nvme1n1 Boot and System
+
+* /etc/crypt.system  - keyfile for system disk
+
+
+
+## nvme0n1 (at time of build) virtual/working data
+
+* /etc/crypt.data    - keyfile for data disk
+
+    ```bash
+    dd if=/dev/urandom of=/etc/crypt.data bs=$(($RANDOM%200+925)) count=$(($RANDOM%6+5))
+    chmod 400 /etc/crypt.data
+    ```
+
+
+```bash
+sudo gdisk /dev/nvme0n1
+d
+1
+d
+2
+d
+3
+
+Command (? for help): n
+Partition number (1-128, default 1): 1
+First sector (34-1000215182, default = 2048) or {+-}size{KMGTP}: 
+Last sector (2048-1000215182, default = 1000215182) or {+-}size{KMGTP}: 
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300): 
+Changed type of partition to 'Linux filesystem'
+
+c
+Using 1
+Enter name: Data
+
+Command (? for help): p
+Disk /dev/nvme0n1: 1000215216 sectors, 476.9 GiB
+Model: Samsung SSD 950 PRO 512GB               
+Sector size (logical/physical): 512/512 bytes
+Disk identifier (GUID): 80DF691A-610A-4B5F-AA98-53D24F9B9D76
+Partition table holds up to 128 entries
+Main partition table begins at sector 2 and ends at sector 33
+First usable sector is 34, last usable sector is 1000215182
+Partitions will be aligned on 2048-sector boundaries
+Total free space is 2014 sectors (1007.0 KiB)
+
+Number  Start (sector)    End (sector)  Size       Code  Name
+   1            2048      1000215182   476.9 GiB   8300  Data
+
+Command (? for help): w
+
+Final checks complete. About to write GPT data. THIS WILL OVERWRITE EXISTING
+PARTITIONS!!
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to /dev/nvme0n1.
+The operation has completed successfully.
+```
+
+
+```bash
+sudo cryptsetup luksFormat /dev/nvme0n1p1
+sudo cryptsetup luksOpen /dev/nvme0n1p1 Data
+sudo mkfs.ext4 -t ext4 -L Data -U time /dev/mapper/Data 
+
+sudo cryptsetup  luksDump /dev/nvme01n1p1
+# LUKS header information for /dev/nvme0n1p1
+# 
+# Version:       	1
+# Cipher name:   	aes
+# Cipher mode:   	xts-plain64
+# Hash spec:     	sha256
+# Payload offset:	4096
+# MK bits:       	256
+# MK digest:     	79 25 74 0c d2 b9 44 56 ea 3d f6 ae 95 b0 ad 71 85 7c 55 e9 
+# MK salt:       	18 e2 40 a3 21 a4 62 ce e7 cf 57 88 9b 5f bd 85 
+#                	34 9a e0 e8 78 57 ec c3 7e 34 06 da 75 1d d5 8c 
+# MK iterations: 	227555
+# UUID:          	f10647e6-175c-47eb-b852-34bf58388e63
+# 
+# Key Slot 0: ENABLED
+# 	Iterations:         	3640888
+# 	Salt:               	7b 37 4b 68 93 99 eb c7 f6 8e 35 4c 2e 75 5e ce 
+# 	                      	f9 4e cb 7d f6 05 7a a6 85 e7 41 6e eb 07 12 85 
+# 	Key material offset:	8
+# 	AF stripes:            	4000
+# Key Slot 1: DISABLED
+# Key Slot 2: DISABLED
+# Key Slot 3: DISABLED
+# Key Slot 4: DISABLED
+# Key Slot 5: DISABLED
+# Key Slot 6: DISABLED
+# Key Slot 7: DISABLED
+
+cryptsetup luksAddKey --key-slot 1 UUID=f10647e6-175c-47eb-b852-34bf58388e63 /etc/crypt.data
+
+```
+
+
+
+
+## Adding keyfile to luks historical
+
+```bash
+cryptsetup luksDump /dev/nvme0n1p1
+dd if=/dev/urandom of=keyfile bs=1024 count=8
+cryptsetup luksAddKey --key-slot 1 /dev/nvme0n1p1  /media/whk/Personal/SiegeTower/nvme0n1p1/keyfile 
+cryptsetup luksHeaderBackup /dev/nvme0n1p1 --header-backup-file /media/whk/Personal/SiegeTower/nvme0n1p1/luks-header.backup
+```

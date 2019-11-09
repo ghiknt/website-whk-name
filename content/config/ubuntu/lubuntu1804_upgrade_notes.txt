@@ -1,0 +1,34 @@
+* Allow upgrade
+    * keep current grub.conf
+    * Allow lightdm config upgrade
+    * Allow removal of old files
+    * Do not restart but select quit at end
+* Update grub to new config with FDE ```/usr/local/sbin/refreshgrub```
+* Reboot
+
+# Verify config
+
+* Verify boot and grub FDE works
+* Verify that virt-manager can launch current VMs
+
+# Add System76 config (src: https://support.system76.com/articles/system76-driver/)
+sudo apt-add-repository -y ppa:system76-dev/stable
+sudo apt-get update
+sudo apt-get install -y system76-driver
+
+
+
+
+# Remove left over kernels and other cruft
+sudo apt-get autoremove
+sudo su -
+/usr/local/sbin/refreshgrub
+reboot
+
+# Configure lightdm greeter
+Menu | System Tools | LightDM GTK+ Greeter Settings
+Background - Color Black
+User Image: off
+Save
+
+
