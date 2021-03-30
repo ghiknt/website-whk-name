@@ -1,0 +1,118 @@
+* Podcasts/Netcasts
+  :PROPERTIES:
+  :CUSTOM_ID: podcastsnetcasts
+  :END:
+
+My primary form of weekly entertainment is via audio podcasts. Depending
+on the audio quality I listen to them at 1.6X to 2X speed using
+[[http://www.shiftyjelly.com/pocketcasts][Pocket Casts]]. While I get
+behind sometimes if I start listening to an audio book I usually get
+through all the episodes for the following each week. The priority is
+based totally on personnal preference and the amount of effort I go to
+to make sure I catch each show.
+
+-  My [[file:podcasts_opml.xml][OPML file]] is available for import into
+   your favorite podcatcher.
+
+| Rank   | Show                                                                                     | Topic                                                         | License                                                       | Access                                                                                  |
+|--------+------------------------------------------------------------------------------------------+---------------------------------------------------------------+---------------------------------------------------------------+-----------------------------------------------------------------------------------------|
+| 1      | [[https://www.patreon.com/acedtect?rf=382922][Daily Tech News Show]]                     | Daily Tech News                                               | [[http://www.dailytechnewsshow.com/about/][CC BY 4.0 Intl]]   | [[http://feeds.feedburner.com/DailyTechNewsShow][Audio RSS]]                            |
+| 2      | [[http://ij.org/about-us/shortcircuit/][Short Circuit]]                                  | Short break down of some of the week's appellate decisions    | All Rights Reserved                                           | [[http://feeds.soundcloud.com/users/soundcloud:users:84493247/sounds.rss][Audio RSS]]   |
+| 3      | [[http://www.libertarianism.org/media/free-thoughts][Free Thoughts]]                     | A show about libertarianism and the ideas that influence it   | All Rights Reserved                                           | [[http://www.libertarianism.org/rss/podcast/free-thoughts][Audio RSS]]                  |
+| 4      | [[http://latenightlinux.com/][Late Night Linux]]                                         | Linux News                                                    | CC BY-NC 4.0 Intl                                             | [[http://latenightlinux.com/feed/ogg][Audio OGG RSS]]                                   |
+| 5      | [[https://www.patreon.com/cordkillers?rf=382922][Cord Killers]]                          | News about cord cutting, digital media, and entertainment     | All Rights Reserved (unmarked)                                | [[http://feeds.feedburner.com/Cordkillers][Audio RSS]]                                  |
+| 6      | [[http://thelegalgeeks.com/the-legal-geek-podcasts/][The Legal Geeks]]                   | Super Hero Law                                                | All Rights Reserved (unmarked)                                | [[http://www.buzzsprout.com/7346.rss][Audio RSS]]                                       |
+| 7      | [[http://twit.tv/show/security-now][Security Now]]                                       | Tech Security News                                            | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/sn.xml][Audio RSS]]                                              |
+| 8      | [[http://risky.biz/][Risky Business]]                                                    | Tech Security News                                            | All Rights Reserved                                           | [[http://risky.biz/feeds/risky-business][Audio RSS]]                                    |
+| 9      | [[http://twit.tv/show/floss-weekly][FLOSS Weekly]]                                       | FLOSS Project Discussions                                     | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/floss.xml][Audio RSS]]                                           |
+| 10     | [[http://twit.tv/show/this-week-in-law][This Week in Law]]                               | Technology Law discussions                                    | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/twil.xml][Audio RSS]]                                            |
+| 11     | [[https://www.patreon.com/swordandlaser?rf=382922][Sword and Laser]]                     | Science fiction and fantasy book discussions                  | All Rights Reserved (unmarked)                                | [[http://feeds.feedburner.com/TheSwordAndLaser][Audio RSS]]                             |
+| 12     | [[http://twit.tv/show/know-how][Know How...]]                                            | Tech Projects                                                 | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/kh.xml][Audio RSS]]                                              |
+| 13     | [[https://www.podfeet.com/blog/category/ccatp/][Chit Chat across the pond]]              | Technology show with a slight MAC bias                        | CC BY-NC-SA 3.0 US                                            | [[https://podfeet.com/ccatp/ccatp-rss.xml][Audio RSS]]                                  |
+| 14     | [[https://www.podfeet.com/blog/category/nosillacast/][NosillaCast]]                      | Technology Interview Show                                     | CC BY-NC-SA 3.0 US                                            | [[https://www.podfeet.com/NosillaCast/rss.xml][Audio RSS]]                              |
+| 15     | [[http://twit.tv/show/this-week-in-enterprise-tech][This Week in Enterprise Tech]]       | Enterprise Tech news                                          | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/twiet.xml][Audio RSS]]                                           |
+| 16     | [[http://twit.tv/show/all-about-android][All About Android]]                             | Android news                                                  | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/aaa.xml][Audio RSS]]                                             |
+| 17     | [[http://twit.tv/show/this-week-in-computer-hardware][This Week in Computer Hardware]]   | Computer Hardware news                                        | CC BY-NC-ND 4.0 Intl                                          | [[http://feeds.twit.tv/twich.xml][Audio RSS]]                                           |
+| 18     | [[http://www.pcper.com/podcast][PC Perspective]]                                         | Computer Hardware news                                        | All Rights Reserved                                           | [[http://www.pcper.com/rss/podcasts.rss][Audio RSS]]                                    |
+| 19     | [[https://www.patreon.com/ThePhileasClub?rf=382922][The Phileas Club]]                   | Monthly world news discussions                                | All Rights Reserved                                           | [[http://feeds.feedburner.com/ThePhileasClub][Audio RSS]]                               |
+| 20     | [[http://threatwire.net][Threat Wire]]                                                   | Tech Security News                                            | All Rights Reserved (unmarked)                                | [[https://shannonmorse.podbean.com/feed/][Video RSS]]                                   |
+| 21     | [[https://www.tekthing.com/][TekThing]]                                                  | Tech News and Projects                                        | All Rights Reserved (unmarked)                                | [[https://feeds.feedburner.com/Tekthing][Video RSS]]                                    |
+
+-  Hiatus - These shows appear to be in hiatus but will hopefully return
+   so I am keeping them in my podcatcher
+
+| Rank   | Show                                                       | Topic                                                   | License                                                                                  | Access                                                                |
+|--------+------------------------------------------------------------+---------------------------------------------------------+------------------------------------------------------------------------------------------+-----------------------------------------------------------------------|
+|        | [[http://faif.us/][Free as In Freedom]]                    | FLOSS legal and policy discussions                      | [[http://faif.us/license/][CC BY-SA 3.0 USA]]                                            | [[http://faif.us/feeds/cast-ogg/][Audio OGG RSS]]                     |
+|        | [[http://www.thetalkingmachines.com/][Talking Machines]]   | Machine Learning Discussions                            | All Rights Reserved (unmarked)                                                           | [[http://feeds.feedburner.com/Episodes-TalkingMachines][Audio RSS]]   |
+|        | [[http://ratholeradio.org/][Rathole Radio]]                | Music (mostly Creative Commons) (in announced hiatus)   | Original content [[http://ratholeradio.org/about/][CC BY-SA 2.0 UK]], Songs: As marked   | [[http://feeds2.feedburner.com/RatholeRadio-ogg][Audio OGG RSS]]      |
+
+#+BEGIN_HTML
+  <!-- Show URLs -->
+#+END_HTML
+
+* Books
+  :PROPERTIES:
+  :CUSTOM_ID: books
+  :END:
+
+I love to read print books and to listen to audiobooks. While not always
+up to date the best way to see what I have been reading is currently
+from my
+[[https://www.goodreads.com/user/show/3433866-warren-knight][goodreads
+page]]
+
+* Video
+  :PROPERTIES:
+  :CUSTOM_ID: video
+  :END:
+
+My video watching time is limited and mostly consists of Technology,
+Anime, Sci-Fi/Fantasy, and Mysteries. I consume most of my content on a
+Roku with the remainder on my phone. I would love to have a tool like a
+podcatcher that allows me to subscribe to what I am interested it and
+have it queue up for watching but unfortunately it does not seem to
+exist.
+
+My current network source for shows in prority order are:
+
+-  Crunchy Roll (ad free subscription)
+-  Hulu (ad free subscription)
+-  ITPro.tv (annual subscription)
+-  Amazon Prime
+-  ComicCon HQ
+-  YouTube
+-  CBS All Access
+
+* Value for Value
+  :PROPERTIES:
+  :CUSTOM_ID: value-for-value
+  :END:
+
+For those shows that I support based on the Value for Value model (V4V)
+I base my support on:
+
+-  Applicability to my interests
+-  Open License with extra value given to
+
+   -  @@html:<a href="https://creativecommons.org/about/cc0">@@CC0@@html:</a>@@
+   -  @@html:<a href="https://creativecommons.org/licenses/by/4.0/">@@CC
+      BY@@html:</a>@@
+   -  @@html:<a href="https://creativecommons.org/licenses/by-sa/4.0/">@@CC
+      BY-SA@@html:</a>@@
+
+-  General enjoyment
+-  Audio Podcatcher and format friendly
+-  Duration (up to a point)
+
+#+BEGIN_HTML
+  <!--
+    <tr>
+     <td><a href="https://www.patreon.com/TekThing?rf=382922">TekThing</a></td>
+     <td>All things tech</td>
+     <td>All Rights Reserved (unmarked)</td>
+     <td><a href="https://www.youtube.com/channel/UC6sWaC11f4mxnizvOroOvkQ">YouTube</a></td>
+     <td>Y</td>
+    </tr>
+  -->
+#+END_HTML

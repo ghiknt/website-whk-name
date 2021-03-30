@@ -1,0 +1,32 @@
+* Python - pip
+  :PROPERTIES:
+  :CUSTOM_ID: python---pip
+  :END:
+
+#+BEGIN_SRC sh
+    # Use python 2.7 for now.  pandoc-zotxt extension doesn't work on python 3.3
+    eselect python set 1
+    python-updater
+    # Install pip
+    emerge --ask dev-python/pip
+#+END_SRC
+
+* Nodejs - npm
+  :PROPERTIES:
+  :CUSTOM_ID: nodejs---npm
+  :END:
+
+#+BEGIN_SRC sh
+    # Installed as part of nodejs
+    emerge --ask net-libs/nodejs
+#+END_SRC
+
+* Web - bower
+  :PROPERTIES:
+  :CUSTOM_ID: web---bower
+  :END:
+
+#+BEGIN_SRC sh
+    # requires npm (see above)
+    npm install -g bower
+#+END_SRC

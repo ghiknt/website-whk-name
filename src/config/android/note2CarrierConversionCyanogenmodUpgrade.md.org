@@ -1,0 +1,88 @@
+* Caveats
+  :PROPERTIES:
+  :CUSTOM_ID: caveats
+  :END:
+
+-  Based on phone configured using [[../note2_root/][Note 2 Root]]
+   procedures
+
+* Carrier Unlock
+  :PROPERTIES:
+  :CUSTOM_ID: carrier-unlock
+  :END:
+
+-  Request unlock code from AT&T
+
+   -  See
+      [[https://www.att.com/esupport/article.jsp?sid=KB414532&cv=820][Unlock
+      your AT&T wireless phone or tablet]] for details
+
+   -  Make request from the
+      [[https://www.att.com/deviceunlock/][Consumer Device Unlock
+      Portal]]
+
+-  Revert to Stock ROM (i317-ucamh3-stock-cwm). Code failed using
+   CyanogenMod 11
+
+-  Insert new sim card and enter unlock code when prompted
+
+* Clockworkmod to TWRPi
+  :PROPERTIES:
+  :CUSTOM_ID: clockworkmod-to-twrpi
+  :END:
+
+-  Install using
+   [[http://teamw.in/devices/samsunggalaxynote2att.html][teamwin
+   instructions]]
+
+   -  Install TWRP Manager App since already rooted
+
+   -  Start TWRP Manager and select "Install TWRP"
+
+   -  Select device name
+
+      -  Samsung Galaxy Note II ATT (t0lteatt)
+
+   -  Select Recovery Version to Install
+
+      -  Pick latest (2.8.5.0) from bottom of list
+
+   -  Select Install Recovery
+
+* Cyanogenmod 12
+  :PROPERTIES:
+  :CUSTOM_ID: cyanogenmod-12
+  :END:
+
+-  Download latest cyanogenmod snapshot
+
+   -  [[http://download.cyanogenmod.org/?device=t0lte]]
+
+-  Download latest Google Apps [@Multiplea]
+
+-  Move both to sdcard0/0 so they will be available to TWRPi
+
+-  Reboot into recovery mode
+
+-  <Up Vol>-<Home>-<Power>
+
+-  Select "Wipe"
+
+   -  Select swipe "Factory Reset"
+
+-  Select Install
+
+   -  Select /sdcard/cm-12-*
+
+   -  Add more zips
+
+   -  Select /sdcard/gapps-lp-*
+
+   -  Swipe to Confirm Flash
+
+   -  Select Reboot System
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

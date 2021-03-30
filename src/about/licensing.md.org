@@ -1,0 +1,221 @@
+* Identifing the appropriate license
+  :PROPERTIES:
+  :CUSTOM_ID: identifing-the-appropriate-license
+  :END:
+
+The icon and text at the bottom of page identify the primary license for
+that page. For each standalone article/post there should also be an
+"Info" selection at the beginning of the article that when expanded will
+give more details.
+
+* Licenses
+  :PROPERTIES:
+  :CUSTOM_ID: licenses
+  :END:
+
+** Original Content
+   :PROPERTIES:
+   :CUSTOM_ID: original-content
+   :END:
+
+-  [[http://creativecommons.org/licenses/by-sa/4.0/][[[/images/by-sa-4.0-88x31.png]]]]
+   *CC-BY-SA-4.0* :: The majority of the orginal text, graphics, music
+   and other media on this site, with the exception of the services and
+   documents outlined below, are released under CC BY-SA 4.0. The source
+   files to generate this site with nanoc are at
+   [[https://whk.name/repos/websites/whk.name/]]
+
+   https://whk.name/ is licensed under a
+   @@html:<a href="http://creativecommons.org/licenses/by-sa/4.0/">@@Creative
+   Commons Attribution-ShareAlike 4.0 International
+   License@@html:</a>@@. Permissions beyond the scope of this license
+   may be available at
+   @@html:<a href="https://whk.name/about/licensing">@@https://whk.name/about/licensing@@html:</a>@@.
+
+-  [[http://opensource.org/licenses/AGPL-3.0][[[/images/osi_keyhole_31x31.png]]]][[https://www.gnu.org/licenses/agpl.html][[[/images/agplv3-88x31.png]]]]
+   *GNU AGPL 3.0+* :: The majority of original code on this site is free
+   software: you can redistribute it and/or modify it under the terms of
+   the GNU Affero General Public License as published by the Free
+   Software Foundation, either version 3 of the License, or (at your
+   option) any later version.
+
+   It is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+   for more details.
+
+   You should have received a copy of the GNU General Public License If
+   not, see [[http://www.gnu.org/licenses/]].
+
+-  [[http://creativecommons.org/publicdomain/zero/1.0/][[[/images/cc0-88x31.png]]]]
+   CC0 1.0 Universal Public Domain Dedication :: Selected code
+   samples/demos are released under the Creative Common's CC0 1.0 Public
+   Domain Dedication
+
+   To the extent possible under law, whk ([[https://whk.name/about/me]])
+   has waived all copyright and related or neighboring rights to these
+   code samples
+
+   -  In particular code under the following urls
+
+      -  [[https://whk.name/assets/demo/]]
+
+** Third party code
+   :PROPERTIES:
+   :CUSTOM_ID: third-party-code
+   :END:
+
+Third party code used to either generate or run this site is available
+under the following licenses
+
+-  [[http://opensource.org/licenses/MIT][[[/images/osi_keyhole_31x31.png]]]]
+   *MIT* :: 
+
+   -  [[https://nanoc.ws][nanoc]]: Static site generator by
+      [[http://stoneship.org/][Denis Defreyne]] and contributors
+
+-  [[http://opensource.org/licenses/GPL-2.0][[[/images/osi_keyhole_31x31.png]]]]
+   *GPL-2.0+* :: 
+
+   -  [[http://pandoc.org][Pandoc]]: Converter between markdown and
+      other formats by [[http://johnmacfarlane.net][John MacFarlane]]
+
+-  [[http://opensource.org/licenses/MIT][[[/images/osi_keyhole_31x31.png]]]]
+   [[http://rem.mit-license.org/][*Remy Sharp's MIT License*]] :: 
+
+   -  [[/js/external/details/details.js][details.js]]: Support details
+      element in browsers that don't have support by
+      [[https://remysharp.com/][Remy Sharp]] from
+      [[https://gist.github.com/remy/370590][GitHub Gist]]
+
+-  [[http://creativecommons.org/licenses/by-sa/3.0/][[[/images/by-sa-4.0-88x31.png]]]]
+   *CC-BY-SA-3.0* :: 
+
+   -  [[/about/bibliography/chicago-annotated-bibliography.csl][chicago-annotated-bibliography.csl]]:
+      Bibliography Style Sheet[@JulianOnions2014]
+
+-  [[http://opensource.org/licenses/BSD-3-Clause][[[/images/osi_keyhole_31x31.png]]]]
+   [[http://polymer.github.io/LICENSE.txt][*Polymer BSD 3-Clause
+   License*]] :: 
+
+   -  Most of the WebComponent Polyfills, Polymer WebComponents, and
+      Bower management software located under
+      [[https://whk.name/assets/webcomponents/bower_components/]] are
+      licensed under a BSD 3-Clause Style License with the following
+      notice. Check the metadata.html in each component for specifics
+
+      -  Copyright (c) 2014 The Polymer Project Authors. All rights
+         reserved.
+      -  This code may only be used under the BSD style license found at
+         [[http://polymer.github.io/LICENSE.txt]]
+      -  The complete set of authors may be found at
+         [[http://polymer.github.io/AUTHORS.txt]]
+      -  The complete set of contributors may be found at
+         [[http://polymer.github.io/CONTRIBUTORS.txt]]
+      -  Code distributed by Google as part of the polymer project is
+         also subject to an additional IP rights grant found at
+         [[http://polymer.github.io/PATENTS.txt]]
+
+** Trademark Usage
+   :PROPERTIES:
+   :CUSTOM_ID: trademark-usage
+   :END:
+
+-  In general usage of 3rd Party Trademarks on this site are
+   to:[@DigitalMediaLawProject]
+
+   -  Grant credit as required under various software and Creative
+      Commons Licenses
+
+   -  To identify a specific service or piece of software when used in a
+      configuration
+
+   -  For commentary, critisism and news reporting
+
+   -  None of the usages imply endorsement, direction or management by
+      the Trademark holder unless specifically identified
+
+-  Specific trademarks that are used in multiple places on this site
+   include:
+
+   -  *Gentoo*@@html:<sup>@@™@@html:</sup>@@ is a trademark of Gentoo
+      Foundation, Inc. Usage on this site is to grant credit when a
+      Gentoo project resource is used and is used per permissions
+      granted at
+      [[https://www.gentoo.org/inside-gentoo/foundation/name-logo-guidelines.html]][@GentooProjectc].
+      No original content of this site is part of the Gentoo project nor
+      is directed or managed by Gentoo Foundation, Inc.
+
+   -  *Google*@@html:<sup>@@™@@html:</sup>@@ is a trademark of Google
+      Inc. It usage is not intended to convey that any original content
+      of this site is endorsed or promoted by Google.
+
+   -  [[/images/osi_keyhole_31x31.png]]@@html:<sup>@@®@@html:</sup>@@,
+      *Open Source Initiative*@@html:<sup>@@®@@html:</sup>@@ and
+      *OSI*@@html:<sup>@@®@@html:</sup>@@ are registered trademarks of
+      the [[http://opensource.org][Open Source Initiative]] and used per
+      the guidelines at
+      [[http://opensource.org/trademark-guidelines]][@OpenSourceInitiative]
+      and
+      [[http://opensource.org/logo-usage-guidelines]][@OpenSourceInitiativea]
+
+   -  [[/images/by-sa-4.0-88x31.png]]@@html:<sup>@@™@@html:</sup>@@,
+      [[/images/cc0-88x31.png]]@@html:<sup>@@™@@html:</sup>@@,
+      *CC0*@@html:<sup>@@™@@html:</sup>@@ and *Creative
+      Commons*@@html:<sup>@@™@@html:</sup>@@ are trademarks of
+      [[https://creativecommons.org][Creative Commons]] and used per the
+      guidelines at
+      [[https://creativecommons.org/policies]][@CreativeCommonsc]
+
+* Disclaimer of Warranties and Limitation of Liability
+  :PROPERTIES:
+  :CUSTOM_ID: disclaimer-of-warranties-and-limitation-of-liability
+  :END:
+
+All content (regardless of license) on this site is provided with the
+following "Disclaimer of Warranties and Limitiation of
+Liability"[@CreativeCommonsb Section 5]
+
+#+BEGIN_QUOTE
+
+  1. Unless otherwise separately undertaken by the Licensor, to the
+     extent possible, the Licensor offers the Licensed Material as-is
+     and as-available, and makes no representations or warranties of any
+     kind concerning the Licensed Material, whether express, implied,
+     statutory, or other. This includes, without limitation, warranties
+     of title, merchantability, fitness for a particular purpose,
+     non-infringement, absence of latent or other defects, accuracy, or
+     the presence or absence of errors, whether or not known or
+     discoverable. Where disclaimers of warranties are not allowed in
+     full or in part, this disclaimer may not apply to You.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+
+  2. To the extent possible, in no event will the Licensor be liable to
+     You on any legal theory (including, without limitation, negligence)
+     or otherwise for any direct, special, indirect, incidental,
+     consequential, punitive, exemplary, or other losses, costs,
+     expenses, or damages arising out of this Public License or use of
+     the Licensed Material, even if the Licensor has been advised of the
+     possibility of such losses, costs, expenses, or damages. Where a
+     limitation of liability is not allowed in full or in part, this
+     limitation may not apply to You.
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+
+  3. The disclaimer of warranties and limitation of liability provided
+     above shall be interpreted in a manner that, to the extent
+     possible, most closely approximates an absolute disclaimer and
+     waiver of all liability.
+#+END_QUOTE
+
+#+BEGIN_HTML
+  <!-- Links -->
+#+END_HTML
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

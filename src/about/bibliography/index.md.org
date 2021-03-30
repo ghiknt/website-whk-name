@@ -1,0 +1,26 @@
+* Sources
+  :PROPERTIES:
+  :CUSTOM_ID: sources
+  :END:
+
+The bibliographic info from this site can be retrieved in the following
+formats:
+
+| Format     | URL                                                                             | Comment                                                                                            |
+|------------+---------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------|
+| Zotero     | [[https://www.zotero.org/groups/whk/items/collectionKey/2GIVTTGU][whk group]]   | Primary Format                                                                                     |
+| BibLaTex   | [[file:whk.name.bib]]                                                           | Generated from zotero using [[https://github.com/ZotPlus/zotero-better-bibtex][Better BibLaTex]]   |
+
+* Formatting
+  :PROPERTIES:
+  :CUSTOM_ID: formatting
+  :END:
+
+This site uses the [[file:chicago-annotated-bibliography.csl][Chicago
+Manual of Style 16th edition (note, annotated bibiography)]]
+stylesheet[@JulianOnions2014]
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

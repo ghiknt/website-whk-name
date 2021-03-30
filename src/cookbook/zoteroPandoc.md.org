@@ -1,0 +1,145 @@
+* Exporter options
+  :PROPERTIES:
+  :CUSTOM_ID: exporter-options
+  :END:
+
+I have found two of the exporters useful. For me the primary definition
+of useful is that it provides a way to have a consistent reference tag.
+
+-  [[https://github.com/ZotPlus/zotero-better-bibtex#zotero-better-biblatex-bbt-][zotero-better-bibtex]]
+   requires the export from Zotero to biblatex (.bib) file. For my
+   purposes this one is better since the bibliography can be included in
+   the websites git repo.
+-  [[https://bitbucket.org/egh/zotxt][zotxt]] by Erick Hetzner gives
+   real time access to your Zotero database but required that Firefox be
+   up when exporting
+
+** zotero-better-bibtex [@ZotPlus]
+   :PROPERTIES:
+   :CUSTOM_ID: zotero-better-bibtex-zotplus
+   :END:
+
+*** Installation into Zotero Desktop on Linux [@BetterBibTeXZotero]
+    :PROPERTIES:
+    :CUSTOM_ID: installation-into-zotero-desktop-on-linux-betterbibtexzotero
+    :END:
+
+-  Download latest xpi file from
+   [[https://github.com/retorquere/zotero-better-bibtex/releases/latest]]
+   by right clicking and doing "save link as". Otherwise Firefox tries
+   to install
+-  Install into Zotero Desktop
+
+   -  Tools | Add-ons | Extensions | Install Add-on From file
+   -  Select .xpi and Install
+   -  restart Zotero
+
+-  Configure dialog
+
+   -  Selected "I have used BBT before"
+   -  Leave selected "Enable drag-and-drop citations"
+
+*** Usage
+    :PROPERTIES:
+    :CUSTOM_ID: usage
+    :END:
+
+-  Set a fixed tag
+
+   -  In Zotero Desktop right-click on reference
+   -  Better BibTeX | Pin BibTeX Key
+   -  Key is available from "Extras" field on right
+
+-  Export library
+
+   -  In Zotero Desktop right-click on the collection to export
+   -  Select "Export Collection"
+   -  Set Format to "Better BibLaTex" and select "OK"
+   -  Name file and select "Save"
+
+-  Manually Applying bibliography
+
+   #+BEGIN_SRC sh
+       pandoc --filter pandoc-citeproc --bibliography **EXPORTEDFILE**.bib document.md
+   #+END_SRC
+
+-  example nanoc rule to apply bibliography to all markdown files
+
+   #+BEGIN_SRC ruby
+       ...
+
+       when 'md'
+         opts = {:to => :html5,
+                 'base-header-level' => 2,
+                 :filter => 'pandoc-citeproc',
+                 'data-dir' => 'content/bibliography/',
+                 :bibliography => 'content/bibliography/erpetu.bib',
+                 :csl => 'content/bibliography/elsevier-with-titles.csl'}
+         filter :pandoc, opts  
+       ...
+   #+END_SRC
+
+** zotxt option [@Hetzner]
+   :PROPERTIES:
+   :CUSTOM_ID: zotxt-option-hetzner
+   :END:
+
+*** These instructions are probably obsolete. Zotero had to move to only
+desktop program due to Firefox add-on changes. Please check zotxt's site
+for any updates.
+    :PROPERTIES:
+    :CUSTOM_ID: these-instructions-are-probably-obsolete.-zotero-had-to-move-to-only-desktop-program-due-to-firefox-add-on-changes.-please-check-zotxts-site-for-any-updates.
+    :END:
+
+*** Additional Requirements
+    :PROPERTIES:
+    :CUSTOM_ID: additional-requirements
+    :END:
+
+-  [[/cookbook/packagemanagers#python---pip][Python - pip package
+   manager]]
+
+*** Installation
+    :PROPERTIES:
+    :CUSTOM_ID: installation
+    :END:
+
+-  Firefox add-on
+
+   -  In firefox go to
+      [[https://addons.mozilla.org/en-US/firefox/addon/zotxt/]]
+   -  Select "Add to Firefox"
+   -  Restart Firefox so Zotero picks up Easy CiteKey
+
+-  Zotero configuration
+
+   -  Select the Actions Menu (Gear Icon)
+   -  Select Preferences
+   -  Select the Export Tab
+   -  Set the Default Output Format to "Easy Citekey"
+
+-  pandoc-zotxt
+
+   #+BEGIN_SRC sh
+       sudo pip install pandoc-zotxt
+   #+END_SRC
+
+*** Usage
+    :PROPERTIES:
+    :CUSTOM_ID: usage-1
+    :END:
+
+-  To run the filter manually
+
+   #+BEGIN_SRC sh
+       pandoc -F pandoc-zotxt -F pandoc-citeproc document.md
+   #+END_SRC
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:
+
+#+BEGIN_HTML
+  <!-- Auto filled in by Pandoc's citeproc -->
+#+END_HTML

@@ -1,0 +1,176 @@
+* Markup
+  :PROPERTIES:
+  :CUSTOM_ID: markup
+  :END:
+
+This site currently uses three standards to convey semantic information
+about the pages
+
+** HTML5 Semantic Elements [@w3schools]
+   :PROPERTIES:
+   :CUSTOM_ID: html5-semantic-elements-w3schools
+   :END:
+
+The new HTML5 semantic elements help to convey information about the
+content in the page. To the greatest extent possible each page will
+utilized the semantic tags instead of the non-semantic ones.
+
+-  The [[http://validator.w3.org/][W3C Markup Validation Service]] can
+   be used to verify HTML5 compliance
+
+** RDFa Lite 1.1 [@W3Ca]
+   :PROPERTIES:
+   :CUSTOM_ID: rdfa-lite-1.1-w3ca
+   :END:
+
+[[http://www.w3.org/TR/rdfa-lite/][RDFa Lite]] is a light weight
+microdata format for HTML5 created by the [[http://www.w3.org/][W3C]].
+It is my prefered method for marking up semantic information and will be
+used by default
+
+-  The [[http://www.w3.org/2012/pyRdfa/Validator.html][W3C RDFa
+   Validator]] can be used to verify RDFa compliance
+
+** Meta
+   :PROPERTIES:
+   :CUSTOM_ID: meta
+   :END:
+
+The HTML meta tag is used to convey some information that appears to be
+standardly parsed and also to convey non-visible RDFa Lite information
+
+* Ontologies
+  :PROPERTIES:
+  :CUSTOM_ID: ontologies
+  :END:
+
+** Schema.org
+   :PROPERTIES:
+   :CUSTOM_ID: schema.org
+   :END:
+
+The Schema.org microdata schema is sponsored by Google, Inc., Yahoo,
+Inc., and Microsoft Corporation.
+
+-  It allows search engines to better identify the content.
+-  Its site is laid out in a an easy to understand manner with plenty of
+   examples
+-  Proper markup can be tested from the
+   [[https://developers.google.com/structured-data/testing-tool/][Google
+   Testing Tool]]
+
+-  declaration (default): =<html vocab="http://schema.org/" ...>=
+
+** foaf (Friend of a Friend)
+   :PROPERTIES:
+   :CUSTOM_ID: foaf-friend-of-a-friend
+   :END:
+
+-  declaration:
+   =<html ... prefix="foaf: http://xmlns.com/foaf/0.1/ ...">=
+
+** wot (Web of Trust)
+   :PROPERTIES:
+   :CUSTOM_ID: wot-web-of-trust
+   :END:
+
+-  declaration: =<html ... prefix="... wot: http://xmlns.com/wot/0.1/">=
+
+** data-vocabulary.org
+   :PROPERTIES:
+   :CUSTOM_ID: data-vocabulary.org
+   :END:
+
+-  Appears to be slowly replaced by Schema.org > Since June 2011,
+   several major search engines have been collaborating on a new common
+   data vocabulary called schema.org. [@zotero-2125552-544]
+-  Still needed for at least BreadCrumbs by Google
+-  declaration: =<div ... prefix="v: http://rdf.data-vocabulary.org/#">=
+
+* MetaData Used
+  :PROPERTIES:
+  :CUSTOM_ID: metadata-used
+  :END:
+
+** Every page
+   :PROPERTIES:
+   :CUSTOM_ID: every-page
+   :END:
+
+-  Formatting
+
+   -  Character Representation is UTF-8: =<meta charset="utf-8"/>=
+   -  Mobile Friendly[@Multipled]
+
+      -  =<meta name="HandheldFriendly" content="true" />=
+      -  =<meta name="viewport" content="width=device-width, height=device-height, user-scalable=yes,minimum-scale=0.5" />=
+
+-  Web Page information
+
+   -  Generator:
+      =<meta name="generator"  content="CurrentGeneratorAndVersion"/>=
+   -  Only put origin in referrer on cross origin reqeusts[@W3C]:
+      =<meta name="referrer" content="origin-when-crossorigin"/>=
+   -  Description: =<meta name="description" content="YAMLSummary"/>=
+   -  Authors: =<meta property="foaf:maker" content="YAMLAuthorURL">=
+   -  Title: =<title property="foaf:name">YAMLTitle</title>=
+   -  Breadcrumbs: Used by Google for Rich Snippet breadcrumb
+      display[@Google]
+
+      #+BEGIN_EXAMPLE
+          <div id="breadcrumb" prefix="v: http://rdf.data-vocabulary.org/#" >
+            <span typeof="v:Breadcrumb">
+              <meta property="v:title" content="CrumbYAMLTitle">
+              <a property="v:url" href="CrumbURL">CrumbYAMLTitle</a>
+            <span>
+            ... Repeat for each breadcrumb ...
+          </div>
+      #+END_EXAMPLE
+
+-  HTML5 Semantic Structure
+
+   #+BEGIN_EXAMPLE
+       <head>
+         <meta.../>
+         <title.../>
+       </head>
+       <body>
+         <header>
+           <div id="google"/>       <!-- Google ads and Custom search -->
+           <nav id="menu"/>         <!-- Top level navigation menu -->
+           <div id="breadcrumb">    
+            ... Breadcrumbs ...
+           </div>
+         </header>
+         <main id="content">
+            ... Different content described below ...
+         </main>
+         <footer/>
+       </body>
+   #+END_EXAMPLE
+
+** Tech Article
+   :PROPERTIES:
+   :CUSTOM_ID: tech-article
+   :END:
+
+TBS
+
+** Blog
+   :PROPERTIES:
+   :CUSTOM_ID: blog
+   :END:
+
+TBS
+
+** Person
+   :PROPERTIES:
+   :CUSTOM_ID: person
+   :END:
+
+TBS
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

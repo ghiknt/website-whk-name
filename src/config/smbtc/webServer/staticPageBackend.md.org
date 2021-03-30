@@ -1,0 +1,34 @@
+-  [[/src/containers/service-lighttpd/][Source code]]
+
+** Goals
+   :PROPERTIES:
+   :CUSTOM_ID: goals
+   :END:
+
+-  Performance
+
+   -  Lightweight
+
+-  Security
+
+   -  Support TLS frontend to backend connection
+   -  Minimal plugin support
+
+-  Privacy
+
+   -  No logging
+
+** Servers
+   :PROPERTIES:
+   :CUSTOM_ID: servers
+   :END:
+
+*** lighttpd
+    :PROPERTIES:
+    :CUSTOM_ID: lighttpd
+    :END:
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

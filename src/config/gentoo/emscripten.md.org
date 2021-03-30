@@ -1,0 +1,28 @@
+-  Emerge nodejs
+
+   #+BEGIN_SRC sh
+       emerge --ask net-libs/nodejs
+   #+END_SRC
+
+-  Install emscripten sdk [@EmscriptenContributorsa]
+
+   -  Download latest "Portable Emscripten SDK for Linux and OS X"
+   -  Expand, update, activate and configure environment
+
+      #+BEGIN_SRC sh
+          tar -xzvf Downloads/emsdk-portable.tar.gz 
+          cd emsdk_portable/
+          ./emsdk update
+          ./emsdk install latest
+          ./emsdk activate latest
+          source ./emsdk_env.sh 
+      #+END_SRC
+
+   -  Verify it works
+
+      =cd emscripten/master  emcc tests/hello_world.c  node a.out.js  emcc tests/hello_world.c -o hello.html  # Test in browser  emcc tests/hello_world_sdl.cpp -o hello.html  # Test DSL in browser  python tests/runner.py=
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

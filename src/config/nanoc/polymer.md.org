@@ -1,0 +1,64 @@
+* Initial project setup [@PolymerAuthors]
+  :PROPERTIES:
+  :CUSTOM_ID: initial-project-setup-polymerauthors
+  :END:
+
+#+BEGIN_SRC sh
+    cd whk.name/static
+    # On final site components are referenced as /assets/webcomponents/...
+    mkdir webcomponents
+    cd webcomponents
+    bower init
+
+        [?] May bower anonymously report usage statistics to improve the tool over time? Yes
+        ? name: webcomponents
+        ? version: 0.0.1
+        ? description: The webcomponents used by whk.name
+        ? main file: 
+        ? what types of modules does this package expose?: 
+        ? keywords: 
+        ? authors: https://whk.name/about/me/ (whk) <no-reply@whk.name>
+        ? license: AGPL
+        ? homepage: 
+        ? set currently installed components as dependencies?: Yes
+        ? add commonly ignored files to ignore list?: Yes
+        ? would you like to mark this package as private which prevents it from being accidentally published to the registry?: Yes
+
+        {
+          name: 'webcomponents',
+          version: '0.0.1',
+          authors: [
+            'https://whk.name/about/me/ (whk) <no-reply@whk.name>'
+          ],
+          description: 'The webcomponents used by whk.name',
+          license: 'AGPL',
+          private: true,
+          ignore: [
+            '**/.*',
+            'node_modules',
+            'bower_components',
+            'test',
+            'tests'
+          ]
+        }
+
+        ? Looks good?: Yes
+
+    bower install --save Polymer/polymer
+#+END_SRC
+
+* Install referenced components
+  :PROPERTIES:
+  :CUSTOM_ID: install-referenced-components
+  :END:
+
+#+BEGIN_SRC sh
+    cd .../whk.name/static/webcomponents/
+    bower install --save Polymer/core-elements
+    bower install --save Polymer/paper-elements
+#+END_SRC
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

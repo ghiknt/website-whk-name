@@ -1,0 +1,121 @@
+-  Install based on the "Official way" [@Docker]
+
+   -  /etc/portage/package.use
+
+      #+BEGIN_EXAMPLE
+          app-emulation/docker btrfs -aufs -device-mapper contrib doc vim-syntax
+      #+END_EXAMPLE
+
+   -  Attempt to install and get package.accept\_keyword mods
+
+      #+BEGIN_SRC sh
+          emerge --ask app-emulation/docker
+      #+END_SRC
+
+   -  /etc/portage/package.accept\_keywords
+
+      #+BEGIN_EXAMPLE
+          # Required by docker
+          sys-fs/btrfs-progs   ~amd64
+          app-emulation/docker ~amd64
+      #+END_EXAMPLE
+
+   -  Install for real
+
+      #+BEGIN_SRC sh
+          emerge --ask app-emulation/docker
+      #+END_SRC
+
+   -  Verify all required kernel settings are enabled based on output of
+      package. In this case I need to rebuild kernel with the following.
+
+      #+BEGIN_EXAMPLE
+          *   CONFIG_DEVPTS_MULTIPLE_INSTANCES:   is not set when it should be.
+          *   CONFIG_CGROUP_DEVICE:   is not set when it should be.
+          *   CONFIG_CGROUP_FREEZER:  is not set when it should be.
+          *   CONFIG_MACVLAN:     is not set when it should be.
+          *   CONFIG_VETH:    is not set when it should be.
+          *   CONFIG_BRIDGE:  is not set when it should be.
+          *   CONFIG_NF_NAT_IPV4:     is not set when it should be.
+          *   CONFIG_IP_NF_FILTER:    is not set when it should be.
+          *   CONFIG_IP_NF_TARGET_MASQUERADE:     is not set when it should be.
+          *   CONFIG_NETFILTER_XT_MATCH_ADDRTYPE:     is not set when it should be.
+          *   CONFIG_NETFILTER_XT_MATCH_CONNTRACK:    is not set when it should be.
+          *   CONFIG_NF_NAT:  is not set when it should be.
+          *   CONFIG_NF_NAT_NEEDED:   is not set when it should be.
+          *   CONFIG_MEMCG_SWAP: is required if you wish to limit swap usage of containers
+          *   CONFIG_RESOURCE_COUNTERS: is optional for container statistics gathering
+          *   CONFIG_CGROUP_PERF: is optional for container statistics gathering
+      #+END_EXAMPLE
+
+   -  Rebuild after kernel updated in case anything was excluded due to
+      to kernel
+
+      #+BEGIN_SRC sh
+          emerge --ask app-emulation/docker
+      #+END_SRC
+
+   -  Update kernel with new optional settings
+
+      #+BEGIN_EXAMPLE
+          CONFIG_CFS_BANDWIDTH: is optional for container statistics gathering
+      #+END_EXAMPLE
+
+   -  Rebuild after kernel updated in case anything was excluded due to
+      to kernel
+
+      #+BEGIN_SRC sh
+          emerge --ask app-emulation/docker
+      #+END_SRC
+
+   -  Allow me to start containers
+
+      #+BEGIN_SRC sh
+          sudo usermod -a -G docker whk
+      #+END_SRC
+
+   -  Start docker manually
+
+      #+BEGIN_SRC sh
+          sudo service docker start
+      #+END_SRC
+
+-  Verify basic functionality[@Dockera]
+
+   #+BEGIN_SRC sh
+       # Force docker group on account since already logged in
+       newgrp docker
+       # Pull busybox layer
+       docker pull busybox:latest
+       # Verify busybox works
+       docker run -it --rm busybox
+   #+END_SRC
+
+-  Install Docker Compose
+
+   -  /etc/portage/package.accept\_keywords
+
+      #+BEGIN_EXAMPLE
+          # required by app-emulation/docker-compose-1.2.0-r1::gentoo
+          # required by app-emulation/docker-compose (argument)
+          dev-python/docker-py ~amd64
+          # required by app-emulation/docker-compose (argument)
+          app-emulation/docker-compose ~amd64
+          # required by app-emulation/docker-compose-1.2.0-r1::gentoo
+          # required by app-emulation/docker-compose (argument)
+          dev-python/dockerpty ~amd64
+          # required by app-emulation/docker-compose-1.2.0-r1::gentoo
+          # required by app-emulation/docker-compose (argument)
+          dev-python/texttable ~amd64
+      #+END_EXAMPLE
+
+   -  Install
+
+      #+BEGIN_SRC sh
+          emerge app-emulation/docker-compose
+      #+END_SRC
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

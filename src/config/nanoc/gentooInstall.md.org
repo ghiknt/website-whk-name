@@ -1,0 +1,106 @@
+* Installation
+  :PROPERTIES:
+  :CUSTOM_ID: installation
+  :END:
+
+-  Install dependencies
+
+   -  Ruby
+
+      -  /etc/portage/make.conf - Add support for Ruby 2.0
+
+         #+BEGIN_EXAMPLE
+             RUBY_TARGETS="ruby20"
+         #+END_EXAMPLE
+
+      -  Install
+
+         #+BEGIN_SRC sh
+             emerge --ask dev-lang/ruby
+         #+END_SRC
+
+      -  Select 2.0 as default
+
+         #+BEGIN_SRC sh
+             eselect ruby set ruby20
+         #+END_SRC
+
+   -  Pandoc
+
+      -  /etc/portage/package.accept\_keywords
+
+         Inorder to get both app-text/pandoc and
+         dev-haskell/pandoc-citeproc to install I need to accept
+         unstable haskell packages
+
+         #+BEGIN_EXAMPLE
+             # accept unstable haskell and pandoc since it is a moving target
+             dev-haskell/* ~amd64
+             dev-lang/ghc ~amd64
+             app-text/pandoc ~amd64
+         #+END_EXAMPLE
+
+      -  Install
+
+         #+BEGIN_SRC sh
+             # Haskell <https://wiki.haskell.org/Gentoo/HaskellPlatform> and Pandoc
+             emerge --ask emerge haskell-platform app-text/pandoc dev-haskell/pandoc-citeproc
+         #+END_SRC
+
+-  Install nanoc using rubygems
+
+   #+BEGIN_SRC sh
+       gem install nanoc
+       # md pandoc rendering
+       gem install pandoc-ruby
+       # scss to css rendering
+       gem install sass
+       # all nanoc view
+       gem install adsf
+       # builder for XMLSitemap
+       gem install builder
+   #+END_SRC
+
+* Create site shell
+  :PROPERTIES:
+  :CUSTOM_ID: create-site-shell
+  :END:
+
+#+BEGIN_SRC sh
+    cd ~/web
+    nanoc create_site whk.name
+#+END_SRC
+
+* Configure static directory for static data source [@Defreyne Solution
+#2: Using the static data source]
+  :PROPERTIES:
+  :CUSTOM_ID: configure-static-directory-for-static-data-source-solution-2-using-the-static-data-sourcedefreyne-solution-2-using-the-static-data-source
+  :END:
+
+-  Create the static dir
+
+   #+BEGIN_SRC sh
+       cd .../whk.name
+       mkdir static
+   #+END_SRC
+
+-  Add to nanoc.yaml
+
+   #+BEGIN_EXAMPLE
+       data_sources:
+       # ... filesystem data source here ...
+       -
+         type: static
+         items_root: /assets/
+   #+END_EXAMPLE
+
+-  Update Rules
+
+   #+BEGIN_SRC ruby
+       passthrough '/assets/*'
+   #+END_SRC
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

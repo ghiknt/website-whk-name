@@ -1,0 +1,15 @@
+* net-dns/bind-tools [@Multipleb]
+  :PROPERTIES:
+  :CUSTOM_ID: net-dnsbind-tools-multipleb
+  :END:
+
+To get dig and the non-busybox version of nslookup
+
+#+BEGIN_SRC sh
+    emerge --ask net-dns/bind-tools
+#+END_SRC
+
+* References
+  :PROPERTIES:
+  :CUSTOM_ID: references
+  :END:

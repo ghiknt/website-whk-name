@@ -4,3 +4,7 @@
 /crash.log*
 /.sass-cache*
 /.swp
+/build
+*~
+/build-site.el
+transfertoS3.sh
