@@ -1,0 +1,57 @@
+
+
+* Methodology
+
+** Goal
+   A work pattern that captures tasks/ideas as they develop and then
+   allows working on tasks when mood/time permits.
+
+** Options
+  
+  - Consider [[https://orgmode.org/worg/org-gtd-etc.html][GTD]] since it
+    appears to be the most documented integration and initial review appears
+    to provide main features.
+    - PRO: [[https://orgmode.org/list/26163.1199054673@localhost/][No Priorities to reevaluate]]
+    - CON:
+      - Daily/Weekly Reviews to conduct
+      - Most examples use single project file containing a bunch of
+	projects instead of containing project plans with code, etc.
+	- But [[https://orgmode.org/list/76f7cd71190bcff68e57e71d163fe49f@science.uva.nl/][this post]] seems to fit the way I want to work
+      
+* Domains
+
+** Visibility
+   - Secure
+   - Private
+   - Private-Wife
+   - Private-Household
+   - Semi-Private-Friends-and-Family
+   - Semi-Private-Project-Members
+   - Public
+
+
+** Scope
+
+   - Project
+   - Digital Work Environment
+   - Digital Personal Environment
+     - How to share planning tools between computer, phone and tablet
+   - Digital Family Environment
+   - Physical Work Environment
+   - Physical Personal Environment
+   - Physical Family Environment
+
+* Planning Tools
+
+  - Agenda
+    - [[https://orgmode.org/manual/Agenda-Views.html][Agenda Views]]
+  - Bug List
+  - 
+
+* GTD Implementation
+
+** Task state via TODO keywords
+   - TODO NEXT WAITING SOMEDAY | DONE OBE
+   - Implemented in custom-init.org
+
+*** TODO How to link cross file for web generation

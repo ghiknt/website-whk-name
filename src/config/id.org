@@ -1,0 +1,96 @@
+
+
+* Identities used for source and binary files
+
+** Source Archive / Git verification
+
+   - Archive Signature format (to differentiate from providers sig): filename.prs.whk.gpg.sig
+   - Git
+     - 3rd Party Git repos will have a tag added to the commit used using the following conventions
+       - For a branch:  branchname-prs.whk.gpg.sig
+       - For a tag:     tagname-prs.whk.gpg.sig
+       - For a commit:  {git --short}.prs.whk.gpg.sig
+     - Personal Git practice
+       - commits will be signed by my Dev Key
+       - tag : tbd
+	 - Considerations:
+	   - do I want some automated testing/verification before a signed tag
+	   - do I want to personnaly sign each tag when ready for testing and then have build sign a separate tag when verified
+   
+   When a source archive or git repo is imported for use it will be signed
+   by the appropriate identity to indicate the level of trust
+   that I assign to it.
+
+   IANAL Disclaimer:
+     I make no claims about the trustworthyness of the files for
+     other parties uses.  This only indicates the level of trust
+     that I have in the source file.  Feel free to use as you wish
+  
+  | Name        |   | Description                     | GnuPG Public Key | ipfs XXX |
+  |-------------+---+---------------------------------+------------------+----------|
+  |             |   | 3rd Party SRC unverified        |                  |          |
+  |             |   | 3rd Party SRC website trusted   |                  |          |
+  |             |   | 3rd Party SRC Hash checked      |                  |          |
+  |             |   | 3rd Party SRC Signed untrusted  |                  |          |
+  |             |   | 3rd Party SRC Signed trusted    |                  |          |
+  |             |   | 3rd Party SRC Manually reviewed |                  |          |
+  | WHK Dev     |   | My Dev key                      |                  |          |
+
+
+** Binary Archive verification
+
+   - Signature format (to differentiate from providers sig): filename.prs.whk.gpg.sig
+
+  | Name | SRC | Repro | Tested | Purpose | Description                                          | GnuPG Public Key | ipfs XXX |
+  |------+-----+-------+--------+---------+------------------------------------------------------+------------------+----------|
+  |      | N   | N     | N      |  Sign   | Pre-built external binary                            |                  |          |
+  |      | N   | Y     | N      |  Sign   | Pre-built Reproducibly by multiple people/orgs       |                  |          |
+  |      | Y   | N     | N      |  Sign   | Built on untrusted machine                           |                  |          |
+  |      | Y   |       |        |  Sign   | Built in container on untrusted machine              |                  |          |
+  |      | Y   |       |        |  Sign   | Built on semi trusted machine                        | TBD              | TBD      |
+  |      | Y   |       |        |  Sign   | Built on trusted machine                             | TBD              | TBD      |
+  |      | Y   | Y     |        |  Sign   | Reproducible build matching other people/orgs        |                  |          |
+  |      | Y   | Y     | Y      |  Sign   | Tested Reproducible build matching other people/orgs |                  |          |
+
+  - untrusted machine :: Machine running a trustworthy Linux OS with binary blobs in Firmware (current machine).
+  - semi trusted machine :: Machine running OS / Packages built reproducibly.  Currently looking at GUIX install.
+  - trusted machine :: Machine running Firmware / Bootloader / OS / Packages built reproducibly.  Heads + GUIX??? 
+
+  
+* Network Identities
+
+** IPNS
+
+   | ipns | purpose                            |
+   |------+------------------------------------|
+   |      | WHK Personal Public Static Website |
+   |      | - Draft                            |
+   |      | - Test                             |
+   |      | erpetu (net) Public Static Website |
+   |      | erpetu (info) Public Static Webste |
+   |      | Family Public NTSHMA webpage       |
+   |      | GPG public keys                    |
+   |      | 3rd Party Source Archive files     |
+   |      | 3rd Party Binary Archive files     |
+   |      | 3rd Party Git Repositories         |
+   |      | Source Archive files               |
+   |      | Binary Archive files               |
+   |      | Public Git Repositories            |
+
+
+** Public DNS
+
+   | domain                  | ipns |
+   |-------------------------+------|
+   | whk.name / www.whk.name |      |
+   | www-test.whk.name       |      |
+   | erpetu.net              |      |
+   | erpetu.info             |      |
+   | umbisag.org             |      |
+   | internal.umbisag.org    |      |
+
+
+* Errata
+
+  - What is this prs.whk... stuff :: I need a namespace for my stuff that will probably not collide with
+    anybody else. For my convenience I am using the [[https://tools.ietf.org/html/rfc2048#section-2.1.3][Mime Personal or Vanity Tree]] conventions.

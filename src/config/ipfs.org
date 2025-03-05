@@ -1,0 +1,29 @@
+
+
+* References
+
+ - [[https://blog.ipfs.io/1-run-ipfs-on-docker/][Run IPFS in a Docker Container]]
+
+* Install
+
+  podman pull docker://ipfs/go-ipfs
+
+
+
+| REPOSITORY             | TAG    | IMAGE ID     | CREATED     | SIZE    |
+|------------------------+--------+--------------+-------------+---------|
+| docker.io/ipfs/go-ipfs | latest | bbf77ecafd47 | 5 weeks ago | 78.4 MB |
+
+
+mkdir -p /data/ipfs/staging
+mkdir -p /data/ipfs/data
+podman run --detach --name ipfs-node \
+ --volume /data/ipfs/staging:/export \
+ --volume /data/ipfs/data:/data/ipfs \
+ --publish 8080:8080 \
+ --publish 4001:4001 \
+ --publish 127.0.0.1:5001:5001 \
+ bbf77ecafd47
+
+
+ podman exec a662efe1aba95fe8805e45f8401cf45b141d0c7103efa8a7eead8cacd92a94fa ipfs swarm peers

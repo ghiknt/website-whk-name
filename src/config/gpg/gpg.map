@@ -1,0 +1,12 @@
+<map id="gpg" name="gpg">
+<area shape="rect" id="node5" href="https://pcsclite.apdu.fr/" title="pcsc lite\nPC/SC Smart Card Daemon" alt="" coords="395,477,621,529"/>
+<area shape="rect" id="node6" href="https://ccid.apdu.fr/" title="libccid" alt="" coords="335,644,407,693"/>
+<area shape="rect" id="node8" href="https://www.gnupg.org/documentation/manuals/gnupg/Invoking-GPG_002dAGENT.html" title="\&lt;\&lt;daemon\&gt;\&gt;\ngpg&#45;agent" alt="" coords="649,357,773,409"/>
+<area shape="rect" id="edge21-label" href="https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html" title="Agent&#39;s Assuan" alt="" coords="592,313,705,333"/>
+<area shape="rect" id="node11" href="https://www.gnupg.org/documentation/manuals/gnupg/Invoking-SCDAEMON.html" title="\&lt;\&lt;daemon\&gt;\&gt;\nscdaemon" alt="" coords="649,477,773,529"/>
+<area shape="rect" id="edge24-label" href="https://www.gnupg.org/documentation/manuals/gnupg/Scdaemon-Protocol.html" title="scdaemon&#39;s Assuan" alt="" coords="711,433,852,453"/>
+<area shape="rect" id="edge23-label" href="https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html" title="Agent&#39;s Assuan" alt="" coords="711,313,824,333"/>
+<area shape="rect" id="edge22-label" href="https://www.gnupg.org/documentation/manuals/gnupg/Agent-Protocol.html" title="Agent&#39;s Assuan" alt="" coords="837,313,951,333"/>
+<area shape="rect" id="node19" href="https://github.com/OpenSC/openct/wiki" title="OpenCT Readers" alt="" coords="224,479,371,528"/>
+<area shape="rect" id="node26" href="https://github.com/git/git/blob/master/gpg-interface.c" title="gpg&#45;interface.c" alt="" coords="665,123,796,172"/>
+</map>
