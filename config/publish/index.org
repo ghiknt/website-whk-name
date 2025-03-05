@@ -109,13 +109,17 @@ Working Notebook
 #+end_src
 
 *** ~«notebookCommon»~
-  The Common settings for the notebook
-  #+NAME: notebookCommon
+The Common settings for the notebook
+
+- While working on merge ignore everything in the ~toBeIntegrated~ directory
+
+#+NAME: notebookCommon
   #+HEADER: :tangle no
   #+begin_src emacs-lisp
     :base-directory "../.."
     :publishing-directory "~/build/web/notebook/"
     :recursive t
+    :exclude "toBeIntegrated/.*"
   #+end_src
 
 ** dotfiles

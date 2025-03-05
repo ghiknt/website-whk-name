@@ -25,6 +25,7 @@
 	 :base-directory "../.."
 	 :publishing-directory "~/build/web/notebook/"
 	 :recursive t
+	 :exclude "toBeIntegrated/.*"
 	 ;; :auto-sitemap t
 	 :auto-index t
 	 :index-filename "sitemap.org"
@@ -33,6 +34,7 @@
 	 :base-directory "../.."
 	 :publishing-directory "~/build/web/notebook/"
 	 :recursive t
+	 :exclude "toBeIntegrated/.*"
 	 :base-extension "org\\|el\\|sh\\|css\\|js\\|png"
 	 :publishing-function org-publish-attachment
 	 )
