@@ -1,0 +1,415 @@
+#+SETUPFILE: templates/level-3.org
+#+TITLE: Website Generation from org-mode
+#+CREATED: 2025-03-02
+#+DATE: 2025-03-03
+#+AUTHOR: whk
+#+SUBTITLE:
+#+DESCRIPTION: Controls the generation of html project output
+#+KEYWORDS: org-mode web
+#+STARTUP: content
+
+* Introduction
+
+References:
+- [[https://orgmode.org/manual/Publishing.html][Publishing (The Org Manual)]]
+- [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Publishing Org-mode files to HTML]]
+
+Configuration used to generate the whk.name website using ~org-publish-project~ 
+
+** Design Considerations
+*** RELOCATABLE
+Resultant website should be relocatable with no internal absolute URLs.
+This allows it to be hosted on my domain, IPFS, localfile, etc.
+*** REPRODUCABLE
+A complete rebuild of the site where nothing has changed
+should always be a [[https://reproducible-builds.org/][Reproducible Build]].  If something was changed
+only files dependent on that change should be different.
+
+** Issues
+- ~.org~ to ~.html~ rewrite during export
+  
+  Normally this is what I want.  But it doesn't support the case where I want to
+  point to an actually org file in the final website.   The normal solution is
+  to use ~http~ links but they require an absolute URL which violates [[RELOCATABLE][RELOCATABLE]]
+
+  Current workaround is to use ~INCLUDEFILE~ instead.  This bloats the resultant
+  web page some but ~\_(ツ)_/~. 
+
+  #+begin_src org
+    ,#+BEGIN_details
+    ,#+HTML: <summary>The index.org source file for this page</summary>
+    ,#+INCLUDE: "index.org" example org
+    ,#+END_details
+  #+end_src
+
+* Build the website
+
+Autogenerates index.el from the emacs-lisp src blocks in this
+file and then runs it inside emacs.
+
+TODO: Consider moving to [[https://github.com/tgbugs/orgstrap/blob/master/README.org][Orgstrap: Executable Org files]]
+
+** ~build-website.sh~
+
+#+NAME: build-website.sh
+#+HEADER: :tangle   "build-website.sh"
+#+HEADER: :shebang  "#!/usr/bin/bash"
+#+HEADER: :noweb    yes
+#+HEADER: :comments noweb
+#+HEADER: :mkdirp   yes
+#+begin_src bash
+  # Get location where script is running
+  #  Ref: https://stackoverflow.com/questions/59895/how-do-i-get-the-directory-where-a-bash-script-is-located-from-within-the-script
+  SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+  # Run the file
+  emacs --batch --load="~/.emacs.d/init.el" \
+	--eval "(org-babel-load-file \"${SCRIPT_DIR}/index.org\")"
+#+end_src
+** ~index.el~
+#+NAME: index.el
+#+HEADER: :tangle "index.el"
+#+HEADER: :noweb no-export
+#+HEADER: :comments none
+#+begin_src emacs-lisp
+  (setq org-publish-project-alist
+	'(
+	  «notebookProject»
+	  «dotfilesProject»
+	  )
+	)
+  (org-publish "notebook")
+  (org-publish "dotfiles")
+#+end_src
+
+* Org Publish Project Descriptions
+** notebook
+Working Notebook
+
+*** ~«notebookProject»~
+#+NAME: notebookProject
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  ("notebook-html"
+   «project-html-global»
+   «notebookCommon»
+   ;; :auto-sitemap t
+   :auto-index t
+   :index-filename "sitemap.org"
+   )
+  ("notebook-static"
+   «notebookCommon»
+   :base-extension "org\\|el\\|sh\\|css\\|js\\|png"
+   :publishing-function org-publish-attachment
+   )
+  ("notebook" :components ("notebook-html"
+			   "notebook-static"
+			   ))
+#+end_src
+
+*** ~«notebookCommon»~
+  The Common settings for the notebook
+  #+NAME: notebookCommon
+  #+HEADER: :tangle no
+  #+begin_src emacs-lisp
+    :base-directory "../.."
+    :publishing-directory "~/build/web/notebook/"
+    :recursive t
+  #+end_src
+
+** dotfiles
+Personal Dotfile configuration
+
+*** ~«dotfilesProject»~
+#+NAME: dotfilesProject
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  ("dotfiles-html"
+   «project-html-global»
+   :base-directory "~/dotfiles/"
+   :publishing-directory "~/build/web/misc/dotfiles/"
+   :recursive f
+   «template-level-2»)
+  ("dotfiles" :components ("dotfiles-html"))
+#+end_src
+** global settings - ~«project-html-global»~
+Settings used by all org html exporters.
+- Turn off ~section-numbers~
+
+  Partly for aesthetics but mostly so plain ~[[orglinks]]~ don't get
+  converted into #.#.# output.
+- Turn off ~with-timestamps~ and ~time-stamp-file~
+
+  Putting the build timestamp inside the file violates [[REPRODUCABLE]]
+
+  As far as I can tell from [[https://orgmode.org/manual/Publishing-options.html#Generic-properties-1][Publishing Options - Generic properties]]
+  just turning off ~with-timestamps~ should prevent this but at this time
+  does not.  The code in [[https://github.com/emacsmirror/org/blob/62a8677e4c479d3ff5364b9141770bd4922a0fe0/lisp/ox-html.el#L1977][org/lisp/ox-html.el@1977]] checks ~time-stamp-file~.
+  
+  TODO: Determine if this is operator error, documentation bug, or a real bug.
+
+- Enable =html_use_infojs=
+  - References
+    - [[https://orgmode.org/manual/JavaScript-support.html][JavaScript Support]]
+    - [[https://orgmode.org/worg/code/org-info-js/][EMACS ORG-INFO.JS]] 
+
+  Allows the web page to be viewed similar to how they look in emacs for me.
+  
+  - Possible GOTCHA.  I use html5 export and code is written for XHTML export.
+    So far I don't see any issues.
+  - LICENSE Information (as of 2025-03-04):
+    - The embeded javascript code is licensed [[https://spdx.org/licenses/GPL-3.0-or-later.html][GPL-3.0-or-later]]
+    
+#+NAME: project-html-global
+#+HEADER: :tangle no
+#+begin_src emacs-lisp
+  :base-extension "org"
+  :publishing-function org-html-publish-to-html
+  :section-numbers t
+  :with-timestamps nil
+  :time-stamp-file nil
+  :html-use-infojs t
+  :html-home/up-format ""
+  :html-infojs-options (
+			(path . "https://orgmode.org/org-info.js")
+			(view . "info")
+			(toc . :with-toc)
+			(ftoc . "0")
+			(tdepth . "max")
+			(sdepth . "max")
+			(mouse . "underline")
+			(buttons . nil)
+			(ltoc . "above")
+			(up . :html-link-up)
+			(home . :html-link-home))
+  :html-allow-name-attribute-in-anchors t
+  :html-prefer-user-labels t
+#+end_src
+
+* Templates
+Handle HTML settings for each relative level in the output.
+- ~level-#.org~ are templates that can be added to the top of an org file
+  using ~#SETUPFILE~
+- ~«template-level-#»~ are noweb templates that can be added directly
+  to [[Org Publish Project Descriptions]]
+** Level 0
+*** ~level-0.org~
+#+NAME: level-0.org
+#+HEADER: :tangle "templates/level-0.org"
+#+HEADER: :mkdirp yes
+#+HEADER: :noweb no-export
+#+begin_src org
+  «levelCommon»
+  ,#+html_link_home: .
+  ,#+html_link_up:   .
+#+end_src
+
+*** ~«template-level-0»~
+#+NAME: template-level-0
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  «template-levelCommon»
+  :html-link-home .
+  :html-link-up   .
+#+end_src
+
+** Level 1
+*** ~level-1.org~
+#+NAME: level-1.org
+#+HEADER: :tangle "templates/level-1.org"
+#+HEADER: :mkdirp yes
+#+HEADER: :noweb no-export
+#+begin_src org
+  «levelCommon»
+  ,#+html_link_home: ..
+  ,#+html_link_up:   ..
+#+end_src
+*** ~«template-level-1»~
+#+NAME: template-level-1
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  «template-levelCommon»
+  :html-link-home ..
+  :html-link-up   ..
+#+end_src
+** Level 2
+*** ~level-2.org~
+#+NAME: level-2.org
+#+HEADER: :tangle "templates/level-2.org"
+#+HEADER: :mkdirp yes
+#+HEADER: :noweb no-export
+#+begin_src org
+  «levelCommon»
+  ,#+html_link_home: ../..
+  ,#+html_link_up:   ..
+#+end_src
+*** ~«template-level-2»~
+#+NAME: template-level-2
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  «template-levelCommon»
+  :html-link-home "../.."
+  :html-link-up   ".."
+#+end_src
+** Level 3
+*** ~level-3.org~
+#+NAME: level-3.org
+#+HEADER: :tangle "templates/level-3.org"
+#+HEADER: :mkdirp yes
+#+HEADER: :noweb no-export
+#+begin_src org
+  «levelCommon»
+  ,#+html_link_home: ../../..
+  ,#+html_link_up:   ..
+#+end_src
+*** ~«template-level-3»~
+#+NAME: template-level-3
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  «template-levelCommon»
+  :html-link-home ../../..
+  :html-link-up   ..
+#+end_src
+** Common
+- Default created using ~C-c C-e # html~ 
+
+- Added:
+
+  These are not in the created default but listed in [[https://orgmode.org/manual/Publishing-options.html][Publishing options]]
+  and elsewhere.
+
+
+- Changes:
+
+   - =html-postamble= : =auto= → =nil=
+
+
+    Do not automatically generate a footer.
+    
+    TODO: Merge in my planned footer from old website generation
+
+  - =html-fancy= : =nil= → =t=
+
+    Ref: [[https://orgmode.org/manual/HTML-doctypes.html][HTML doctypes]] discussion of ~html-fancy~
+    
+    Support the full set of html5 block elements
+
+  - =html_doctype= (=:html-doctype=) : =xhtml-strict= → =html5=
+
+- Removed:
+
+  Since they are set elsewhere or I want to use whatever there default may
+  be at the time of generation
+
+  | Header Arg       | Alt Form         | Reason        |
+  |------------------+------------------+---------------|
+  | =description=    |                  | set per file  |
+  | =keywords=       |                  | set per file  |
+  | =html_link_home= | =html-link-home= | set per level |
+  | =html_link_up=   | =html_link_up=   | set per level |
+  | =subtitle=       |                  | set per file  |
+  | =create=         |                  | Use default   |
+
+*** ~«levelCommon»~
+#+NAME: levelCommon
+#+HEADER: tangle no
+#+begin_src org
+  ,#+options: html-link-use-abs-url:nil
+  ,#+options: html-postamble:nil 
+  ,#+options: html-preamble:t html-scripts:nil html-style:t
+  ,#+options: html5-fancy:t tex:t
+  ,#+html_doctype: html5
+  ,#+html_container: div
+  ,#+html_content_class: content
+  ,#+html_mathjax:
+  ,#+html_equation_reference_format: \eqref{%s}
+  ,#+html_head:
+  ,#+html_head_extra:
+  ,#+infojs_opt:
+  ,#+latex_header:
+#+end_src
+
+*** ~«template-levelCommon»~
+#+NAME: template-levelCommon
+#+HEADER: :tangle no
+#+begin_src emacs-lisp
+  :html-link-use-abs-url nil
+  :html-postamble nil
+  :html-preamble t
+  :html-scripts nil
+  :html-style t
+  :html5-fancy t
+  :tex t
+  :html-doctype  html5
+  :html-container  div
+  :html-content-class  content
+  ;; :html-mathjax
+  :html-equation-reference-format  \eqref{%s}
+  ;; :html-head 
+  ;; :html-head_extra 
+  ;; :infojs_opt 
+  ;; :latex-header
+#+end_src
+
+** Thunar ~index.org~ template
+Template used by thunar when creating a new file
+#+begin_src org
+  ,#+SETUPFILE: templates/level-0.org
+  ,#+TITLE: new file
+  ,#+CREATED: 0000-00-00
+  ,#+DATE: 0000-00-00
+  ,#+AUTHOR: whk
+  ,#+SUBTITLE:
+  ,#+DESCRIPTION: A new file
+  ,#+KEYWORDS:
+  ,#+STARTUP: content
+  ,* New File
+#+end_src
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example org
+#+END_details
+
+** ~build-website.sh~
+#+BEGIN_details
+#+HTML: <summary>Generated build-website.sh</summary>
+#+INCLUDE: "build-website.sh" example bash
+#+END_details
+
+** ~index.el~
+#+BEGIN_details
+#+HTML: <summary>Generated index.el</summary>
+#+INCLUDE: "index.el" example emacs-lisp
+#+END_details
+
+** Templates
+#+BEGIN_details
+#+HTML: <summary>templates/level-0.org</summary>
+#+INCLUDE: "templates/level-0.org" example org  
+#+END_details
+#+BEGIN_details
+#+HTML: <summary>templates/level-1.org</summary>
+#+INCLUDE: "templates/level-1.org" example org  
+#+END_details
+#+BEGIN_details
+#+HTML: <summary>templates/level-2.org</summary>
+#+INCLUDE: "templates/level-2.org" example org  
+#+END_details
+#+BEGIN_details
+#+HTML: <summary>templates/level-3.org</summary>
+#+INCLUDE: "templates/level-3.org" example org  
+#+END_details
+
+
+
+
+
+

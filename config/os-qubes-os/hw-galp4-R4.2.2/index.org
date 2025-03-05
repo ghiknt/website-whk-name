@@ -1,0 +1,225 @@
+
+** System Information after install and updates (2024-10-01)
+
+```
+Brand: System76
+Model: Gazelle
+
+CPU: Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+Chipset: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers [8086:3ec4] (rev 07)
+Graphics: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630] [8086:3e9b] (prog-if 00 [VGA controller])
+NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] [10de:1f91] (rev a1) (prog-if 00 [VGA controller])
+
+RAM: 32478 Mb
+
+QubesOS version: R4.2.3
+BIOS: 1.07.06q-0
+Kernel: 6.6.48-1
+Xen: unknown
+```
+
+** HCL report after install and updates (2024-10-01)
+
+```
+---
+layout:
+  'hcl'
+type:
+  'Notebook'
+hvm:
+  'yes'
+iommu:
+  'yes'
+slat:
+  'yes'
+tpm:
+  'unknown'
+remap:
+  'yes'
+brand: |
+  System76
+model: |
+  Gazelle
+bios: |
+  1.07.06q-0
+cpu: |
+  Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz
+cpu-short: |
+  FIXME
+chipset: |
+  Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers [8086:3ec4] (rev 07)
+chipset-short: |
+  FIXME
+gpu: |
+  Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630] [8086:3e9b] (prog-if 00 [VGA controller])
+  NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] [10de:1f91] (rev a1) (prog-if 00 [VGA controller])
+gpu-short: |
+  FIXME
+network: |
+  Intel Corporation Cannon Lake PCH CNVi WiFi [8086:a370] (rev 10)
+  Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller [10ec:8168] (rev 12)
+memory: |
+  32478
+scsi: |
+  WDC  WDS100T2B0A Rev: 30WD
+usb: |
+  1
+certified:
+  'no'
+versions:
+  - works:
+      'FIXME:yes|no|partial'
+    qubes: |
+      R4.2.3
+    xen: |
+      4.17.4
+    kernel: |
+      6.6.48-1
+    remark: |
+      FIXME
+    credit: |
+      FIXAUTHOR
+    link: |
+      FIXLINK
+```
+
+
+** PCI Express Gigabit Ethernet Controller does not support PCI device reset
+
+Ref: https://www.qubes-os.org/doc/pci-troubleshooting/#unable-to-reset-pci-device-errors
+
+During post install configuration "sys-net" fails to start due to the PCI Express Gigabit
+Ethernet Controller failing PCI device reset
+
+- Current mitigation - Set ```no-strict-reset=True``` for sys-net using
+  Qubes Manager | sys-net | Settings | Devices | Configure strict reset for PCI devices
+- TODO: determine how to set during install so automatic post configuration of sys-net/sys-firewall don't fail.
+
+
+
+** Configure Memory for multi monitor
+- In dom0 terminal as "user" set enough memory for 1200x1920 (Portrait) + 1920x1200 (Landscape) + 1920x1080 (Laptop Landscape)
+ 
+    ```
+    HEIGHT=1920
+    WIDTH=$((1200 + 1920 + 1920))
+    qvm-features dom0 gui-videoram-min $(($WIDTH * $HEIGHT * 4 / 1024))
+    qvm-features dom0 gui-videoram-overhead 0
+    ```
+
+** Hide PCI hardware
+
+** Determine PCI ID of hardware
+```
+lscpi -D
+```
+
+```
+0000:00:00.0 Host bridge: Intel Corporation 8th Gen Core Processor Host Bridge/DRAM Registers (rev 07)
+0000:00:01.0 PCI bridge: Intel Corporation 6th-10th Gen Core Processor PCIe Controller (x16) (rev 07)
+0000:00:02.0 VGA compatible controller: Intel Corporation CoffeeLake-H GT2 [UHD Graphics 630]
+0000:00:12.0 Signal processing controller: Intel Corporation Cannon Lake PCH Thermal Controller (rev 10)
+0000:00:14.0 USB controller: Intel Corporation Cannon Lake PCH USB 3.1 xHCI Host Controller (rev 10)
+0000:00:14.2 RAM memory: Intel Corporation Cannon Lake PCH Shared SRAM (rev 10)
+0000:00:14.3 Network controller: Intel Corporation Cannon Lake PCH CNVi WiFi (rev 10)
+0000:00:15.0 Serial bus controller: Intel Corporation Cannon Lake PCH Serial IO I2C Controller #0 (rev 10)
+0000:00:17.0 SATA controller: Intel Corporation Cannon Lake Mobile PCH SATA AHCI Controller (rev 10)
+0000:00:1d.0 PCI bridge: Intel Corporation Cannon Lake PCH PCI Express Root Port #9 (rev f0)
+0000:00:1d.6 PCI bridge: Intel Corporation Cannon Lake PCH PCI Express Root Port #15 (rev f0)
+0000:00:1f.0 ISA bridge: Intel Corporation HM470 Chipset LPC/eSPI Controller (rev 10)
+0000:00:1f.3 Audio device: Intel Corporation Cannon Lake PCH cAVS (rev 10)
+0000:00:1f.4 SMBus: Intel Corporation Cannon Lake PCH SMBus Controller (rev 10)
+0000:00:1f.5 Serial bus controller: Intel Corporation Cannon Lake PCH SPI Controller (rev 10)
+0000:01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] (rev a1)
+0000:01:00.1 Audio device: NVIDIA Corporation Device 10fa (rev a1)
+0000:06:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983
+0000:07:00.0 Unassigned class [ff00]: Realtek Semiconductor Co., Ltd. RTL8411B PCI Express Card Reader (rev 01)
+0000:07:00.1 Ethernet controller: Realtek Semiconductor Co., Ltd. RTL8111/8168/8411 PCI Express Gigabit Ethernet Controller (rev 12)
+```
+
+Verify setting before change
+
+```
+lspci -Dvv -s 0000:01:00.0
+
+0000:01:00.0 VGA compatible controller: NVIDIA Corporation TU117M [GeForce GTX 1650 Mobile / Max-Q] (rev a1) (prog-if 00 [VGA controller])
+	Subsystem: CLEVO/KAPOK Computer Device 8560
+	Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR+ FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Interrupt: pin A routed to IRQ 16
+	Region 0: Memory at a3000000 (32-bit, non-prefetchable) [size=16M]
+	Region 1: Memory at 90000000 (64-bit, prefetchable) [size=256M]
+	Region 3: Memory at a0000000 (64-bit, prefetchable) [size=32M]
+	Region 5: I/O ports at 4000 [size=128]
+	Expansion ROM at a4080000 [disabled] [size=512K]
+	Capabilities: <access denied>
+	Kernel modules: nouveau
+
+lspci -Dvv -s 0000:01:00.1
+0000:01:00.1 Audio device: NVIDIA Corporation Device 10fa (rev a1)
+	Subsystem: CLEVO/KAPOK Computer Device 8560
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin B routed to IRQ 17
+	Region 0: Memory at a4000000 (32-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: snd_hda_intel
+	Kernel modules: snd_hda_intel
+
+lspci -Dvv -s 0000:06:00.0
+0000:06:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd NVMe SSD Controller SM981/PM981/PM983 (prog-if 02 [NVM Express])
+	Subsystem: Samsung Electronics Co Ltd SSD 970 EVO
+	Control: I/O- Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
+	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort- <MAbort- >SERR- <PERR- INTx-
+	Latency: 0, Cache Line Size: 64 bytes
+	Interrupt: pin A routed to IRQ 16
+	Region 0: Memory at a4300000 (64-bit, non-prefetchable) [size=16K]
+	Capabilities: <access denied>
+	Kernel driver in use: nvme
+	Kernel modules: nvme
+```
+
+** Hide from running system
+REF: https://www.qubes-os.org/doc/how-to-use-pci-devices/#bringing-pci-devices-back-to-dom0
+
+sudo su -
+ echo "0000:06:00.0" > /sys/bus/pci/drivers/nvme/unbind
+ # What does pciback do
+ # echo "0000:06:00.0" > /sys/bus/pci/drivers/pciback/bind
+
+
+** Update grub to tell qubes-os to hide device
+
+```
+# Generic Linux Option
+# Disable NVME PCI
+pci-stub.ids=0000:06:00.0
+
+# Disable Both NVME and SATA PCI
+pci-stub.ids=0000:06:00.0,0000:00:17.0
+
+# Disable ata access to WD 1TB Drive individually
+libata.force=5:disable
+
+# Qubes Specific Option
+rd.qubes.hide_pci=ID
+grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+```
+
+** Check driver is pciback for devices
+
+```
+lspci -vvn
+```
+
+** XFCE DPI increase for readability
+
+DOM0 - Menu | Gear Icon | System Settings | Appearance | Fonts | Custom DPI Setting
+Debian XFCE Qubes - Settings Manager | Appearance | Fonts | Custom DPI Setting
+ From 96 to 120
+ TODO: Set in templates
+
+
+

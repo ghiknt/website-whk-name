@@ -1,0 +1,34 @@
+#+SETUPFILE: ../../config/publish/templates/level-3.org
+#+TITLE: Using FSFE Reuse
+#+CREATED: 2025-03-05
+#+DATE: 2025-03-05
+#+AUTHOR: whk
+#+SUBTITLE:
+#+DESCRIPTION: Using FSFE Reuse to verify project license information
+#+KEYWORDS: fsfe-reuse SPDX license audit
+#+STARTUP: content
+* Introduction
+- References
+  - [[https://reuse.software/][REUSE - Make licensing easy for everyone]]
+  - [[https://reuse.readthedocs.io/en/stable/readme.html][reuse - reuse 5.0.2 documentation]]
+  - [[https://github.com/fsfe/reuse-tool?tab=readme-ov-file][GitHub - fsfe/reuse-tool]]
+  - [[https://hub.docker.com/r/fsfe/reuse][fsfe/reuse - Docker Image]]
+  - [[https://spdx.org/licenses/index.html][SPDX License List]]
+  - [[https://spdx.org/licenses/exceptions-index.html][SPDX License Exceptions List]]
+* Setup
+
+- Ensure [[https://podman.io/][PODMAN]] is installed.
+  - Debian 12: =apt-get install podman=
+- Pull fsfe-container
+  - By Default stores containers in =~/.local/share/containers/storage/=
+    
+  #+begin_src bash
+    podman pull docker.io/fsfe/reuse
+  #+end_src
+
+* Running
+
+- References: [[https://reuse.readthedocs.io/en/stable/readme.html#run-in-docker][reuse | Run in Docker]]
+
+  - basic =podman run --rm --volume $(pwd):/data fsfe/reuse lint=
+

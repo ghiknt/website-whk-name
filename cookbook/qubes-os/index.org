@@ -1,0 +1,174 @@
+* QUBES Operations Reference
+
+
+-  Disclaimer:  Some of the below commands are considered *UNSAFE* by the QUBES
+                community.  I will try to mark them with an *UNSAFE* tag but
+		use at your own risk
+
+
+** Open xterm (or terminal) in Qube as root on any QUBE
+Ref: https://www.qubes-os.org/doc/vm-sudo/
+
+#+begin_src bash
+  # In dom0
+  qvm-run --user root QUBENAME xterm
+  # or
+  qvm-run -u root QUBENAME qubes-run-terminal
+  # or
+  qvm-console-dispvm QUBENAME
+#+end_src
+
+** Access Qubes Global Clipboard using X Selection/Paste (XS_PRIMARY)
+This is to be able to cut and paste from things like xterm.
+
+- Send selected text (XA_PRIMARY) to XA_CLIPBOARD to Global Clipboard:  
+#+begin_src bash
+  # In same QUBE as window with highlighted text
+  xclip -o | xclip -sel clip
+  # then GLOBAL Copy (<CTRL>-<SHIFT>-<C>)
+#+end_src
+
+- Send Global Clipboard to XA_CLIPBOARD to XA_PRIMARY
+#+begin_src bash
+  # In same QUBE as window to be pasted
+  # First GLOBAL Paste (<CTRL>-<SHIFT>-<P>) then
+  xclip -o -sel clip | xlip -o
+#+end_src
+ 
+** Paste into dom0 terminal (*UNSAFE*)
+
+Ref: schaffrath's answer at https://forum.qubes-os.org/t/is-it-possible-to-paste-into-the-dom0-terminal/5248/7
+
+
+#+begin_src bash
+# In dom0
+# Global Clipboard as text
+echo `iconf /var/run/qubes/qubes-clipboard.bin -t ascii//translit | tr-d \\33`
+#+end_src
+
+** Copy file into dom0 (*UNSAFE*)
+
+Ref: https://forum.qubes-os.org/t/copying-commands-to-dom0/4349/2
+
+#+begin_src bash
+# In dom0
+qvm-run --pass-io SOURCEQUBE 'cat SRCFILE' > DESTFILE
+#+end_src
+
+** Use split-gpg for LUKS dm-crypt devices
+Ref: https://cryptsetup-team.pages.debian.net/cryptsetup/README.gnupg.html
+
+- Create keyfile 
+
+
+**** decrypt_qubes-gpg-client-wrapper
+Minor modification to debian's [[https://salsa.debian.org/cryptsetup-team/cryptsetup/-/blob/debian/latest/debian/scripts/decrypt_gnupg-sc][cryptsetup | decrypt_gnupg-sc]] script
+  - use ~~~qubes-gpg-client-wrapper~~~ instead of ~~~/usr/bin/gpg~~~
+  -
+    
+#+begin_src sh
+  #!/bin/sh
+
+  local GPGEXECUTABLE=${GPGEXECUTABLE:-/usr/bin/qubes-gpg-client-wrapper}
+  # Test
+  echo $GPGEXECUTABLE
+  exit
+
+  if [ -d "/cryptroot/gnupghome" ]; then
+      export GNUPGHOME="/cryptroot/gnupghome"
+  fi
+
+  run_gpg() {
+      gpg --no-options --trust-model=always "$@"
+  }
+  decrypt_gpg () {
+      local console _
+      if ! GPG_TTY="$(tty)"; then
+	  read console _ </proc/consoles
+	  GPG_TTY="/dev/$console"
+      fi
+      export GPG_TTY
+
+      if ! run_gpg --decrypt -- "$1"; then
+	  return 1
+      fi
+      return 0
+  }
+
+  # `gpg-connect-agent LEARN /bye` is another (lighter) way, but it's
+  # harder to retrieve the return code
+  if ! run_gpg --batch --quiet --no-tty --card-status >/dev/null; then
+      echo "Please insert OpenPGP SmartCard..." >&2
+      until run_gpg --batch --quiet --no-tty --card-status; do
+	  sleep 1
+      done >/dev/null 2>&1
+  fi
+
+  if [ ! -x /usr/bin/gpg ]; then
+      echo "$0: /usr/bin/gpg is not available" >&2
+      exit 1
+  fi
+
+  if [ -z "$1" ] || [ ! -f "$1" ]; then
+      echo "$0: missing key as argument" >&2
+      exit 1
+  fi
+
+  decrypt_gpg "$1"
+  exit $?
+#+end_src
+
+***** Copyright
+TODO: Find better filetype description for debian control file format
+#+begin_src makefile
+  Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+  Source: https://salsa.debian.org/cryptsetup-team/cryptsetup/-/blob/debian/latest/debian/scripts/decrypt_gnupg-sc
+  Upstream-Name: decrypt_gnupg-sc
+
+  Files: bin/decrypt_gnupg-sc
+  Copyright: © 2005-2015 Jonas Meurer <jonas@freesources.org>
+	     © 2016-2018 Guilhem Moulin <guilhem@debian.org>
+	     © 2009,2014 Peter Lebbing <peter@digitalbrains.com>
+	     © 2018 Erik Nellessen
+             © 2024 Warren Knight <develop@whk.name>
+  License: GPL-2+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; either version 2 of the License, or
+   (at your option) any later version.
+   .
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+   .
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+   02110-1301 USA.
+   .
+   On Debian systems, the complete text of the GNU General Public
+   License version 2 can be found in `/usr/share/common-licenses/GPL-2'.
+#+end_src
+
+
+** Share/Mount Additional disk in Qube
+*** Use split-gpg for LUKS dm-crypt devices
+
+
+
+
+*** Share raw disk image to qubes
+Ref: baiko's answer at
+     https://forum.qubes-os.org/t/how-to-create-and-use-additional-volumes-for-vms/23959/4
+
+- Create Raw disk image in storage qube
+  
+  #+begin_src bash
+    # As root on storage Qube
+    mkdir -p /usr/local/var/disks/
+    dd if=/dev/urandom of='/usr/local/var/disks/DISKPURPOSE.raw' bs=1024M count=5
+    # Where # is an integer between 0-63 and not used on same qube for other purpose
+    losetup --show '/dev/loop#' '/usr/local/var/disks/DISKPURPOSE.raw'
+  #+end_src
+

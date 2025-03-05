@@ -1,0 +1,15 @@
+#+options: html-link-use-abs-url:nil
+#+options: html-postamble:nil 
+#+options: html-preamble:t html-scripts:nil html-style:t
+#+options: html5-fancy:t tex:t
+#+html_doctype: html5
+#+html_container: div
+#+html_content_class: content
+#+html_mathjax:
+#+html_equation_reference_format: \eqref{%s}
+#+html_head:
+#+html_head_extra:
+#+infojs_opt:
+#+latex_header:
+#+html_link_home: ../..
+#+html_link_up:   ..

@@ -1,0 +1,440 @@
+* Qubes 4.2.2+ Configuration
+** TODO Tasks
+*** Setup apt cache disposable template
+- Ref: https://forum.qubes-os.org/t/where-to-set-apt-cacher-ng/14056/3
+** Split GPG
+- Ref: https://www.qubes-os.org/doc/split-gpg/
+- Q | Gear Icon | Qubes Tools | Qubes Global Config | Split GPG
+  - Enabled
+    - Use manual policy edition since GUI does not allow entry of selecting qubes by tags
+
+      #+begin_example
+      qubes.Gpg  * @tag:developGPG whk-sys-gpg-develop allow
+      qubes.Gpg  * @anyvm          whk-sys-gpg-develop deny
+      #+end_example
+
+** Templates
+*** Default Supplied Templates
+**** debian-12-minimal
+Ref: https://www.qubes-os.org/doc/templates/minimal/
+**** debian-12-xfce
+
+*** Customized Templates
+**** debian-12-minimal-vault
+- sudo unconfigured to get root xterm from DOM0
+  ~~~qvm-run --user root debian-12-minimal-vault xterm~~~
+- Installed extra packages
+
+File: /root/changes.txt
+```
+# Support Nitrokey Pro 2 for GPG with split proxy
+apt-get install scdaemon nitrokey-app
+apt-get install qubes-usb-proxy
+apt-get install pinentry-gnome3
+
+# Support Qube gpg split proxy
+apt-get install qubes-gpg-split
+apt-get install qubes-gui-agent
+apt-get install libpam-systemd
+
+# Support ```pass``` gpg password manager
+apt-get install pass
+
+# Support ```keypassxc``` password manager
+apt-get install pinentry-x11  # Provides list of pinentry-* packages
+apt-get install pinentry-gnome3
+apt-get install keepassxc
+
+# Support btrfs for removable media
+apt-get install btrfs-progs
+```
+
+**** debian-12-minimal-emacs
+***** Root actions
+- sudo unconfigured to get root xterm from DOM0
+  ```qvm-run --user root debian-12-minimal-emacs xterm```
+
+```
+#### Qubes Integration
+
+# Default installed in cloned template (2024-10-16)
+#   Retrieved with apt list qubes\* | grep installed
+#    qubes-core-agent/unknown,now 4.2.37-1+deb12u1 amd64 [installed,automatic]
+#    qubes-core-qrexec/unknown,now 4.2.21-1+deb12u1 amd64 [installed,automatic]
+#    qubes-gui-agent/unknown,now 4.2.18-1+deb12u1 amd64 [installed,automatic]
+#    qubes-utils/unknown,now 4.2.17+deb12u1 amd64 [installed,automatic]
+#    qubes-vm-dependencies/unknown,now 4.2.14-1+deb12u1 amd64 [installed]
+#    qubesdb-vm/unknown,now 4.2.6-1+deb12u1 amd64 [installed,automatic]
+#    qubesdb/unknown,now 4.2.6-1+deb12u1 amd64 [installed,automatic]
+
+
+# Access to qubes clipboard in xterm
+#   Common usage:
+#     Send selected text (XA_PRIMARY) to XA_CLIPBOARD to Global Clipboard:  
+#         xclip -o | xclip -sel clip
+#         <CTRL>-<SHIFT>-<C>
+#     Send Global Clipboard to XA_CLIPBOARD to XA_PRIMARY
+#         <CTRL>-<SHIFT>=<P>
+#         xclip -o -sel clip | xlip -o
+apt-get install xclip
+
+# Split GPG support
+apt-get install qubes-gpg-split
+
+#### General packages
+# graphviz (DOT) support
+apt-get install graphviz
+
+#### Emacs packages
+
+# Basic emacs install for editing org-mode docs
+apt-get install emacs-lucid org-mode elpa-graphviz-dot-mode 
+```
+
+Configure
+
+```
+# Set to use GUI (emacs.desktop) version of emacs when opening files
+# instead of terminal (emacs-term.desktop) version
+# Manual command: xdg-mime default emacs.desktop text/plain
+# mime-types list taken from /usr/share/applications/emacs.desktop
+
+/etc/skel/.config/mimeapps.list
+```
+
+[Default Applications]
+text/english=emacs.desktop
+text/plain=emacs.desktop
+text/x-makefile=emacs.desktop
+text/x-c++hdr=emacs.desktop
+text/x-c++src=emacs.desktop
+text/x-chdr=emacs.desktop
+text/x-csrc=emacs.desktop
+text/x-java=emacs.desktop
+text/x-moc=emacs.desktop
+text/x-pascal=emacs.desktop
+text/x-tcl=emacs.desktop
+text/x-tex=emacs.desktop
+application/x-shellscript=emacs.desktop
+text/x-c=emacs.desktop
+text/x-c++emacs.desktop
+```
+
+***** QUBE user settings
+
+- XFCE | Settings Manager | Default Applications | Others | text/plain | Open With | Usea custom command:
+
+TODO: After successfully editing.  When closing emacs I get 'Unable to handle mimetype of the requested file (exit status: 256)!'
+      The file is correctly edited on the source qube.  Track down why I get the error.
+
+***** DOM0 Changes
+
+- Allow ANY QUBE to open emacs files in @dispvm:z-dvm-debian-12-minimal-emacs
+- REF: https://www.qubes-os.org/doc/qrexec/#qubes-rpc-administration
+       https://forum.qubes-os.org/t/different-qvm-open-in-dvm-for-different-filetypes/29232
+       https://kenogo.org/blog/20240312.html
+-- Manually opened with "qvm-open-in-vm -- @dispvm:z-dvm-debian-12-minimal-emacs  FILENAME"
+-- Set with Q Icon | Gear Icon | Qubes Tools | Qubes Policy Editor
+- Policy file name: 30-user-emacs-dispvm
+Policy: qubes.OpenInVM  * @anyvm @dispvm:debian-12-minimal-emacs allow
+
+**** debian-12-xfce-dev
+***** Create debian-12-xfce-dev
+- Clones from src template and names with Date/Time
+- Scripted to allow testing workflow
+- Resultant script can be copied into dom0 with:
+  #+BEGIN_SRC bash
+    qvm-run --pass-io whk-dev-editor \
+	    "cat config/os-qubes-os/os-R4.2.2+/bin-debian-12-xfce-dev/create.sh" \
+	    > ~/bin/create-debian-12-xfce-dev.shx
+  #+END_SRC
+
+#+NAME: bin-debian-12-xfce-dev/create.sh
+#+HEADER: :tangle  "bin-debian-12-xfce-dev/create.sh"
+#+HEADER: :shebang "#!/usr/bin/bash"
+#+HEADER: :noweb    yes
+#+HEADER: :comments noweb
+#+HEADER: :mkdirp   yes
+#+BEGIN_SRC bash
+  # WARNING: This script is intended to be run in DOM0
+  #          Only use if you understand what it does
+
+  # Configuration Variables
+  SRC_TEMPLATE=debian-12-xfce
+  DEST_TEMPLATE_USE=dev
+  GPG_TAG="developGPG"  # Tag used by GPG split proxy
+			# policy to allow access to GPG key
+  GPG_DEST="whk-sys-gpg-develop"
+
+  # Derived Configuration Variables
+  «createTemplateName»
+  QUBENAME=`createTemplateName ${SRC_TEMPLATE} ${DEST_TEMPLATE_USE}`
+
+  # Clone SRC Template
+  echo "Creating Template \"$QUBENAME\" from \"${SRC_TEMPLATE}\""
+  qvm-clone ${SRC_TEMPLATE} ${QUBENAME}
+
+  # Set tag on template to allow access to appropriate split GPG qube
+  echo "Tag ${QUBENAME} with ${GPG_TAG} to allow split gpg access"
+  qvm-tags ${QUBENAME} add ${GPG_TAG}
+
+  «installPackagesIntoQube»
+
+  «removePasswordlessSudo»
+
+  «gpgSplit»
+
+  # Editor Packages
+  # Basic emacs install for editing org-mode docs
+  echo "Install emacs and graphviz"
+  installPackagesIntoQube $QUBENAME \
+			  emacs-gtk \
+			  org-mode \
+			  graphviz \
+			  elpa-graphviz-dot-mode
+  # Filesystem Support
+  # Add btrfs filesystem commands
+  echo "Install btrfs filesystem support"
+  installPackagesIntoQube $QUBENAME btrfs-progs
+
+  # RSYNC/RSNAPSHOT support for backups and clean replication of directories
+  echo "Install RSYNC and RSNAPSHOT"
+  installPackagesIntoQube $QUBENAME rsync rsnapshot
+
+
+  # SDL2 support
+  installPackagesIntoQube $QUBENAME \
+			  libsdl2-ttf-2.0-0 \
+			  libsdl2-image-2.0-0 \
+			  libsdl2-mixer-2.0-0
+
+  # pdflatex support
+  installPackagesIntoQube $QUBENAME \
+			  texlive-latex-base \
+			  texlive-fonts-recommended \
+			  texlive-fonts-extra \
+			  texlive-latex-extra
+
+  # podman container support
+  installPackagesIntoQube $QUBENAME \
+			  podman
+
+  # Save this file
+  echo "Save this script to ${QUBENAME}:/root/qube-configuration.txt"
+  qvm-copy-to-vm $QUBENAME $0
+  SCRIPTNAME=`basename $0`
+  qvm-run --verbose --pass-io --user root $QUBENAME \
+	  "mv /home/user/QubesIncoming/dom0/$SCRIPTNAME /root/qube-configuration.txt"
+  qvm-run --verbose --pass-io --user root $QUBENAME \
+	  "chmod 0444 /root/qube-configuration.txt"
+
+  # Shutdown template
+  qvm-shutdown --wait $QUBENAME
+#+END_SRC
+
+**** debian-12-xfce-vault
+
+- Installed extra packages
+
+```
+# Support btrfs for removable media
+apt-get install btrfs-progs duperemove
+
+# Sync directories (etc)
+apt-get install rsync
+
+```
+
+**** debian-12-xfce-home-network
+**** debian-12-xfce-gaming
+
+
+** Disposable Qubes
+
+Issues:
+  - qvm-create appears to not do everything that the GUI's do when
+    creating a Disposble Qube.  In particular it does not add the
+    appmenu entry to "Q | Cube | Apps" to start a disposible (it does show
+    up in templates still though).
+    Workaround: Setting ~~~qvm-features QUBENAME appmenus-dispvm 1~~~ fixes the issue
+  - The dispvm appmenu that appears above is empty until the apps list is somehow refreshed
+    Workaround: ~~~qvm-appmenus --update QUBENAME~~~ 
+
+*** z-dvm-debian-12-dev-offline
+
+#+begin_src bash
+  qvm-create --class DispVM --template debian-12-xfce-dev \
+	     --label orange \
+	     --property default_dispvm=z-dvm-debian-12-minimal-offline \
+             --property template_for_dispvms=true \
+	     --property netvm= \
+	     z-dvm-debian-12-dev-offline
+  qvm-tags z-dvm-debian-12-dev-offline add developGPG
+  # Get appmenu entries for template to create dispVM to appear
+  qvm-features z-dvm-debian-12-dev appmenus-dispvm 1
+  qvm-appmenus --update z-dvm-debian-12-dev
+#+end_src
+
+*** z-dvm-debian-12-dev
+
+#+BEGIN_SRC bash
+  qvm-create --class AppVM --template debian-12-xfce-dev \
+	     --label orange \
+	     --property default_dispvm=z-dvm-debian-12-minimal-offline \
+	     --property template_for_dispvms=true \
+	     z-dvm-debian-12-dev
+  qvm-tags z-dvm-debian-12-dev add developGPG
+  # Get appmenu entries for template to create dispVM to appear
+  qvm-features z-dvm-debian-12-dev appmenus-dispvm 1
+  qvm-appmenus --update z-dvm-debian-12-dev
+#+END_SRC
+
+** AppVMs
+
+*** whk-dev-editor
+
+#+begin_src bash
+  qvm-create --class AppVM --template debian-12-xfce-dev \
+	     --label green \
+	     --property default_dispvm=z-dvm-debian-12-dev-offline \
+	     --property netvm= \
+	     whk-dev-editor
+  qvm-tags whk-dev-editor add developGPG
+#+end_src
+
+*** whk-dev-ipfs-test
+
+#+begin_src bash
+  qvm-create --class AppVM --template debian-12-xfce-dev \
+	     --label green \
+	     --property default_dispvm=z-dvm-debian-12-dev \
+	     whk-dev-ipfs-test
+  qvm-tags whk-dev-ipfs-test add developGPG
+#+end_src
+
+
+** Configurations
+*** Remove 'Passwordless root access'
+Ref: https://www.qubes-os.org/doc/vm-sudo/
+
+I understand the Qubes maintainers reasoning as stated for having
+passwordless sudo but I do not agree for my use case.
+- There are persistent things I may install in /rw/usr/local and /rw/config that
+  I do not want to be able to be changed by programs I am
+  evaluating/testing/using without my knowledge.
+  Passwordless sudo would allow that.
+- Possible Gotcha: This also removes the qubes-vm-recommended package.
+  - I assume if later updates add a new dependency in qubes-vm-recommended
+    that it will not be automatically installed when updating.
+  - After install auto-purge wants to remove a bunch of other qubes packages
+- TODO: Get sudo to use split-gpg to control access
+  
+#+NAME: removePasswordlessSudo
+#+BEGIN_SRC bash
+  # KLUDGE: Workaround packages normally installed by qubes-vm-recommended
+  #         by marking them as manually installed
+  #         This will have inconsistent resultes if/when qubes-vm-recommended
+  #         is modified by maintainer.  Current list captured 2024-10-23
+  installPackagesIntoQube $QUBENAME \
+			  fwupd-qubes-vm \
+			  qubes-core-agent-dom0-updates \
+			  qubes-gpg-split \
+			  qubes-img-converter \
+			  qubes-input-proxy-sender \
+			  qubes-mgmt-salt-vm-connector \
+			  qubes-pdf-converter \
+			  qubes-repo-templates \
+			  qubes-usb-proxy
+
+  # Disable passwordless sudo
+  qvm-run --verbose --pass-io --user root $QUBENAME \
+	  "DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -y -q purge qubes-core-agent-passwordless-root"
+#+END_SRC
+
+** Debian 12 packages
+
+*** Qubes Integration
+
+**** GPG Split
+- REF: https://www.qubes-os.org/doc/split-gpg/
+- Expects QUBENAME and GPG_TAG environment variables to be set
+
+Currently the default qube to be used for split gpg can be set...
+  - By USER setting QUBES_GPG_DOMAIN environment variable
+  - Per QUBE by putting name in /rw/config/gpg-split-domain
+This creates ~~~/etc/profile.d/05-split-dest-default.sh~~~ to allow it to
+be set on a per template level.
+
+- Requires environment variables
+  - QUBENAME : The Template Qube to configure
+  - GPG_DEST  : The destination Qube for split GPG operations 
+
+#+NAME: gpgSplit
+#+HEADER: :noweb yes
+#+BEGIN_SRC bash
+  # Install and Configure split gpg
+  #   Install package
+  installPackagesIntoQube ${QUBENAME} qubes-gpg-split
+
+  #   Set dest Qube
+  «configureSplitGPGdestQube»
+  configureSplitGPGDestQube ${GPG_DEST} | \
+    qvm-run --pass-io --user root ${QUBENAME}  "cat > /etc/profile.d/05-split-gpg-dest-default.sh"
+  qvm-run --user root ${QUBENAME} "chmod 0755 /etc/profile.d/05-split-gpg-dest-default.sh"
+#+END_SRC
+
+
+
+
+
+** Utility Scripts
+
+*** Create Template Name
+
+- Creates a new template name based on source template and usage.
+- Adds date in YYYYMMDDhhmmss format
+- Truncates to 31 characters to fit max allowable name
+  
+#+NAME: createTemplateName
+#+BEGIN_SRC bash
+  createTemplateName () {
+      local SRCNAME=$1
+      local TEMPLATEUSE=$2
+      local DATE=`/usr/bin/date +%Y%m%d%H%M%S`
+      local FULLQUBENAME="${SRCNAME}-${TEMPLATEUSE}-${DATE}"
+      # QUBENAME must be less than 32 characters
+      echo -n "${FULLQUBENAME:0:31}"
+  }
+#+END_SRC
+
+*** Set default Qube for Split GPG to access
+
+#+NAME: configureSplitGPGDestQube
+#+BEGIN_SRC bash
+  configureSplitGPGDestQube () {
+    local GPGQUBE=$1
+    echo "# Default Qube for split GPG to use" 
+    echo "export QUBES_GPG_DOMAIN=\"${GPGQUBE}\""
+  }
+#+END_SRC
+
+*** Install packages into Qube
+- Set ~~~DEBIAN_FRONTEND=noninteractive~~~ to stop ~~~debconf~~~ from
+  complaining about ~~~TERM~~~ not being set which trying ~~~DIALOG~~~
+  
+#+NAME: installPackagesIntoQube
+#+BEGIN_SRC bash
+  # Helper routine to install a list of packages into a Qube (usually template)
+  # $1  = The QUBENAME to install
+  # $2+ = The Packages to install 
+  installPackagesIntoQube () {
+      QUBENAME=$1
+      shift;
+      echo "  Running /usr/bin/apt-get -q -y install $@"
+      /usr/bin/qvm-run --verbose --pass-io --user root ${QUBENAME} \
+        "DEBIAN_FRONTEND=noninteractive /usr/bin/apt-get -q -y install $*"    
+      }
+
+#+END_SRC
+
+

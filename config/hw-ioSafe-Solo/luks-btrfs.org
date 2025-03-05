@@ -1,0 +1,46 @@
+* ioSafe Solo
+
+** Usage
+
+- Re-Purposed ioSafe Solo USB-2 drive to act as online system backup.
+- Attached to "whk-vault-data-backup-iosafe" qube on "gazelle.home.umbisag.org"
+
+** Configuration
+
+*** Partitioning
+
+```
+label: gpt
+label-id: 4D309AF6-1D9D-B64C-9CD0-C17EC7D9C3DC
+device: /dev/sda
+unit: sectors
+first-lba: 2048
+last-lba: 3907029134
+sector-size: 512
+
+/dev/sda1 : start=        2048, size=     2097152, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=4162AF34-0871-A347-B473-23225DC6B353
+/dev/sda2 : start=     2099200, size=  3904929792, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=E5918D34-0262-194F-8136-4911F0381D34
+```
+
+*** First Partition - unencrypted ext4
+Needed inorder to properly shows up as "Data Block Device" while still attached to sys-usb qube.
+TODO: Determine why some USB storage devices seem to require this but others don't
+
+```
+mkfs.ext4 -L ioSafeSoloReadme /dev/sda1
+```
+
+*** Second (Main) Partition - LUKS + BTRFS
+
+**** Initial
+
+```
+cryptsetup luksFormat --label ioSafeSoloData /dev/sda2
+cryptsetup open /dev/sda2 ioSafeSoloData
+dd if=/dev/zero of=/dev/mapper/ioSafeSoloData bs=1024M status=progress
+mkfs.btrfs --data dup --metadata dup --label ioSafeSoloData /dev/mapper/ioSafeSoloData
+```
+
+**** Recovery Setup
+
+

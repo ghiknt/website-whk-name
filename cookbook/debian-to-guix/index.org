@@ -1,0 +1,497 @@
+* Create GUIX install on VPS using a Debian 12 bootstrap
+
+Use Case:
+  - VPS provider who does not support GUIX natively
+  - VPS provides supports virtual console access 
+
+
+** Partition Shuffle Game
+
+Use Case:
+  - VPS does not allow (de/a)ttachement of disk images
+  -          use a Fresh Debian 12 install to create a working GUIX
+	  install.
+
+
+*** Initial Setup
+This is the initial VPS configuration that these instructions were based
+on.
+
+**** VPS Config
+This was tested using an incognet.io vps with the following configuration
+
+|             | Type             | Value              |
+|-------------+------------------+--------------------|
+| CPU         | AMD Epcy vCPU    | 2                  |
+| RAM         | DDR ECC          | 4GB                |
+| Disk        |                  | 40GB               |
+| OS          | debian-12-x86_64 |                    |
+| IP          | IPV4             | 23.137.255.21      |
+| Hostname    |                  | uman001.erpetu.net |
+| Reverse DNS |                  | Set                |
+
+**** Root Authentication Credentials
+***** SSH Key Setup
+
+SSH key that is set to allow root SSH login to debian host
+
+- Password Manager entry
+  ~~~incognet-ecdsa (for uman001.erpetu.net)~~~
+
+- Creation
+  #+begin_src bash
+    ssh-keygen -f /home/user/.ssh/incognet-ecdsa -t ecdsa -b 521
+  #+end_src
+
+- Public key
+  #+NAME: /home/user/.ssh/incognet-ecdsa.pub
+  #+HEADER: :tangle   "tangle/incognet-ecdsa.pub"
+  #+HEADER: :noweb    no
+  #+HEADER: :comments no
+  #+HEADER: :mkdirp   yes
+  #+begin_src shell
+    ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAA
+    CFBAGJG2oXOCGtghDH6LpIRjBUe9SxYg1tBFC/Vl32w26h7C7RskYp+/N+xNEb4h9S0dNV
+    4+gotx8zKugy2Wk+UHrVswCysld0u6D/6Vsn8vi2cKAPdCRIOC8FtvmyN65HQJSlfLCfB+
+    8RJSr02xnzLS8Gov1xORuLrgImy2ePrkpsQeoa8w== user@whk-dev
+  #+end_src
+
+  
+***** Root Password
+
+Password set to allow root VNC console access
+
+- Password manager entry
+  ~~~uman001.erpetu.net (server) - root~~~
+
+**** Disable SSH Password Authentication
+
+#+begin_src diff
+  --- /etc/ssh/sshd_config.orig	2023-06-15 01:44:05.628294089 +0000
+  +++ /etc/ssh/sshd_config	2025-02-27 21:40:17.433564843 +0000
+  @@ -54,7 +54,7 @@
+   #IgnoreRhosts yes
+ 
+   # To disable tunneled clear text passwords, change to no here!
+  -#PasswordAuthentication yes
+  +PasswordAuthentication no
+   #PermitEmptyPasswords no
+ 
+   # Change to yes to enable challenge-response passwords (beware issues with
+#+end_src
+
+**** Update debian
+
+#+begin_src bash
+  # As root...
+  apt update
+  apt upgrade
+  reboot
+  # Log back in as root...
+  apt purge
+#+end_src
+
+**** Final Configuration
+
+#+begin_quote
+root@uman001:~# uname -a
+Linux uman001.erpetu.net 6.1.0-31-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.128-1 (2025-02-07) x86_64 GNU/Linux
+
+root@uman001:~# lscpu
+Architecture:             x86_64
+  CPU op-mode(s):         32-bit, 64-bit
+  Address sizes:          48 bits physical, 48 bits virtual
+  Byte Order:             Little Endian
+CPU(s):                   2
+  On-line CPU(s) list:    0,1
+Vendor ID:                AuthenticAMD
+  BIOS Vendor ID:         QEMU
+  Model name:             AMD EPYC 7B12 64-Core Processor
+    BIOS Model name:      pc-i440fx-8.2  CPU @ 2.0GHz
+    BIOS CPU family:      1
+    CPU family:           23
+    Model:                49
+    Thread(s) per core:   1
+    Core(s) per socket:   1
+    Socket(s):            2
+    Stepping:             0
+    BogoMIPS:             4491.55
+    Flags:                fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr ss
+                          e sse2 syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm rep_good nopl cpuid extd_apicid tsc_kno
+                          wn_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer a
+                          es xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse
+                           3dnowprefetch osvw perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase tsc_adjust bmi1 avx2
+                           smep bmi2 rdseed adx smap clflushopt clwb sha_ni xsaveopt xsavec xgetbv1 clzero xsaveerptr
+                           wbnoinvd arat npt lbrv nrip_save tsc_scale vmcb_clean flushbyasid pausefilter pfthreshold 
+                          v_vmsave_vmload vgif umip rdpid arch_capabilities
+Virtualization features:  
+  Virtualization:         AMD-V
+  Hypervisor vendor:      KVM
+  Virtualization type:    full
+Caches (sum of all):      
+  L1d:                    64 KiB (2 instances)
+  L1i:                    64 KiB (2 instances)
+  L2:                     1 MiB (2 instances)
+  L3:                     512 MiB (2 instances)
+NUMA:                     
+  NUMA node(s):           1
+  NUMA node0 CPU(s):      0,1
+Vulnerabilities:          
+  Gather data sampling:   Not affected
+  Itlb multihit:          Not affected
+  L1tf:                   Not affected
+  Mds:                    Not affected
+  Meltdown:               Not affected
+  Mmio stale data:        Not affected
+  Reg file data sampling: Not affected
+  Retbleed:               Mitigation; untrained return thunk; SMT disabled
+  Spec rstack overflow:   Mitigation; SMT disabled
+  Spec store bypass:      Mitigation; Speculative Store Bypass disabled via prctl
+  Spectre v1:             Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+  Spectre v2:             Mitigation; Retpolines; IBPB conditional; STIBP disabled; RSB filling; PBRSB-eIBRS Not affe
+                          cted; BHI Not affected
+  Srbds:                  Not affected
+  Tsx async abort:        Not affected
+
+root@uman001:~# lsblk
+NAME   MAJ:MIN RM SIZE RO TYPE MOUNTPOINTS
+vda    254:0    0  40G  0 disk 
+└─vda1 254:1    0  40G  0 part /
+
+root@uman001:~# df
+Filesystem     1K-blocks    Used Available Use% Mounted on
+udev             1981404       0   1981404   0% /dev
+tmpfs             400916     472    400444   1% /run
+/dev/vda1       41169292 1798424  37257496   5% /
+tmpfs            2004576       0   2004576   0% /dev/shm
+tmpfs               5120       0      5120   0% /run/lock
+tmpfs             400912       0    400912   0% /run/user/0
+#+end_quote
+
+
+*** Create GUIX install using Debian
+Ref: [[https://guix.gnu.org/en/blog/2020/running-guix-system-on-a-linode-server/][Running Guix System on a Linode Server]]
+
+**** Install GUIX on Debian
+Ref: [[https://guix.gnu.org/manual/en/html_node/Binary-installation.html][Binary Installation (GNU Guix Reference Manual)]]
+
+This could be done later but I wanted to have an idea of how big the
+Debian partition needs to be before resizing.
+
+#+begin_src bash
+  apt install guix
+  #...
+  #The following additional packages will be installed:
+  #  fontconfig-config fonts-dejavu-core guile-3.0 guile-3.0-libs guile-bytestructures guile-gcrypt guile-git
+  #  guile-gnutls guile-json guile-lzlib guile-sqlite3 guile-ssh guile-zlib libabsl20220623 libaom3 libavif15
+  #  libc-dev-bin libc-devtools libc6-dev libcrypt-dev libdav1d6 libde265-0 libdeflate0 libfontconfig1 libgav1-1
+  #  libgc1 libgcrypt20-dev libgd3 libgit2-1.5 libgit2-dev libgpg-error-dev libguile-ssh14 libheif1 libhttp-parser-dev
+  #  libhttp-parser2.9 libjbig0 libjpeg62-turbo liblerc4 liblz-dev liblz1 libmbedcrypto7 libmbedtls-dev libmbedtls14
+  #  libmbedx509-1 libnsl-dev libpcre2-16-0 libpcre2-32-0 libpcre2-dev libpcre2-posix3 librav1e0 libsqlite3-dev
+  #  libssh-4 libssh-dev libssh2-1-dev libssl-dev libsvtav1enc1 libtiff6 libtirpc-dev libwebp7 libx265-199 libxpm4
+  #  libyuv0 linux-libc-dev manpages-dev nscd rpcsvc-proto zlib1g-dev
+  #Suggested packages:
+  #  guile-3.0-doc glibc-doc libgcrypt20-doc libgd-tools libmbedtls-doc sqlite3-doc libssh-doc libssl-doc
+  #The following NEW packages will be installed:
+  #  fontconfig-config fonts-dejavu-core guile-3.0 guile-3.0-libs guile-bytestructures guile-gcrypt guile-git
+  #  guile-gnutls guile-json guile-lzlib guile-sqlite3 guile-ssh guile-zlib guix libabsl20220623 libaom3 libavif15
+  #  libc-dev-bin libc-devtools libc6-dev libcrypt-dev libdav1d6 libde265-0 libdeflate0 libfontconfig1 libgav1-1
+  #  libgc1 libgcrypt20-dev libgd3 libgit2-1.5 libgit2-dev libgpg-error-dev libguile-ssh14 libheif1 libhttp-parser-dev
+  #  libhttp-parser2.9 libjbig0 libjpeg62-turbo liblerc4 liblz-dev liblz1 libmbedcrypto7 libmbedtls-dev libmbedtls14
+  #  libmbedx509-1 libnsl-dev libpcre2-16-0 libpcre2-32-0 libpcre2-dev libpcre2-posix3 librav1e0 libsqlite3-dev
+  #  libssh-4 libssh-dev libssh2-1-dev libssl-dev libsvtav1enc1 libtiff6 libtirpc-dev libwebp7 libx265-199 libxpm4
+  #  libyuv0 linux-libc-dev manpages-dev nscd rpcsvc-proto zlib1g-dev
+  #0 upgraded, 68 newly installed, 0 to remove and 0 not upgraded.
+  #Need to get 83.7 MB of archives.
+  #After this operation, 524 MB of additional disk space will be used.
+  #Do you want to continue? [Y/n] Y
+
+  guix --version
+  #guix (GNU Guix) 1.4.0
+  #Copyright (C) 2022 the Guix authors
+  #License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+  #This is free software: you are free to change and redistribute it.
+  #There is NO WARRANTY, to the extent permitted by law.
+
+  guix pull
+  # Takes a while to do a full new pull
+  # ...
+  #building package cache...
+  #building profile with 1 package...
+  #hint: Consider setting the necessary environment variables by running:
+  #
+  #     GUIX_PROFILE="/root/.config/guix/current"
+  #     . "$GUIX_PROFILE/etc/profile"
+  #
+  #Alternately, see `guix package --search-paths -p "/root/.config/guix/current"'.
+  #
+  #
+  #hint: After setting `PATH', run `hash guix' to make sure your shell refers to `/root/.config/guix/current/bin/guix'.
+
+  # Point to updated guix
+  which guix
+  #/usr/bin/guix
+  GUIX_PROFILE="/root/.config/guix/current"
+  . "$GUIX_PROFILE/etc/profile"
+  hash guix
+  which guix
+  #/root/.config/guix/current/bin/guix
+  guix --version
+  #guix (GNU Guix) 4529c4bea116413da0d2799d0239fca2eeb2ff90
+  #Copyright (C) 2025 the Guix authors
+  #License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+  #This is free software: you are free to change and redistribute it.
+  #There is NO WARRANTY, to the extent permitted by law.
+#+end_src
+
+**** Resize and Move Debian partition to end of disk
+Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
+
+- Assumptions:
+  - Debian install references it's disk via UUID vs /dev/... path
+  - VPS support booting via a grub boot partition
+- Enable and Boot rescue mode
+- Shrink Debian Partition
+  - *WARNING*: This section can cause an unbootable system
+    if you don't understand what it is doing and blindly repeat the commands.
+
+  #+begin_src bash
+    # Verify the Debian Partition is currently clean
+    e2fsck -f /dev/vdb1
+
+    # Resize Debian ext4 filesystem down to 10G
+    resize2fs /dev/vdb1 10G
+    # resize2fs 1.47.0 (5-Feb-2023)
+    # Resizing the filesystem on /dev/vdb1 to 2621440 (4k) blocks.
+    # The filesystem on /dev/vdb1 is now 2621440 (4k) blocks long.
+
+    # Resize the Debian partition down to 10G
+    fdisk /dev/vdb
+    # p
+    #    ...
+    #    Device      Start        End  Sectors Size Type
+    #    /dev/vdb1    2048   83886044 83883997  40G Linux filesystem
+    # d      # Delete the single partition
+    # n
+    # Partion number (1-128, default 1): 1
+    # First sector (34-83886046), default 2048): 2048
+    # Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-83886046, default 83884031): +10G
+    #     Created a new partition 1 of type 'Linux filesystem' and of size 10 GiB.
+    #     Partion #1 contains a ext4 signature.
+    #
+    # Do you want to remove the signature? [Y]es/[N]o: N
+    # p
+    #    ...
+    #    Device      Start        End  Sectors Size Type
+    #    /dev/vdb1    2048   20973567 20971520  10G Linux filesystem
+    #
+    #
+    # w  # Write the changes and quit
+
+    # verify partion is still clean
+    e2fsck -f /dev/vdb1
+
+    # Exit rescue mode and verify we can still boot debian
+    shutdown -h now
+  #+end_src
+- Disable rescue mode and Boot Debian and verify things still work
+- Enable amd Boot rescue mode
+- Move Debian Partition to end of disk
+  Final Configuration will have 4 partitions - 
+    bios_boot, /boot, / (GUIX System), /var (GUIX var)
+  so make Debian partition 5 since we will delete it later and grow GUIX Data to end of disk.
+
+  - *WARNING*: This section can cause an unbootable system
+    if you don't understand what it is doing and blindly repeat the commands.
+
+  - Sector Calculation
+    | lastSector     | original ~~~fdisk p~~~ for vdb1        | 83886044 | pSector |
+    | partitionSizeS | after resize ~~~fdisk p~~~ for vdb1    | 20971520 | sector  |
+    | firstSector    | lastSector - partitionSize + 1         | 62914525 | pSector |
+    | sectorSize     | from ~~~fdisk~~~ vdb                   |      512 | byte    |
+    | blockSize      | from ~~~resize2fs~~~ for vdb1          |     4096 | byte    |
+    | partitionSizeB | partitonSizeS * sectorSize / blockSize |  2621440 | blocks  |
+    #+TBLFM: @3$3=@1$3 - @2$3 + 1::@6$3=@2$3*@4$3/@5$3
+
+  - Create partition at end matching partition 1s size.
+    #+begin_src bash
+      fdisk /dev/vdb
+      # n
+      # Partiton Number: 5
+      # First Sector: 62914525
+      # Last Sector: 83886044
+      # p   # Verify vdb1 and vdb2 Sectors is the same
+      # w   # write the changes and quit
+    #+end_src
+
+  - Move the debian install from vdb1 to vdb5
+
+    #+begin_src bash
+      # Copy the data
+      dd if=/dev/vdb1 of=/dev/vdb5 bs=4096 count=2521440 status=progress
+
+      # Verify that the new partition looks correct
+      blkid                # vdb1 and vdb5 should be identical except for PARTUUID
+      e2fsck -f /dev/vdb5  # should come back clean
+
+      # Remove vdb1 partition entry but do not overwrite data yet
+      fdisk /dev/vdb
+      # p
+      # d
+      # Partition number: 1
+      # p   # only /dev/vdb5 should be left
+      # w   # write table and quit
+    #+end_src
+
+**** Support more flexible boot setup than single linux partition
+- Disable rescue mode and using ~~~grub rescue~~~ Boot Debian
+  The boot will fail with a partition failure and start ~~~grub rescue~~~
+
+  #+begin_src bash
+    # Point at partition 5
+    set prefix=(hd0,gpt5)/boot/grub
+    set root=hd0,gpt5
+    # Boot normally
+    insmod normal
+    normal
+  #+end_src
+- Create Bios Boot partition and update grub
+  #+begin_src bash
+    fdisk
+    # p
+    # n
+    # Partition number (1): default
+    # First Sector (2048): default
+    # Last sector: +32M
+    #    Created a new partition 1 of type 'Linux filesystem' and of size 32 MiB
+    #    Partition #1 contains a ext4 signature
+    # Do you want to remove the signature?  Y     # Don't need old install
+    # t    # Change partition type
+    # Partition number: 1
+    # Partition type: bios_boot   # Alias for #4 BIOS boot 21686148-6449-6E6F-744E-656564454649
+    # p
+    # w
+    grub-install /dev/vda
+  #+end_src
+- Reboot and Verify that Debian boots correctly  
+
+**** Create and format remaining partitons
+#+begin_src bash
+  fdisk /dev/vda
+  #  # Future /boot Partion
+  #  n
+  #  default partiton number (2)
+  #  default First Sector (67584)
+  #  Last sector: +2G
+  #
+  #  # Future / (GUIX System partition)
+  #  n
+  #  default partition number (3)
+  #  default First Sector (4261888)
+  #  Last sector: +10GB
+  #
+  #  # Future /var (GUIX var partition)
+  #  n
+  #  default partition number (4)
+  #  default First sector (23793664)
+  #  default Last sector (62914524) # Will eventuall grow to include Debian Partition
+  #
+  #  p
+  #  w
+  mke2fs -t ext4 -b 4096 -L "guixBoot" /dev/vda2
+  mke2fs -t ext4 -b 4096 -L "guixRoot" /dev/vda3
+  mke2fs -t ext4 -b 4096 -L "guixVar"  /dev/vda4
+#+end_src
+
+
+
+
+
+
+
+**** Initial guix-config.scm
+    Ref: [[https://guix.gnu.org/manual/en/html_node/Using-the-Configuration-System.html][Using the Configuration System (GNU Guix Reference Manual)]]
+    A bare bones configuration with outbound networking
+
+    Save File as guix-config.scm
+
+#+NAME: guix-minimal-config.scm
+#+HEADER: :tangle   "tangle/guix-minimal-config.scm"
+#+HEADER: :noweb    yes
+#+HEADER: :comments noweb
+#+HEADER: :mkdirp   yes
+#+begin_src scheme
+
+  ;; This is an operating system configuration template
+  ;; for a "bare bones" setup, with ...
+  ;;   no X11 display server.
+  ;;   netfilter set to block all incoming except port 22
+  ;;   ssh enabled with password login disabled and root key set
+
+  (use-modules (gnu))
+  (use-service-modules networking)
+
+  (operating-system
+   (host-name "uman001.erpetu.net")
+   (timezone "UTC")
+   (locale "en_US.utf8")
+
+   ;; Boot in "legacy" BIOS mode, assuming /dev/sdX is the
+   ;; target hard disk, and "my-root" is the label of the target
+   ;; root file system.
+   (bootloader (bootloader-configuration
+		(bootloader grub-bootloader)
+		(targets '("/dev/vda"))))
+
+   ;; Fix terminal issues.  TODO: find correct driver to use instead
+   (kernel-arguments (list "nomodeset"))
+
+   (file-systems (cons*
+		  (file-system
+		   (device (file-system-label "guixRoot"))
+		   (mount-point "/")
+		   (type "ext4"))
+		  (file-system
+		   (device (file-system-label "guixBoot"))
+		   (mount-point "/boot")
+		   (type "ext4"))
+		  (file-system
+		   (device (file-system-label "guixVar"))
+		   (mount-point "/var")
+		   (type "ext4"))
+		  %base-file-systems))
+
+   (initrd-modules (cons "virtio_scsi"    ;needed to find the disk
+			 %base-initrd-modules))
+
+   ;; The "root"
+   ;; account is implicit, and is initially created with the
+   ;; empty password.
+
+   ;; Add services to the baseline: a DHCP client
+   (services (append (list (service dhcp-client-service-type)
+			   (service nftables-service-type))
+		     %base-services)))
+#+end_src
+
+**** Install Guix
+
+#+begin_src bash
+  mkdir /mnt/guix
+  mount LABEL=guixRoot /mnt/guix
+  mkdir /mnt/guix/boot
+  mkdir /mnt/guix/var
+  mount LABEL=guixBoot /mnt/guix/boot
+  mount LABEL=guixVar  /mnt/guix/var
+  guix system init guix-config.scm /mnt/guix
+#+end_src
+
+**** Reboot and verify Guix Installation
+  - Installation will only be accessable via the VPS provided Console
+  - Root password is blank by default
+  - This is not integrated into the VPS provided configuration tools so
+    no root password reset, sshkey management from VPS side happens.
+    TODO: Look into how this is done
+
+
+
