@@ -1,13 +1,28 @@
 #+SETUPFILE: ../../config/publish/templates/level-3.org
 #+TITLE: Using FSFE Reuse
-#+CREATED: 2025-03-05
 #+DATE: 2025-03-05
-#+AUTHOR: whk
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
 #+SUBTITLE:
 #+DESCRIPTION: Using FSFE Reuse to verify project license information
 #+KEYWORDS: fsfe-reuse SPDX license audit
 #+STARTUP: content
 * Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-03-05: Created
+#+END_details
+:END:
+
+
 - References
   - [[https://reuse.software/][REUSE - Make licensing easy for everyone]]
   - [[https://reuse.readthedocs.io/en/stable/readme.html][reuse - reuse 5.0.2 documentation]]
@@ -15,6 +30,7 @@
   - [[https://hub.docker.com/r/fsfe/reuse][fsfe/reuse - Docker Image]]
   - [[https://spdx.org/licenses/index.html][SPDX License List]]
   - [[https://spdx.org/licenses/exceptions-index.html][SPDX License Exceptions List]]
+
 * Setup
 
 - Ensure [[https://podman.io/][PODMAN]] is installed.
@@ -29,6 +45,75 @@
 * Running
 
 - References: [[https://reuse.readthedocs.io/en/stable/readme.html#run-in-docker][reuse | Run in Docker]]
+- lint
 
-  - basic =podman run --rm --volume $(pwd):/data fsfe/reuse lint=
+  =podman run --rm --volume $(pwd):/data fsfe/reuse lint=
 
+- Generate spdx file
+
+  =podman run --rm --volume $(pwd):/data fsfe/reuse  spdx -o out.spdx=
+
+- Pull License List
+
+  #+begin_src bash
+    podman run --rm --volume $(pwd):/data fsfe/reuse download \
+	   CC-BY-SA-4.0 \
+	   AGPL-3.0-or-later \
+	   GPL-3.0-or-later  \
+	   Apache-2.0
+  #+end_src
+
+  =podman run --rm --volume $(pwd):/data fsfe/reuse download=
+
+* SPDX Examples
+** My default licence for Literate Org Mode Files
+
+# REUSE-IgnoreStart
+#+begin_src org
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: 2025 WHK <develop@whk.name>
+#+end_src
+# REUSE-IgnoreEnd
+
+** Including SPDX examples that should be ignored by Reuse
+
+#+begin_src org
+  # REUSE-IgnoreStart
+  Content containing example SPDX
+  # REUSE-IgnoreEnd
+#+end_src
+
+** Specify a SPDX-Snippet for and INCLUDE example
+
+This will ensure the resultant HTML has SPDX tags specifying
+the License of the example
+
+# REUSE-IgnoreStart
+#+begin_example
+  ,#+BEGIN_EXPORT html
+  <!--    
+    SPDX-SnippetBegin
+    SPDX-License-Identifier: GPL-3.0-or-later
+    SPDX-SnippetCopyrightText: Sebastian Rose, Hannover, Germany - sebastian_rose at gmx dot de
+  -->
+  ,#+END_EXPORT
+  ,#+BEGIN_details
+  ,#+HTML: <summary>org-info-src.js code listing</summary>
+  ,#+INCLUDE: "org-info-src.js" example
+  ,#+END_details
+  ,#+BEGIN_EXPORT html
+  <!--    
+    SPDX-SnippetEnd
+  -->
+  ,#+END_EXPORT
+#+end_example
+# RESUSE-IgnoreEnd
+
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
