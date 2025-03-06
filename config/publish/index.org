@@ -1,14 +1,26 @@
 #+SETUPFILE: templates/level-3.org
 #+TITLE: Website Generation from org-mode
-#+CREATED: 2025-03-02
-#+DATE: 2025-03-03
-#+AUTHOR: whk
+#+DATE: 2025-03-06
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
 #+SUBTITLE:
 #+DESCRIPTION: Controls the generation of html project output
 #+KEYWORDS: org-mode web
 #+STARTUP: content
-
 * Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-03-02: Created
+#+END_details
+:END:
 
 References:
 - [[https://orgmode.org/manual/Publishing.html][Publishing (The Org Manual)]]
@@ -76,10 +88,12 @@ TODO: Consider moving to [[https://github.com/tgbugs/orgstrap/blob/master/README
 	'(
 	  «notebookProject»
 	  «dotfilesProject»
+	  «emacs.dProject»
 	  )
 	)
   (org-publish "notebook")
-  (org-publish "dotfiles")
+  (org-publish "dotfiles-hmtl")
+  (org-publish "emacs.d-html")
 #+end_src
 
 * Org Publish Project Descriptions
@@ -135,9 +149,22 @@ Personal Dotfile configuration
    :base-directory "~/dotfiles/"
    :publishing-directory "~/build/web/misc/dotfiles/"
    :recursive f
-   «template-level-2»)
-  ("dotfiles" :components ("dotfiles-html"))
+   ;; «template-level-2»
+   )
 #+end_src
+*** ~«emacs.dProject»~
+#+NAME: emacs.dProject
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  ("emacs.d-html"
+   «project-html-global»
+   :base-directory "~/.emacs.d/"
+   :publishing-directory "~/build/web/misc/emacs.d/"
+   :recursive f
+   )
+#+end_src
+
 ** global settings - ~«project-html-global»~
 Settings used by all org html exporters.
 - Turn off ~section-numbers~
@@ -155,16 +182,8 @@ Settings used by all org html exporters.
   TODO: Determine if this is operator error, documentation bug, or a real bug.
 
 - Enable =html_use_infojs=
-  - References
-    - [[https://orgmode.org/manual/JavaScript-support.html][JavaScript Support]]
-    - [[https://orgmode.org/worg/code/org-info-js/][EMACS ORG-INFO.JS]] 
-
-  Allows the web page to be viewed similar to how they look in emacs for me.
-  
-  - Possible GOTCHA.  I use html5 export and code is written for XHTML export.
-    So far I don't see any issues.
-  - LICENSE Information (as of 2025-03-04):
-    - The embeded javascript code is licensed [[https://spdx.org/licenses/GPL-3.0-or-later.html][GPL-3.0-or-later]]
+  - See [[file:third-party/index.org::org-info-src.js][Third Part Files used in website generation]] for details
+  - The embeded javascript code is licensed [[https://spdx.org/licenses/GPL-3.0-or-later.html][GPL-3.0-or-later]]
     
 #+NAME: project-html-global
 #+HEADER: :tangle no
@@ -195,9 +214,11 @@ Settings used by all org html exporters.
 * Templates
 Handle HTML settings for each relative level in the output.
 - ~level-#.org~ are templates that can be added to the top of an org file
-  using ~#SETUPFILE~
-- ~«template-level-#»~ are noweb templates that can be added directly
-  to [[Org Publish Project Descriptions]]
+  using ~#SETUPFILE~.
+  - =html_link_home= : Set to reach the top of the website
+  - =html_link_up=   : At level 0 points to itself.  All others points up a level.
+  - Macro =insertRelativeLink= : Creates a link to a document relative current position
+
 ** Level 0
 *** ~level-0.org~
 #+NAME: level-0.org
@@ -208,16 +229,7 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: .
   ,#+html_link_up:   .
-#+end_src
-
-*** ~«template-level-0»~
-#+NAME: template-level-0
-#+HEADER: :tangle no
-#+HEADER: :noweb no-export
-#+begin_src emacs-lisp
-  «template-levelCommon»
-  :html-link-home .
-  :html-link-up   .
+  ,#+MACRO: insertRelativeLink (eval (concat "[[" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
 
 ** Level 1
@@ -230,15 +242,7 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ..
   ,#+html_link_up:   ..
-#+end_src
-*** ~«template-level-1»~
-#+NAME: template-level-1
-#+HEADER: :tangle no
-#+HEADER: :noweb no-export
-#+begin_src emacs-lisp
-  «template-levelCommon»
-  :html-link-home ..
-  :html-link-up   ..
+  ,#+MACRO: insertRelativeLink (eval (concat "[[../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
 ** Level 2
 *** ~level-2.org~
@@ -250,15 +254,7 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ../..
   ,#+html_link_up:   ..
-#+end_src
-*** ~«template-level-2»~
-#+NAME: template-level-2
-#+HEADER: :tangle no
-#+HEADER: :noweb no-export
-#+begin_src emacs-lisp
-  «template-levelCommon»
-  :html-link-home "../.."
-  :html-link-up   ".."
+  ,#+MACRO: insertRelativeLink (eval (concat "[[../../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
 ** Level 3
 *** ~level-3.org~
@@ -270,15 +266,19 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ../../..
   ,#+html_link_up:   ..
+  ,#+MACRO: insertRelativeLink (eval (concat "[[../../../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
-*** ~«template-level-3»~
-#+NAME: template-level-3
-#+HEADER: :tangle no
+** Level 4
+*** ~level-4.org~
+#+NAME: level-4.org
+#+HEADER: :tangle "templates/level-4.org"
+#+HEADER: :mkdirp yes
 #+HEADER: :noweb no-export
-#+begin_src emacs-lisp
-  «template-levelCommon»
-  :html-link-home ../../..
-  :html-link-up   ..
+#+begin_src org
+  «levelCommon»
+  ,#+html_link_home: ../../../..
+  ,#+html_link_up:   ..
+  ,#+MACRO: insertRelativeLink (eval (concat "[[../../../../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
 ** Common
 - Default created using ~C-c C-e # html~ 
@@ -339,53 +339,22 @@ Handle HTML settings for each relative level in the output.
   ,#+latex_header:
 #+end_src
 
-*** ~«template-levelCommon»~
-#+NAME: template-levelCommon
-#+HEADER: :tangle no
-#+begin_src emacs-lisp
-  :html-link-use-abs-url nil
-  :html-postamble nil
-  :html-preamble t
-  :html-scripts nil
-  :html-style t
-  :html5-fancy t
-  :tex t
-  :html-doctype  html5
-  :html-container  div
-  :html-content-class  content
-  ;; :html-mathjax
-  :html-equation-reference-format  \eqref{%s}
-  ;; :html-head 
-  ;; :html-head_extra 
-  ;; :infojs_opt 
-  ;; :latex-header
-#+end_src
 
 ** Thunar ~index.org~ template
 Template used by thunar when creating a new file
-#+begin_src org
-  ,#+SETUPFILE: templates/level-0.org
-  ,#+TITLE: new file
-  ,#+CREATED: 0000-00-00
-  ,#+DATE: 0000-00-00
-  ,#+AUTHOR: whk
-  ,#+SUBTITLE:
-  ,#+DESCRIPTION: A new file
-  ,#+KEYWORDS:
-  ,#+STARTUP: content
-  ,* New File
-#+end_src
+#+INCLUDE: "~/Templates/index.org" example org
+
 * File Listings
 ** ~index.org~
 #+BEGIN_details
 #+HTML: <summary>The index.org source file for this page</summary>
-#+INCLUDE: "index.org" example org
+#+INCLUDE: "index.org" example
 #+END_details
 
 ** ~build-website.sh~
 #+BEGIN_details
 #+HTML: <summary>Generated build-website.sh</summary>
-#+INCLUDE: "build-website.sh" example bash
+#+INCLUDE: "build-website.sh" example
 #+END_details
 
 ** ~index.el~

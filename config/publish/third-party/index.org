@@ -1,0 +1,70 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-4.org
+#+TITLE: Third Party files used in website generation
+#+DATE: 2025-03-06
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: A new file
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-03-06: Created
+#+END_details
+:END:
+
+* org-info-src.js
+- References
+- [[https://orgmode.org/manual/JavaScript-support.html][JavaScript Support]]
+- [[https://orgmode.org/worg/code/org-info-js/][EMACS ORG-INFO.JS]] 
+
+Allows the web page to be viewed similar to how they look in emacs for me.
+  
+- Possible GOTCHA.  I use html5 export and code is written for XHTML export.
+  So far I don't see any issues.
+
+- Downloaded as org-info-src.js from [[https://orgmode.org/worg/code/org-info-js/org-info-src.js][WORG Org-Mode site]] on 2025-03-04
+
+  #+BEGIN_EXPORT html
+  <!--    
+    SPDX-SnippetBegin
+    SPDX-License-Identifier: GPL-3.0-or-later
+    SPDX-SnippetCopyrightText: Sebastian Rose, Hannover, Germany - sebastian_rose at gmx dot de
+  -->
+  #+END_EXPORT
+  #+BEGIN_details
+  #+HTML: <summary>org-info-src.js code listing</summary>
+  #+INCLUDE: "org-info-src.js" example
+  #+END_details
+  #+BEGIN_EXPORT html
+  <!--    
+  # SPDX-SnippetEnd
+  -->
+  #+END_EXPORT
+
+- Add license file since downloaded file uses invalid SPDX identifier.
+
+  # REUSE-IgnoreStart
+  #+NAME: org-info-src.js.license
+  #+HEADER: :tangle "org-info-src.js.license"
+  #+begin_src text
+    SPDX-License-Identifier:  GPL-3.0-or-later
+    SPDX-FileCopyrightText: Sebastian Rose, Hannover, Germany - sebastian_rose at gmx dot de
+  #+end_src
+  # REUSE-IgnoreEnd
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details

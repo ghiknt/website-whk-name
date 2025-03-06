@@ -13,3 +13,4 @@
 #+latex_header:
 #+html_link_home: .
 #+html_link_up:   .
+#+MACRO: insertRelativeLink (eval (concat "[[" $1 "][" $2 "]]")) ; $1-link $2 - text
