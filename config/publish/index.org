@@ -195,18 +195,18 @@ Settings used by all org html exporters.
   :time-stamp-file nil
   :html-use-infojs t
   :html-home/up-format ""
-  :html-infojs-options (
-			(path . "https://orgmode.org/org-info.js")
-			(view . "info")
-			(toc . :with-toc)
-			(ftoc . "0")
-			(tdepth . "max")
-			(sdepth . "max")
-			(mouse . "underline")
-			(buttons . nil)
-			(ltoc . "above")
-			(up . :html-link-up)
-			(home . :html-link-home))
+;;  :html-infojs-options (
+;;			(path . "https://orgmode.org/org-info.js")
+;;			(view . "info")
+;;			(toc . :with-toc)
+;;			(ftoc . "0")
+;;			(tdepth . "max")
+;;			(sdepth . "max")
+;;			(mouse . "underline")
+;;			(buttons . nil)
+;;			(ltoc . "above")
+;;			(up . :html-link-up)
+;;			(home . :html-link-home))
   :html-allow-name-attribute-in-anchors t
   :html-prefer-user-labels t
 #+end_src
@@ -219,8 +219,8 @@ Handle HTML settings for each relative level in the output.
   - =html_link_up=   : At level 0 points to itself.  All others points up a level.
   - Macro =insertRelativeLink= : Creates a link to a document relative current position
 
-** Level 0
-*** ~level-0.org~
+
+** ~level-0.org~
 #+NAME: level-0.org
 #+HEADER: :tangle "templates/level-0.org"
 #+HEADER: :mkdirp yes
@@ -229,11 +229,11 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: .
   ,#+html_link_up:   .
+  ,#+INFOJS_OPT: path:notebook/config/publish/third-party/org-info-src.js ltoc:above
   ,#+MACRO: insertRelativeLink (eval (concat "[[" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
 
-** Level 1
-*** ~level-1.org~
+** ~level-1.org~
 #+NAME: level-1.org
 #+HEADER: :tangle "templates/level-1.org"
 #+HEADER: :mkdirp yes
@@ -242,10 +242,10 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ..
   ,#+html_link_up:   ..
+  ,#+INFOJS_OPT: path:../notebook/config/publish/third-party/org-info-src.js ltoc:above
   ,#+MACRO: insertRelativeLink (eval (concat "[[../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
-** Level 2
-*** ~level-2.org~
+** ~level-2.org~
 #+NAME: level-2.org
 #+HEADER: :tangle "templates/level-2.org"
 #+HEADER: :mkdirp yes
@@ -254,10 +254,10 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ../..
   ,#+html_link_up:   ..
+  ,#+INFOJS_OPT: path:../../notebook/config/publish/third-party/org-info-src.js ltoc:above
   ,#+MACRO: insertRelativeLink (eval (concat "[[../../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
-** Level 3
-*** ~level-3.org~
+** ~level-3.org~
 #+NAME: level-3.org
 #+HEADER: :tangle "templates/level-3.org"
 #+HEADER: :mkdirp yes
@@ -266,10 +266,10 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ../../..
   ,#+html_link_up:   ..
+  ,#+INFOJS_OPT: path:../../../notebook/config/publish/third-party/org-info-src.js ltoc:above
   ,#+MACRO: insertRelativeLink (eval (concat "[[../../../" $1 "][" $2 "]]")) ; $1-link $2 - text
 #+end_src
-** Level 4
-*** ~level-4.org~
+** ~level-4.org~
 #+NAME: level-4.org
 #+HEADER: :tangle "templates/level-4.org"
 #+HEADER: :mkdirp yes
@@ -278,8 +278,9 @@ Handle HTML settings for each relative level in the output.
   «levelCommon»
   ,#+html_link_home: ../../../..
   ,#+html_link_up:   ..
+  ,#+INFOJS_OPT: path:../../../../notebook/config/publish/third-party/org-info-src.js ltoc:above
   ,#+MACRO: insertRelativeLink (eval (concat "[[../../../../" $1 "][" $2 "]]")) ; $1-link $2 - text
-#+end_src
+ #+end_src
 ** Common
 - Default created using ~C-c C-e # html~ 
 
@@ -335,7 +336,6 @@ Handle HTML settings for each relative level in the output.
   ,#+html_equation_reference_format: \eqref{%s}
   ,#+html_head:
   ,#+html_head_extra:
-  ,#+infojs_opt:
   ,#+latex_header:
 #+end_src
 
