@@ -1,0 +1,190 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-2.org
+#+TITLE: whk
+#+DATE: 2015-02-08
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE: 
+#+DESCRIPTION: My identity in all its forms
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © YYYY WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - YYYY-MM-DD: Created
+#+END_details
+:END:
+
+
+#+begin_export html
+  <section property="about" typeof="Person foaf:Person wot:User" resource="#id" id="id">
+
+  <section id="summary">
+  <h1>About <span property="foaf:name name">whk</span></h1>
+  <img id="myimage" property="foaf:img image" alt="Stylalized picture of WHK" typeof="URL" src="/images/dwarves/whk_dwarf_sword_386x500.png">
+  <a property="foaf:homepage" typeof="URL" href="https://whk.name/about/me/">This</a> is my primary public online identity and includes links to my other identities around the world. 
+  </section>
+
+  <section id="where">
+  <h2>Where to find me</h2>
+  <table class="identities">
+   <thead>
+    <tr>
+     <th>Site</th>
+     <th>Type</th>
+     <th>Identity</th>
+    </tr>
+   </thead>
+   <tbody>
+   <tr>
+    <td property="address" typeof="PostalAddress"><span property="addressRegion">Texas</span>, <span property="addressCountry">USA</span></td>
+    <td>IRL</td>
+    <td><span property="additionalName">Warren H Knight</span></td>
+   </tr>
+   <tr>
+    <td><a href="https://keybase.io/">Keybase</a></td>
+    <td>Identity Mapping</td>
+    <td><a property="sameAs" typeof="URL" href="https://keybase.io/whk">whk</a></td>
+   </tr> 
+   <tr property="foaf:account" typeof="foaf:OnlineChatAccount" >
+    <td><a property="accountServiceHomepage" typeof="URL" href="http://www.oftc.net/">oftc</a></td>
+    <td>IRC</td>
+    <td property="foaf:accountName">whk</td>
+   </tr>
+   <tr property="foaf:account" typeof="foaf:OnlineChatAccount">
+    <td><a property="accountServiceHomepage" typeof="URL" href="https://freenode.net/">freenode</a></td>
+    <td>IRC</td>
+    <td property="foaf:accountName">whk</td>
+   </tr>
+   <tr>
+    <td>FSF Server</td>
+    <td>XMPP</td>
+    <td property="foaf:jabberID">whk@member.fsf.org</td>
+   </tr>
+   <tr>
+    <td><a href="https://github.com/">GitHub</a></td>
+    <td>Source Repository</td>
+    <td><a property="sameAs" typeof="URL" href="https://github.com/ghiknt">ghiknt (whk)</a></td>
+   </tr> 
+   <tr>
+    <td><a href="https://taiga.io/">Taiga</a></td>
+    <td>Agile tool</td>
+    <td><a property="sameAs" typeof="URL" href="https://tree.taiga.io/profile/whk">whk</a></td>
+   <tr>
+    <td><a href="https://www.zotero.org/">zotero</a></td>
+    <td>Research Repository</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.zotero.org/wknight">whk</a></td>
+   </tr> 
+   <tr>
+    <td><a href="https://twitter.com/">Twitter</a></td>
+    <td>Micro Blog</td>
+    <td><a property="sameAs" typeof="URL" href="https://twitter.com/ghiknt">@ghiknt</a></td>
+   </tr> 
+   <tr>
+    <td><a href="https://www.goodreads.com/">goodreads</a></td>
+    <td>Social Network</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.goodreads.com/WarrenHKnight">Warren Knight</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://plus.google.com/">Google+</a></td>
+    <td>Social Network</td>
+    <td><a property="sameAs" typeof="URL" href="https://plus.google.com/u/0/101687380861737099309/about">Warren Knight (whk)</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://www.reddit.com/">reddit</a></td>
+    <td>Social Network - news</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.reddit.com/user/ghiknt/">ghiknt</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://www.patreon.com/">patreon</a></td>
+    <td>Crowd Funding</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.patreon.com/whk">whk</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://www.kickstarter.com">Kickstarter</a></td>
+    <td>Crowd Funding</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.kickstarter.com/profile/whk">whk</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://gratipay.com/">Gratipay</a></td>
+    <td>Crowd Funding</td>
+    <td><a property="sameAs" typeof="URL" href="https://gratipay.com/whk/">whk</a></td>
+   </tr>
+   <tr>
+    <td><a href="https://www.crowdrise.com/">ghiknt</a></td>
+    <td>Crowd Funding</td>
+    <td><a property="sameAs" typeof="URL" href="https://www.crowdrise.com/ghiknt">ghiknt</a></td>
+   </tr>
+   <tr>
+    <td><s>Gitorious</s></td>
+    <td>Defunct Source Repository</td>
+    <td><s><a property="sameAs" typeof="URL" href="https://gitorious.org/~whk">whk</a></s></td>
+   </tr> 
+  </tbody>
+  </table>
+  </section>
+
+  <section id="orgs">
+  <h2>Organizations</h2>
+  I am either a member, provide support to, or am a fan of the following civil society organizations
+  <table class="identities">
+   <thead>
+    <tr>
+     <th>Organization</th>
+     <th>Type</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr>
+     <td><a href="https://home.nra.org/home/document/about">National Rifle Association</a></td>
+     <td>Firearm Education and Advocacy</td>
+    </tr>
+    <tr>
+     <td><a href="https://sfconservancy.org/">Software Freedom Conservancy</a></td>
+     <td>FLOSS advocacy</td>
+    </tr>
+    <tr>
+     <td><a href="https://www.fsf.org/about/">Free Software Foundation</a></td>
+     <td>Free Software Advocacy</td>
+    </tr>
+   </tbody>
+  </table>
+  </section>
+
+  <section id="gpg">
+  <h2>Validation</h2>
+  Currently I am using GPG to sign my code in GIT although I expect I will use it for other purposes as this and my other sites develop.
+
+  <table class="gpglist" style="border: 1px solid">
+   <thead>
+    <tr><th>Key</th><th>ID</th><th>Type</th><th>Fingerprint</th><th>Purpose</th></tr>
+   </thead>
+   <tbody>
+    <tr property="wot:hasKey" typeof="wot:PubKey" resource="#codesign">
+     <td><a property="wot:pubkeyAddress" typeof="URL" href="https://whk.name/about/me/whk.asc">GPG</a>
+     <td><span property="wot:identity">https://whk.name/about/me (whk) &lt;no-reply@whk.name&gt;</span></td>
+     <td><span property="wot:length">4096</span>R/<span property="wot:hex_id">3C01BF01</span></td>
+     <td><code property="wot:fingerprint">ECA2 1555 D91A 3A44 DD6E  7075 8F50 CC65 3C01 BF01</code></td>
+     <td>Code Signing</td>
+    </tr>
+   </tbody>
+  </table>
+  </section>
+  </section>
+#+end_export
+
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details

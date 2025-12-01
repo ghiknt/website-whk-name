@@ -4,7 +4,7 @@
 #+AUTHOR: whk (https://whk.name/about/me)
 #+EMAIL: develop@whk.name
 #+SUBTITLE:
-#+DESCRIPTION: Controls the generation of html project output
+#+DESCRIPTION: Creates a relocatebable website based on my working notebook
 #+KEYWORDS: org-mode web
 #+STARTUP: content
 * Introduction
@@ -14,7 +14,7 @@
 + Copyright:
   - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
   - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
-  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
+  - See {{{insertRelativeLink(about/licensing/index.org,Licensing)}}} for more details
 + Author: {{{author}}}
 + Created: {{{date}}}
 + Changes
@@ -36,6 +36,66 @@ This allows it to be hosted on my domain, IPFS, localfile, etc.
 A complete rebuild of the site where nothing has changed
 should always be a [[https://reproducible-builds.org/][Reproducible Build]].  If something was changed
 only files dependent on that change should be different.
+*** MINIMIZEMETAEFFORT
+This should be foremost a working development notebook.  The overhead
+when working with my notes to allow them to be used for a
+functional website should be minimized as much as possible.
+
+- Web site metadata and structure
+
+  The [[Thunar template][default file template]] should contain all repetitive default
+  information needed for the page.
+
+  The selection of the correct =level-#= [[Templates][template]] should set everything
+  required to have the web site be [[RELOCATABLE][relocatable]].  This includes defining
+  the =insertReleativeLink= macro to allow cross document links to
+  just work.
+
+- Licensing
+
+  Collect any explanations for licensing decisions in
+  {{{insertRelativeLink(about/licensing/index.org,Licensing)}}} file.
+  So it only has to be written once.
+
+  Put my prefered (default) licensing terms and SPDX data
+  into the [[Thunar template][default file template]].
+
+  Use {{{insertRelativeLink(notebook/cookbook/fsfe-reuse/index.org,FSFE's reuse)}}} to
+  quickly lint the project as I work.  I am not going for complete compliance
+  but rather making sure I am not making major errors.
+
+  Define macro's to allow (relatively) easy, clear, and fsfe-ruse compliant
+  marking of CC0-1.0 snippets.
+
+*** SELFCONTAINED
+Any dependent css, js and other files needed to use the final website
+should be hosted with the website.
+
+*** FREE
+The resultant website should be free as in freedom.  Anybody who accesses the
+site should...
+
+- have everything they need to reproduce the contents of the site.
+
+  - The source repository should be included at the same location
+  - The tools needed to build the site should be Opensource
+    and readily available.  The build process should be clearly documented
+    (this file).
+    
+- have the permissions needed to modify and share any content on
+  the site.
+
+  See {{{insertRelativeLink(about/licensing/index.org,Licensing)}}} for details.
+
+- be able to view through the website the source files that created each
+  page.
+
+  Currently implemented by including the [[File Listings][file listings]] at the end of
+  each document.  But this is an incomplete and stopgap kludge.
+
+  I would like the final solution to be a javascript git browser that
+  can provide a view to the included git repositories and then provide
+  a link to them.
 
 ** Issues
 - ~.org~ to ~.html~ rewrite during export
@@ -87,11 +147,13 @@ TODO: Consider moving to [[https://github.com/tgbugs/orgstrap/blob/master/README
   (setq org-publish-project-alist
 	'(
 	  «notebookProject»
+	  «aboutProject»
 	  «dotfilesProject»
 	  «emacs.dProject»
 	  )
 	)
   (org-publish "notebook")
+  (org-publish "about")
   (org-publish "dotfiles-hmtl")
   (org-publish "emacs.d-html")
 #+end_src
@@ -130,16 +192,42 @@ The Common settings for the notebook
 #+NAME: notebookCommon
   #+HEADER: :tangle no
   #+begin_src emacs-lisp
-    :base-directory "../.."
-    :publishing-directory "~/build/web/notebook/"
-    :recursive t
-    :exclude "toBeIntegrated/.*"
+  :base-directory "../.."
+  :publishing-directory "~/build/web/notebook/"
+  :recursive t
+  :exclude "toBeIntegrated/.*\\|config/publish/about/.*"
   #+end_src
 
-** dotfiles
+** ~«aboutProject»~
+The top level about pages
+
+#+NAME: aboutProject
+#+HEADER: :tangle no
+#+HEADER: :noweb no-export
+#+begin_src emacs-lisp
+  ("about-html"
+   «project-html-global»
+   :base-directory "./about"
+   :publishing-directory "~/build/web/about/"
+   :recursive t
+   )
+  ("about-static"
+   :base-directory "./about"
+   :publishing-directory "~/build/web/about/"
+   :recursive t
+   :base-extension "org\\|el\\|sh\\|css\\|js\\|png\\|asc\\|bib\\|csl\\|xml"
+   :publishing-function org-publish-attachment
+   )
+  ("about" :components ("about-html"
+			"about-static"
+			))
+#+end_src
+  
+
+
+** ~«dotfilesProject»~
 Personal Dotfile configuration
 
-*** ~«dotfilesProject»~
 #+NAME: dotfilesProject
 #+HEADER: :tangle no
 #+HEADER: :noweb no-export
@@ -152,7 +240,7 @@ Personal Dotfile configuration
    ;; «template-level-2»
    )
 #+end_src
-*** ~«emacs.dProject»~
+** ~«emacs.dProject»~
 #+NAME: emacs.dProject
 #+HEADER: :tangle no
 #+HEADER: :noweb no-export
@@ -164,6 +252,8 @@ Personal Dotfile configuration
    :recursive f
    )
 #+end_src
+
+
 
 ** global settings - ~«project-html-global»~
 Settings used by all org html exporters.
@@ -340,9 +430,10 @@ Handle HTML settings for each relative level in the output.
 #+end_src
 
 
-** Thunar ~index.org~ template
+** Thunar template
 Template used by thunar when creating a new file
-#+INCLUDE: "~/Templates/index.org" example org
+- =~/Templates/index.org=
+  #+INCLUDE: "~/Templates/index.org" example org
 
 * File Listings
 ** ~index.org~
