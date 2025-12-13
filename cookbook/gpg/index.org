@@ -1,14 +1,34 @@
-#+SETUPFILE: ../publish/templates/level-3.org
-#+TITLE: gpg configuration
-#+CREATED: 2021-04-01
-#+DATE: 2025-03-03
-#+AUTHOR: whk
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: GPG
+#+DATE: 2025-12-13
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
 #+SUBTITLE:
 #+DESCRIPTION: Configuration of gpg and related tools
-#+KEYWORDS: gpg
+#+KEYWORDS:gpg
 #+STARTUP: content
 
-* Structure
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2021-2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2021-04-01: Created
+  - 2025-12-13: Reorganize into new layout
+#+END_details
+:END:
+
+
+* Dependencies and interactions between commands and libraries
+
+A high level view of how the different commands and libraries interact
+
 #+CAPTION: gpg dependencies
 #+ATTR_HTML: :usemap "#gpg"
 #+begin_src dot :file gpg.png :cmdline -Tcmapx -ogpg.map -Tgif -ogpg.png :eval no-export
@@ -59,9 +79,6 @@
     #watchgnupg
     ### nitrokey
     nitrokeyApp [label="nitrokey-app"]
-
-
-
 
 
     ### opensc
@@ -117,8 +134,8 @@
 
 #+INCLUDE: "gpg.map" export html
 
-** TODO Include of file appears to happen before execution can that be switched
 * Software view of the world
+
 ** opensc-tool
 
 #+begin_src bash :results verbatim :eval no-export :exports both
@@ -358,6 +375,8 @@ gpg-connect-agent 'help' /bye
 OK
 #+end_example
    
+
+
 * Identities
 
 ** develop@whk-name
@@ -702,5 +721,5 @@ engine -pre SO_PATH:/usr/lib/engines/engine_pkcs11.so -pre ID:pkcs11 -pre LIST_A
 ** ~index.org~
 #+BEGIN_details
 #+HTML: <summary>The index.org source file for this page</summary>
-#+INCLUDE: "index.org" src org
+#+INCLUDE: "index.org" example
 #+END_details
