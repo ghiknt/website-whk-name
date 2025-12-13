@@ -1,4 +1,34 @@
-* Qubes 4.2.2+ Configuration
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: Qubes OS Configurations
+#+DATE: 2025-03-01
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: 
+#+KEYWORDS:
+#+STARTUP: content
+
+
+
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-03-01: Created
+  - 2025-12-11: Start Split SSH Configuration
+  - 2025-12-13: Reformated for new publish scheme
+#+END_details
+:END:
+
+
+* Qubes OS 4.2.2+ Configuration
 ** TODO Tasks
 *** Setup apt cache disposable template
 - Ref: https://forum.qubes-os.org/t/where-to-set-apt-cacher-ng/14056/3
@@ -12,6 +42,56 @@
       qubes.Gpg  * @tag:developGPG whk-sys-gpg-develop allow
       qubes.Gpg  * @anyvm          whk-sys-gpg-develop deny
       #+end_example
+
+** Split SSH
+- Ref:
+  - PrivSec.dev, Tommy, "[[https://privsec.dev/posts/qubes/using-split-gpg-and-split-ssh-on-qubes-os/][Using Split GPG and Split SSH on Qubes OS]],"
+    2022-08-13. License: [[https://creativecommons.org/licenses/by-sa/4.0/][CC BY-SA 4.0]]. Accessed 2025-12-09.
+    
+Configure Split SSH to use the authentication subkey from my nitrokey attached to whk-sys-develop-gpg vault.
+
+*** DOM0 
+
+Set only qubes tagged with developGPG to have access to ssh
+
+- /etc/qubes/policy.d/30-user-split-ssh.policy
+  #+NAME: 30-user-split-ssh.policy
+  #+HEADER: :tangle no
+  #+begin_example generic
+    qubes.SshAgent	*	@tag:developGPG	whk-sys-gpg-develop	allow
+    qubes.SshAgent	*	@anyvm		whk-sys-gpg-develop	deny
+  #+end_example
+
+*** whk-sys-gpg-develop
+
+Enable ssh support in gpg-agent and add authentication subkey to sshcontrol
+
+- /home/user/.gnupg/gpg-agent.conf
+  #+NAME: gpg-agent.conf
+  #+HEADER: :tangle no
+  #+begin_src example
+    enable-ssh-support
+  #+end_example
+
+- /home/user/.gnupg/sshcontrol
+  #+begin_example
+    user@whk-sys-gpg-develop:~$ cd .gnupg
+    user@whk-sys-gpg-develop:~/.gnupg$ gpg -K --with-keygrip
+    /home/user/.gnupg/pubring.gpg
+    -----------------------------
+    sec>  rsa4096 2015-01-11 [SC]
+	  ECA21555D91A3A44DD6E70758F50CC653C01BF01
+	  Keygrip = 2331286DE81AEBEB76485D5CBE0E79350F92BE68
+	  Card serial no. = 0005 0000A391
+    uid           [ultimate] Warren H Knight (Dev email) <develop@whk.name>
+    uid           [ultimate] https://whk.name/about/me/ (whk) <no-reply@whk.name>
+    ssb>  rsa4096 2015-01-11 [E]
+	  Keygrip = D2A45BB07806B9EB01E96A1AB8ACAAF98CAB6D16
+    ssb>  rsa4096 2021-03-07 [A]
+	  Keygrip = 4EE6A0489CC9A2EE1CA932E7DDB02B2F9EA871A7
+
+    user@whk-sys-gpg-develop:~/.gnupg$ echo "4EE6A0489CC9A2EE1CA932E7DDB02B2F9EA871A7" >> sshcontrol
+  #+end_example
 
 ** Templates
 *** Default Supplied Templates
@@ -438,3 +518,11 @@ be set on a per template level.
 #+END_SRC
 
 
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
