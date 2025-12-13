@@ -1,0 +1,107 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: 2025-12 Network OS Options
+#+DATE: 2025-12-01
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: Survey of available Network OS Options for Home Networking Gear
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-01: Created
+#+END_details
+:END:
+
+I am planning an upgrade to my network configuration.  This is a brief survey
+the current state of available software to use for my configuration.  My
+current preference is OpenWRT but it has been a couple of years since I looked
+at alternatives.
+
+Features I am looking for...
+- Free and Open Source (FOSS)
+- Security
+- Stable for Core equipment, Flexible for Dev equipment  
+- Command line configuration/management
+- Support for scripted remote configuration
+- CPU Support
+  - ARM - WRT1200AC
+  - MIPS - WNDR3700v2
+  - AMD64/X86_64 - VP6650
+
+* Hardware
+
+The current hardware that I have to work with
+
+| Manufacture | Model     |   | OS      | Support  |                                         |
+|             | #         | # | Current | Flashing | Notes                                   |
+|-------------+-----------+---+---------+----------+-----------------------------------------|
+| Netgear     | [[../../config/hw-netgear-cm1200-cablemodem/index.org][CM1200]]    | 1 | OEM     | No       | Cable Broadband                         |
+| HP          | 2920-24G  | 1 | OEM     | No       | Backbone switch                         |
+| Netgear     | WNDR3800  | 2 | OpenWrt | Yes      | Current core - edge post upgrade        |
+| EnGenius    | ECB350    | 1 | OEM     | Yes      | Current edge - decommision post upgrade |
+| Linksys     | WRT1200AC | 5 | N/A     | Yes      | New core                                |
+| protectli   | VP6650    | 1 | N/A     | Yes      | New Homelab dev; 5G failover network    |
+
+* Network OS options
+** Final Candidates
+*** OpenWRT
+- Supported Hardware: WNDR3800, WRT1200AC
+- No longer supported: ECB350 (ended 2022)
+*** Mainline Linux
+- References
+  - [[https://wiki.debian.org/InstallingDebianOn/Linksys/WRT1200AC][InstallingDebianOn Linksys WRT1200AC]]
+**** IPFire
+- Supports ARM64/x86_64
+- Consider using VM version inside protectli
+**** danosproject.org
+- Supported: KVM, x86
+- Last updated in 2021 is it still active?
+- Consider Using VM version inside protectli
+**** VyOS
+- *Freemium Model*
+  - Need to compare features in LTS vs Stream.  May just be better support which I don't mind.
+- Consider Using in VM inside protectli
+- Con: doesn't support gpg verification for release signing.  Would need to research minisign to determine if I trust.
+- Pro: Commandline Interface appears to be like other Network OS's I used previously
+** Other considered options
+*** bsd alternatives
+Both pfSense and OPNsense look interesting and if they supported the WRT1200AC
+I would probably use them. They are not interesting enough to beat out a mainstream
+linux distro for the VP6650 though.
+**** pfSense
+- Points to FreeBSD14 compatibilty information.
+**** OPNsense
+- Supported Hardware: VP6650 (Only support AMD64/X86_64)
+*** ProxMox
+- *Freemium Model*
+  - Quick perusal doesn't make it easy to see what is the value added capabilities in the  "enterprise repo"
+
+Seriously considered for VP6650 as the main install but it does not support full disk encryption in installer so
+I would need to install on top of debian.  If I have to do that I will just install my own
+os from scratch since WebUI is not a big deal for me.
+*** DD-WRT
+- Supported Hardware: WNDR3800, WRT1200AC
+I don't see anything to make me switch from OpenWRT.  Looks similar but
+website is not as easy to use.
+*** Tomato/freshtomato
+- Doesn't Support any of my hardware
+*** nvidia cumulus linux
+- While bases on Cumulus Networks version I do not see a way to get/look at
+  source from [[https://www.nvidia.com/en-us/networking/ethernet-switching/cumulus-linux/][Nvidia's page]].  Assuming they have closed sourced it for now.
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
