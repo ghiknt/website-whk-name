@@ -1,0 +1,56 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: Protectli vp6650
+#+DATE: 2025-12-09
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: 
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-09: Created
+#+END_details
+:END:
+
+
+
+
+* Minimal GUIX installation
+- References:
+  - [[https://guix.gnu.org/manual/en/html_node/Manual-Installation.html][Manual Installation (GNU Guix Reference Manual)]]
+  - [[https://www.gnu.org/software/gnuboot/docs/gnulinux/guix.html][GNU Boot - Encrypted Guix GNU+Linux]]
+
+#+begin_src bash
+  # Set keyboard layout - Should be default
+  loadkeys us
+
+  # Check IP Address
+  ip addr
+  # Two IPs should be active
+  #  1- enp01s12f0u1 - 5G modem
+  #  2- enp2s0f1 - 10Gbps connection to home switch
+
+  # install gnupg in installer to validate signed files
+  guix package -i gnupg
+
+  # import my public key
+  gpg --keyserver keys.openpgp.org --search-keys develop@whk.name
+#+end_src
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details

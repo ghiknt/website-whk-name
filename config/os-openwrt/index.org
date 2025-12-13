@@ -1,0 +1,104 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: OpenWRT OS Configuration
+#+DATE: 2025-12-04
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: 
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-04: Created
+#+END_details
+:END:
+
+* Configurations
+** Common
+
+- Install openwrt image and boot
+  - For WRT1200ACv1 the default linksys password is ~admin~
+- Manual configuration
+  - After switching to openwrt firmware the initial root password is blank
+  - Set root password
+  - Set temporary address for integration: ~Network | Interfaces | lan | Edit~
+    - ipv4 address: 10.77.128.254
+    - ipv4 netmask: 255.255.255.0
+    - save
+  - Save & Apply
+
+
+** labDesk
+ - Installed image [[*24.10.4][24.10.4]]
+
+
+* Builds Used
+
+** 24.10.4
+- Source:
+  - Firmware
+    - [[https://firmware-selector.openwrt.org/][External: OpenWrt Firmware Selector]]
+    - Linksys WRT1200AC - 24.10.4
+    - Retrieved 2025-12-04
+  - GPG Signatures
+    - Info: External: [[https://openwrt.org/docs/guide-quick-start/verify_firmware_checksum][Verifying OpenWrt firmware binary]]
+    - Firmware Directory: External: [[https://downloads.openwrt.org/releases/24.10.4/targets/mvebu/cortexa9/][Firmware]]
+    - Files: sha256sums sha256sums.asc
+- Details    
+  - Model:  Linksys WRT1200AC / Linksys Caiman
+  - Platform: mvebu/cortexa9
+  - Version  24.10.4 (r28959-29397011cc)
+  - Images: sysupgrade - factory - kernel
+    - sysupgrade
+    - factory
+    - kernel
+- Signatures
+  - sha256sums
+  - sha256sums.asc
+
+*** Validation
+- Relies on the correct key fingerprints to be listed on [[https://openwrt.org/docs/guide-user/security/signatures][OpenWrt Public Keys]]
+  - Verified on 2025-12-04
+#+begin_example
+ser@whk-dev-editor:~/openwrt-files$ gpg --receive-keys 0x2B0151090606D1D9
+gpg: /home/user/.gnupg/trustdb.gpg: trustdb created
+gpg: key 1D53D1877742E911: public key "OpenWrt Build System (Nitrokey3) <contact@openwrt.org>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+
+user@whk-dev-editor:~/openwrt-files$ gpg --fingerprint 0x2B0151090606D1D9
+pub   ed25519 2023-05-18 [C] [expires: 2033-05-15]
+      8A8B C12F 46B8 36C0 F9CD  B36F 1D53 D187 7742 E911
+uid           [ unknown] OpenWrt Build System (Nitrokey3) <contact@openwrt.org>
+sub   ed25519 2023-05-18 [S] [expires: 2033-05-15]
+
+user@whk-dev-editor:~/openwrt-files$ gpg --with-fingerprint --verify sha256sums.asc sha256sums
+gpg: Signature made Tue 21 Oct 2025 10:21:29 AM UTC
+gpg:                using EDDSA key 92C561DE55AE6552F3C736B82B0151090606D1D9
+gpg: Good signature from "OpenWrt Build System (Nitrokey3) <contact@openwrt.org>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 8A8B C12F 46B8 36C0 F9CD  B36F 1D53 D187 7742 E911
+     Subkey fingerprint: 92C5 61DE 55AE 6552 F3C7  36B8 2B01 5109 0606 D1D9
+
+user@whk-dev-editor:~/openwrt-files$ sha256sum -c --ignore-missing sha256sums
+openwrt-24.10.4-mvebu-cortexa9-linksys_wrt1200ac-initramfs-kernel.bin: OK
+openwrt-24.10.4-mvebu-cortexa9-linksys_wrt1200ac-squashfs-factory.img: OK
+openwrt-24.10.4-mvebu-cortexa9-linksys_wrt1200ac-squashfs-sysupgrade.bin: OK
+#+end_example
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details

@@ -1,0 +1,50 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: Netgear CM1200
+#+DATE: 2025-12-01
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE: Nighthawk Multi-Gig Speed Cable Modem
+#+DESCRIPTION: Hardware Details
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-01: Created
+#+END_details
+:END:
+
+** Model Information
+| Manufacture | Netgear                                                  |
+| Model       | CM1200                                                   |
+| Name        | Nighthawk Multi-Gig Speed Cable Modem                    |
+| OEM Docs    | [[https://www.netgear.com/support/product/cm1200][EXTERNAL: Netgear Site]]                                   |
+| Cable       | COAX DOCSIS 3.1 backwards compat with 3.0                |
+| 4xEthernet  | 10/100/1000 RJ-45 supports Link Aggregation on Ports 1&2 |
+
+** modem
+| Serial # | 6YC24A73D01FA          |
+| DNS Name | modem.home.umbisag.org |
+
+| Ports | Connection             | MAC               |            IP |
+|-------+------------------------+-------------------+---------------|
+| Cable | to Spectrum            | 54:07:7d:c4:d8:80 |               |
+| Lan 1 | to gw                  |                   | 192.168.100.1 |
+| Lan 2 | unconnected            |                   |               |
+
+TODO: Configure Ethernet Aggregation
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
