@@ -1,0 +1,78 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: SSH Identities
+#+DATE: 2025-12-17
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: Public keys of various SSH Identities that I use/depend on
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-17: Created
+#+END_details
+:END:
+
+
+
+** Generation
+
+*** 2025
+
+#+begin_example bash
+  mkdir 2025-ssh-keys
+  cd 2025-ssh-keys
+  ssh-keygen -f ./id-2025-personal-ed25519 \
+	     -t ed25519 -C "WHK (develop@whk.name) Personal Key"
+  ssh-keygen -f ./id-2025-production-ed25519 \
+	     -t ed25519 -C "WHK (develop@whk.name) Production Key"
+  ssh-keygen -f ./id-2025-development-ed25519 \
+	     -t ed25519 -C "WHK (develop@whk.name) Development Key"
+  ssh-keygen -f ./id-2025-testing-ed25519 \
+	     -t ed25519 -C "WHK (develop@whk.name) Testing Key"
+#+end_example
+
+
+
+- [[file:id-2025-personal-ed25519.pub][id-2025-personal-ed25519.pub]]
+  #+INCLUDE: "id-2025-personal-ed25519.pub" example
+  #+BEGIN_details
+  #+HTML: <summary><a href="id-2025-personal-ed25519.pub.asc">id-2025-personal-ed25519.pub.asc</a></summary>
+  #+INCLUDE: "id-2025-personal-ed25519.pub.asc" example
+  #+END_details
+- [[file:id-2025-production-ed25519.pub][id-2025-production-ed25519.pub]]
+  #+INCLUDE: "id-2025-production-ed25519.pub" example
+  #+BEGIN_details
+  #+HTML: <summary><a href="id-2025-production-ed25519.pub.asc">id-2025-production-ed25519.pub.asc</a></summary>
+  #+INCLUDE: "id-2025-production-ed25519.pub.asc" example
+  #+END_details
+- [[file:id-2025-development-ed25519.pub][id-2025-development-ed25519.pub]]
+  #+INCLUDE: "id-2025-development-ed25519.pub" example
+  #+BEGIN_details
+  #+HTML: <summary><a href="id-2025-development-ed25519.pub.asc">id-2025-development-ed25519.pub.asc</a></summary>
+  #+INCLUDE: "id-2025-development-ed25519.pub.asc" example
+  #+END_details
+- [[file:id-2025-testing-ed25519.pub][id-2025-testing-ed25519.pub]]
+  #+INCLUDE: "id-2025-testing-ed25519.pub" example
+  #+BEGIN_details
+  #+HTML: <summary><a href="id-2025-testing-ed25519.pub.asc">id-2025-testing-ed25519.pub.asc</a></summary>
+  #+INCLUDE: "id-2025-testing-ed25519.pub.asc" example
+  #+END_details
+
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
