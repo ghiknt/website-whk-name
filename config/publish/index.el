@@ -35,7 +35,7 @@
 	 :publishing-directory "~/build/web/notebook/"
 	 :recursive t
 	 :exclude "toBeIntegrated/.*\\|config/publish/about/.*"
-	 :base-extension "org\\|el\\|sh\\|css\\|js\\|png"
+	 :base-extension "org\\|el\\|sh\\|css\\|js\\|png\\|pub\\|asc"
 	 :publishing-function org-publish-attachment
 	 )
 	("notebook" :components ("notebook-html"

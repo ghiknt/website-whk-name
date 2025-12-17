@@ -19,6 +19,7 @@
 + Created: {{{date}}}
 + Changes
   - 2025-03-02: Created
+  - 2025-12-17: Export SSH public key files (.pub) and GPG signatures (.asc)
 #+END_details
 :END:
 
@@ -176,7 +177,7 @@ Working Notebook
    )
   ("notebook-static"
    «notebookCommon»
-   :base-extension "org\\|el\\|sh\\|css\\|js\\|png"
+   :base-extension "org\\|el\\|sh\\|css\\|js\\|png\\|pub\\|asc"
    :publishing-function org-publish-attachment
    )
   ("notebook" :components ("notebook-html"
