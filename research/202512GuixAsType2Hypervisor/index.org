@@ -1,0 +1,531 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: Configuring GUIX as a Type-2 Hypervisor
+#+DATE: 2025-12-19
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: Exploration on how to configure a server with Guix as a Type-2 Hypervisor and Container server
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-19: Created
+#+END_details
+:END:
+
+This documents my attempt to setup a home lab server using GUIX as
+a Type-2 Hypervisor and Container server that I will use for personal projects.
+
+While I have played with Guix on and off over the last few years and for a
+short while used it as my desktop (before I corrupted the build). I am by no
+means an expert so be careful following anything I do here.  This attempt is
+as much about learning how Guix works and it is about getting the system "right".
+
+* Hardware
+- [[../../config/hw-protectli-vp6650/index.org][Protectli vp6650]] - Test server
+- [[../../config/hw-ioSafe-DuoPro/index.org][ioSafe DuoPro]] - Virtual machine, container, and data storage  
+
+* Initial Build
+- GNU Guix, [[https://guix.gnu.org/manual/en/html_node/Manual-Installation.html][Manual Installation (GNU Guix Reference Manual)]].
+   License: [[https://guix.gnu.org/manual/en/html_node/GNU-Free-Documentation-License.html][GFDL-1.3]], Accessed 2025-12-17
+- Ref: GNU Guix, [[https://guix.gnu.org/manual/devel/en/html_node/System-Installation.html][System Installation (GNU Guix Reference Manual)]],
+   License:  [[https://guix.gnu.org/manual/en/html_node/GNU-Free-Documentation-License.html][GFDL-1.3]], Accessed 2025-12-18
+
+
+- First I tried to do a manual shell install configuring by hand but
+  I could not get a bootable system.
+- Using the guided install I get a system with the following config
+  #+begin_src scheme
+    ;; This is an operating system configuration generated
+    ;; by the graphical installer.
+    ;;
+    ;; Once installation is complete, you can learn and modify
+    ;; this file to tweak the system configuration, and pass it
+    ;; to the 'guix system reconfigure' command to effect your
+    ;; changes.
+
+
+    ;; Indicate which modules to import to access the variables
+    ;; used in this configuration.
+    (use-modules (gnu))
+    (use-service-modules cups desktop networking ssh xorg)
+
+    (operating-system
+      (locale "en_US.utf8")
+      (timezone "America/Chicago")
+      (keyboard-layout (keyboard-layout "us"))
+      (host-name "devserver01")
+
+      ;; The list of user accounts ('root' is implicit).
+      (users (cons* %base-user-accounts))
+
+      ;; Packages installed system-wide.  Users can also install packages
+      ;; under their own account: use 'guix search KEYWORD' to search
+      ;; for packages and 'guix install PACKAGE' to install a package.
+      (packages (append (list (specification->package "nss-certs"))
+			%base-packages))
+
+      ;; Below is the list of system services.  To search for available
+      ;; services, run 'guix system search KEYWORD' in a terminal.
+      (services
+       (append (list (service xfce-desktop-service-type)
+
+		     ;; To configure OpenSSH, pass an 'openssh-configuration'
+		     ;; record as a second argument to 'service' below.
+		     (service openssh-service-type)
+		     (set-xorg-configuration
+		      (xorg-configuration (keyboard-layout keyboard-layout))))
+
+	       ;; This is the default list of services we
+	       ;; are appending to.
+	       %desktop-services))
+      (bootloader (bootloader-configuration
+		    (bootloader grub-efi-bootloader)
+		    (targets (list "/boot/efi"))
+		    (keyboard-layout keyboard-layout)))
+      (mapped-devices (list (mapped-device
+			      (source (uuid
+				       "10d6c832-f8c5-45df-b11f-6119a85de83f"))
+			      (target "cryptroot")
+			      (type luks-device-mapping))))
+
+      ;; The list of file systems that get "mounted".  The unique
+      ;; file system identifiers there ("UUIDs") can be obtained
+      ;; by running 'blkid' in a terminal.
+      (file-systems (cons* (file-system
+			     (mount-point "/boot/efi")
+			     (device (uuid "F39E-B8E5"
+					   'fat32))
+			     (type "vfat"))
+			   (file-system
+			     (mount-point "/")
+			     (device "/dev/mapper/cryptroot")
+			     (type "ext4")
+			     (dependencies mapped-devices)) %base-file-systems)))
+  #+end_src
+- Then updated to latest updates with ~guix pull~ which produces
+  #+begin_example
+    guix pull --list-generations
+    Generation 1 Dec 19 2025 01:14:20 (current)
+      guix fbef54a
+        repository URL: https://git.savannah.gnu.org/git/guix.git
+        branch: master
+        commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+  #+end_example
+
+* Convert to minimal barebones configuration
+Convert the Working system to the minimal configuration I originally wanted
+one step at a time
+
+** Correct timezone
+- Modify /etc/config.scm to set timezone to UTC since installer did not
+  provide it as an option
+  #+begin_src diff
+    --- config.scm.orig	2025-12-18 22:40:00.000000000 +0000
+    +++ config.scm.1	2025-12-18 22:43:11.407999405 +0000
+    @@ -14,7 +14,7 @@
+ 
+     (operating-system
+       (locale "en_US.utf8")
+    -  (timezone "America/Chicago")
+    +  (timezone "UTC")
+       (keyboard-layout (keyboard-layout "us"))
+       (host-name "devserver01")
+  #+end_src
+- Reconfigure with ~guix system reconfigure config.scm~ producing generation 2
+  #+begin_example
+    guix system list-generations 2
+    Generation 2	Dec 19 2025 01:25:53
+      file name: /var/guix/profiles/system-2-link
+      canonical file name: /gnu/store/36nj2jqxrwjb0bfkda5j4qd36q12nd2p-system
+      label: GNU with Linux-Libre 6.17.12
+      bootloader: grub-efi
+      root device: /dev/mapper/cryptroot
+      kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+      channels:
+	guix:
+	  repository URL: https://git.savannah.gnu.org/git/guix.git
+	  branch: master
+	  commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+      configuration file: /gnu/store/glzhfjyfp9hnj17fils39rvsckwn3y5x-configuration.scm
+  #+end_example
+** Reconfigure SSH to allow remote configuration
+- Enable public-key authentication for root and disable all password authention.
+- Enable X11 Forwarding
+  #+begin_src diff
+    --- config.scm.1	2025-12-18 22:43:11.407999405 +0000
+    +++ config.scm.2	2025-12-19 16:23:42.208415286 +0000
+    @@ -34,7 +34,12 @@
+ 
+		      ;; To configure OpenSSH, pass an 'openssh-configuration'
+		      ;; record as a second argument to 'service' below.
+    -                 (service openssh-service-type)
+    +                 (service openssh-service-type
+    +                   (openssh-configuration
+    +                     (permit-root-login 'prohibit-password)
+    +                     (password-authentication? #f)
+    +                     (public-key-authentication? #t)
+    +                     (x11-forwarding? #t)))
+		      (set-xorg-configuration
+		       (xorg-configuration (keyboard-layout keyboard-layout))))
+     
+  #+end_src
+- Reconfigure with ~guix system reconfigure config.scm~ producing generation 4
+  #+begin_example
+    guix system list-generations 4
+    Generation 4	Dec 19 2025 16:24:10	(current)
+      file name: /var/guix/profiles/system-4-link
+      canonical file name: /gnu/store/4nq91pjggjsfqjdgjkldlddw33snxrm6-system
+      label: GNU with Linux-Libre 6.17.12
+      bootloader: grub-efi
+      root device: /dev/mapper/cryptroot
+      kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+      channels:
+	guix:
+	  repository URL: https://git.savannah.gnu.org/git/guix.git
+	  branch: master
+	  commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+      configuration file: /gnu/store/g57kn691m78wly5022805d1rfbh3pn80-configuration.scm
+  #+end_example
+- Restart ssh daemon with ~herd restart ssh-daemon~
+** Remove cups, desktop and xorg
+- Remove unwanted service modules and their configurations
+  #+begin_src diff
+    --- config.scm.2	2025-12-19 16:23:42.208415286 +0000
+    +++ config.scm.3	2025-12-19 18:27:00.410931419 +0000
+    @@ -10,7 +10,7 @@
+     ;; Indicate which modules to import to access the variables
+     ;; used in this configuration.
+     (use-modules (gnu))
+    -(use-service-modules cups desktop networking ssh xorg)
+    +(use-service-modules networking ssh)
+
+     (operating-system
+       (locale "en_US.utf8")
+    @@ -30,8 +30,11 @@
+       ;; Below is the list of system services.  To search for available
+       ;; services, run 'guix system search KEYWORD' in a terminal.
+       (services
+    -   (append (list (service xfce-desktop-service-type)
+    -
+    +   (append (list 
+    +                 ;; Assuming the removed Desktop Services provided
+    +                 ;; networking.  openssh-service requires networking
+    +                 ;; to configure so use dhcpd for now
+    +                 (service dhcpcd-service-type) 
+		      ;; To configure OpenSSH, pass an 'openssh-configuration'
+		      ;; record as a second argument to 'service' below.
+		      (service openssh-service-type
+    @@ -39,13 +42,11 @@
+			  (permit-root-login 'prohibit-password)
+			  (password-authentication? #f)
+			  (public-key-authentication? #t)
+    -                     (x11-forwarding? #t)))
+    -                 (set-xorg-configuration
+    -                  (xorg-configuration (keyboard-layout keyboard-layout))))
+    +                     (x11-forwarding? #t))))
+
+		;; This is the default list of services we
+		;; are appending to.
+    -           %desktop-services))
+    +           %base-services))
+       (bootloader (bootloader-configuration
+		     (bootloader grub-efi-bootloader)
+		     (targets (list "/boot/efi"))
+  #+end_src
+- Reconfigure with ~guix system reconfigure config.scm~ producing generation 5
+  #+begin_example
+    guix system list-generations 5
+    Generation 5	Dec 19 2025 18:32:36	(current)
+      file name: /var/guix/profiles/system-5-link
+      canonical file name: /gnu/store/a7a8z0wmd5r4nrkkzj5lfria1zcaqxsb-system
+      label: GNU with Linux-Libre 6.17.12
+      bootloader: grub-efi
+      root device: /dev/mapper/cryptroot
+      kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+      channels:
+	guix:
+	  repository URL: https://git.savannah.gnu.org/git/guix.git
+	  branch: master
+	  commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+      configuration file: /gnu/store/cyig6fppw49sgxbbjpbk4k4d2cs9blbf-configuration.scm
+  #+end_example
+** Static networking 
+- Switch to static networking configuration rather than dhcpd
+  #+begin_src diff
+    --- config.scm.3	2025-12-19 18:27:00.410931419 +0000
+    +++ config.scm.4	2025-12-19 20:12:37.671842753 +0000
+    @@ -30,11 +30,20 @@
+       ;; Below is the list of system services.  To search for available
+       ;; services, run 'guix system search KEYWORD' in a terminal.
+       (services
+    -   (append (list 
+    -                 ;; Assuming the removed Desktop Services provided
+    -                 ;; networking.  openssh-service requires networking
+    -                 ;; to configure so use dhcpd for now
+    -                 (service dhcpcd-service-type) 
+    +   (append (list
+    +                ;; Static network config 
+    +                (service static-networking-service-type
+    +                  (list (static-networking 
+    +                     (addresses 
+    +                        (list (network-address 
+    +                                (device "enp2s0f1") 
+    +                                (value "192.168.1.204/24"))))
+    +                     (routes 
+    +                         (list (network-route 
+    +                                 (destination "default")
+    +                                 (gateway "192.168.1.250"))))
+    +                     (name-servers '("192.168.1.250")))))
+    +
+		      ;; To configure OpenSSH, pass an 'openssh-configuration'
+		      ;; record as a second argument to 'service' below.
+		      (service openssh-service-type
+  #+end_src
+- Reconfigure with ~guix system reconfigure config.scm~ producing generation 6 and
+  then reboot to verify network is correct.
+  #+begin_example
+    guix system list-generations 6
+    Generation 6	Dec 19 2025 20:12:45	(current)
+      file name: /var/guix/profiles/system-6-link
+      canonical file name: /gnu/store/bgyn1shh3d1lhfm5ly11prgihsn15vhn-system
+      label: GNU with Linux-Libre 6.17.12
+      bootloader: grub-efi
+      root device: /dev/mapper/cryptroot
+      kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+      channels:
+	guix:
+	  repository URL: https://git.savannah.gnu.org/git/guix.git
+	  branch: master
+	  commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+      configuration file: /gnu/store/siyhlsi34774a5wq8axyahkirjpvca7x-configuration.scm
+  #+end_example
+** Reduntant nss-certs
+- ~guix system reconfigure~ warns:
+  #+begin_quote
+    guix system: warning: multiple 'nss-certs' packages found;
+    'nss-certs' is now included by default in '%base-packages';
+    ensure it is not explicitly listed in the operating system 'packages' field
+  #+end_quote
+  so I will remove it.
+  #+begin_src diff
+    --- config.scm.4	2025-12-19 20:12:37.671842753 +0000
+    +++ config.scm.5	2025-12-19 20:32:23.936525653 +0000
+    @@ -24,8 +24,7 @@
+       ;; Packages installed system-wide.  Users can also install packages
+       ;; under their own account: use 'guix search KEYWORD' to search
+       ;; for packages and 'guix install PACKAGE' to install a package.
+    -  (packages (append (list (specification->package "nss-certs"))
+    -                    %base-packages))
+    +  (packages (cons* %base-packages))
+ 
+       ;; Below is the list of system services.  To search for available
+       ;; services, run 'guix system search KEYWORD' in a terminal.
+  #+end_src
+- Reconfigure with ~guix system reconfigure config.scm~ producing generation 8
+  #+begin_example
+    Generation 8	Dec 19 2025 20:32:31	(current)
+      file name: /var/guix/profiles/system-8-link
+      canonical file name: /gnu/store/p96k400w7snlmslh2s1p4npg3cajpjj8-system
+      label: GNU with Linux-Libre 6.17.12
+      bootloader: grub-efi
+      root device: /dev/mapper/cryptroot
+      kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+      channels:
+	guix:
+	  repository URL: https://git.savannah.gnu.org/git/guix.git
+	  branch: master
+	  commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+      configuration file: /gnu/store/xl5d31jchi5j97cqfc2a6m2md0zfhi1m-configuration.scm
+  #+end_example
+** Enable firewall
+#+begin_src diff
+  --- config.scm.5	2025-12-19 20:32:23.936525653 +0000
+  +++ config.scm.6	2025-12-28 20:22:16.433290558 +0000
+  @@ -42,7 +42,7 @@
+				    (destination "default")
+				    (gateway "192.168.1.250"))))
+			(name-servers '("192.168.1.250")))))
+  -
+  +                 (service nftables-service-type)
+		    ;; To configure OpenSSH, pass an 'openssh-configuration'
+		    ;; record as a second argument to 'service' below.
+		    (service openssh-service-type
+#+end_src
+
+#+begin_example
+  Generation 9	Dec 28 2025 20:23:05	(current)
+    file name: /var/guix/profiles/system-9-link
+    canonical file name: /gnu/store/xh56rsb53wj3fp6hfva1pw2qjfw70wqp-system
+    label: GNU with Linux-Libre 6.17.12
+    bootloader: grub-efi
+    root device: /dev/mapper/cryptroot
+    kernel: /gnu/store/pbpfl2ll5qz36bqfnl3g3vvag764714h-linux-libre-6.17.12/bzImage
+    channels:
+      guix:
+	repository URL: https://git.savannah.gnu.org/git/guix.git
+	branch: master
+	commit: fbef54aaf81230ebe4ab212d4d80d25f637d0b62
+    configuration file: /gnu/store/3bi40x348rznlinjq89gz2qwkdnb1alr-configuration.scm
+#+end_example
+
+* Final barebones config
+#+begin_src scheme
+  ;; This is an operating system configuration generated
+  ;; by the graphical installer.
+  ;;
+  ;; Once installation is complete, you can learn and modify
+  ;; this file to tweak the system configuration, and pass it
+  ;; to the 'guix system reconfigure' command to effect your
+  ;; changes.
+
+
+  ;; Indicate which modules to import to access the variables
+  ;; used in this configuration.
+  (use-modules (gnu))
+  (use-service-modules networking ssh)
+
+  (operating-system
+    (locale "en_US.utf8")
+    (timezone "UTC")
+    (keyboard-layout (keyboard-layout "us"))
+    (host-name "devserver01")
+
+    ;; The list of user accounts ('root' is implicit).
+    (users (cons* %base-user-accounts))
+
+    ;; Packages installed system-wide.  Users can also install packages
+    ;; under their own account: use 'guix search KEYWORD' to search
+    ;; for packages and 'guix install PACKAGE' to install a package.
+    (packages (cons* %base-packages))
+
+    ;; Below is the list of system services.  To search for available
+    ;; services, run 'guix system search KEYWORD' in a terminal.
+    (services
+     (append (list
+		  ;; Static network config 
+		  (service static-networking-service-type
+		    (list (static-networking 
+		       (addresses 
+			  (list (network-address 
+				  (device "enp2s0f1") 
+				  (value "192.168.1.204/24"))))
+		       (routes 
+			   (list (network-route 
+				   (destination "default")
+				   (gateway "192.168.1.250"))))
+		       (name-servers '("192.168.1.250")))))
+		   (service nftables-service-type)
+		   ;; To configure OpenSSH, pass an 'openssh-configuration'
+		   ;; record as a second argument to 'service' below.
+		   (service openssh-service-type
+		     (openssh-configuration
+		       (permit-root-login 'prohibit-password)
+		       (password-authentication? #f)
+		       (public-key-authentication? #t)
+		       (x11-forwarding? #t))))
+
+	     ;; This is the default list of services we
+	     ;; are appending to.
+	     %base-services))
+    (bootloader (bootloader-configuration
+		  (bootloader grub-efi-bootloader)
+		  (targets (list "/boot/efi"))
+		  (keyboard-layout keyboard-layout)))
+    (mapped-devices (list (mapped-device
+			    (source (uuid
+				     "10d6c832-f8c5-45df-b11f-6119a85de83f"))
+			    (target "cryptroot")
+			    (type luks-device-mapping))))
+
+    ;; The list of file systems that get "mounted".  The unique
+    ;; file system identifiers there ("UUIDs") can be obtained
+    ;; by running 'blkid' in a terminal.
+    (file-systems (cons* (file-system
+			   (mount-point "/boot/efi")
+			   (device (uuid "F39E-B8E5"
+					 'fat32))
+			   (type "vfat"))
+			 (file-system
+			   (mount-point "/")
+			   (device "/dev/mapper/cryptroot")
+			   (type "ext4")
+			   (dependencies mapped-devices)) %base-file-systems)))
+#+end_src
+
+* Validate Current Build
+- Refs:
+  - Reproducible Builds, [[https://reproducible-builds.org/contribute/guix/][Contribute to reproducible builds in GNU Guix]].
+    License: [[https://creativecommons.org/licenses/by-sa/4.0/][CC-BY-SA-4.0]], Accessed: 2025-12-20
+  - GNU Guix, [[https://guix.gnu.org/manual/en/html_node/Invoking-guix-challenge.html][Invoking guix challenge]].  License: [[https://guix.gnu.org/manual/en/html_node/GNU-Free-Documentation-License.html][GFDL-1.3]], Accessed: 2025-12-20
+  - [[https://www.futurile.net/about/][Steve George]], [[https://www.futurile.net/2023/10/17/guix-time-travel-dev-environments/][Time traveling dev environments in Guix]].
+    License: [[https://creativecommons.org/licenses/by-nc-sa/3.0/][CC-BY-NC-SA-3.0]], Accessed: 2025-12-20
+One of the reasons I am interested in using Guix as a Hypervisor is their
+ongoing support of the idea of [[https://reproducible-builds.org/][Reproducible Builds]].  So validate the current
+install using their tools.
+
+
+- So far all Generations have been built from the same
+  commit ~fbef54aaf81230ebe4ab212d4d80d25f637d0b62~
+  #+begin_src bash
+    guix describe --format=channels >/root/guix-channel-pinned-20251219.scm
+  #+end_src
+
+- challenge: Compare current build to the main Guix substitute servers.  Expected to
+  come back with most if not all of the packages as inconclusive since
+  local builds do not exist.  If there are any packages that we have built
+  locally it will verify them against the substitues.
+  #+begin_src bash -n
+    guix package --list-installed \
+	         --profile=/run/current-system/profile |\
+      cut -f1 |\
+      xargs \
+	guix time-machine --channels=/root/guix-channel-pinned-20251219.scm -- \
+	challenge --substitute-urls="https://ci.guix.gnu.org"
+  #+end_src
+  - 1: Get the list of installed packages
+  - 2: From the current running system
+  - 3: Cut out the first field which is the package name
+  - 4: Use xargs to bundle all the package names into command line arguments
+  - 5: Use guix time-machine to ensure we are working with the same build commit
+  - 6: Challenge all of the packages
+
+- build --check: For all of the packages we are using substitues for build them ourselves and
+  verify they match.
+  #+begin_src bash -n
+    guix package --list-installed \
+		  --profile=/run/current-system/profile |\
+      cut -f1 -d" " |\
+      xargs --replace -- \
+	sh -c '\
+	  guix time-machine --channels=/root/guix-channel-pinned-20251219.scm -- \
+	    challenge --substitute-urls="https://ci.guix.gnu.org" {} 2>&1 |\
+	  grep --quiet -e "warning: could not challenge.*no local build" &&\
+	    guix time-machine --channels=/root/guix-channel-pinned-20251219.scm -- \
+	    build --check --no-grafts --keep-failed {}'
+  #+end_src
+  - 1-5: For each installed package name run the following shell command once.
+  - 6-7: Try to challenge each package.  If there is no locally built version
+    it will return a warning that is checked for next
+  - 8: Returns TRUE if we received a warning from command from lines 6-7
+  - 9-10: If line 8 returned TRUE then we try to locally build the package
+
+- Rerunning the Challenge again should now only show packages that didn't build/match.
+  In this case the one package is "util-linux-with-udev-2.40.4".  Running
+  ~guix time-machine --channels=/root/guix-channel-pinned-20251219.scm -- build --check --no-grafts --keep-failed util-linux-with-udev~
+  by hand doesn't indicate a failure.  Not sure why the automatic run above failed.
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details

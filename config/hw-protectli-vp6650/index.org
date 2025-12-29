@@ -22,31 +22,51 @@
 #+END_details
 :END:
 
+* Model Information
+#+ATTR_HTML: :border 2 :rules all :frame border
+| Manufacture   | [[https://protectli.com/][Protectli]]                                                 |
+| Model         | VP6650                                                    |
+| Name          | Vault Pro VP6650 - 6 Port Intel® i5                       |
+| OEM Page      | [[https://protectli.com/product/vp6650/][External: VP6650]]                                          |
+| USB 2.0       | 3xType A                                                  |
+| USB 3.2 Gen 2 | 1xType A, 1x Type C                                       |
+| Video         | Intel® Iris Xe Graphics, 1x HDMI 1.4, 1x DP 1.4a          |
+| SFP           | 2x10Gbps SFP+                                             |
+| RJ-45         | 4x2.5Gbps                                                 |
+| M.2           | 2280 NVMe, 1x2230 E-Key PCIe 3.0 for WiFi, 1x5052 (LTE)   |
 
+* Installed Components
+#+ATTR_HTML: :border 2 :rules all :frame border
+| Memory   | 2x32GB Crucial DDR5-4800 SO-DIMM memory |
+| M.2 2280 | 1x2TB Kingston NVMe NV3-2000G           |
+| M.2 2230 | Empty                                   |
+| M.2 5052 | 1x5G Internal Modem Card - MDG230-M2    |
+| SFP      | 2xProtectli 10G Base-T SFP+             |
+| TPM      | Trusted Platform Module 2               |
+| BIOS     | coreboot (Open Source) BIOS             |
 
+* Physical Connections
 
-* Minimal GUIX installation
-- References:
-  - [[https://guix.gnu.org/manual/en/html_node/Manual-Installation.html][Manual Installation (GNU Guix Reference Manual)]]
-  - [[https://www.gnu.org/software/gnuboot/docs/gnulinux/guix.html][GNU Boot - Encrypted Guix GNU+Linux]]
+#+ATTR_HTML: :border 2 :rules all :frame border
+| Source Port |          | Destination Port |
+| Physical    | Logical  | Physical         |
+|-------------+----------+------------------|
+| RJ-45 1     |          |                  |
+| RJ-45 2     |          |                  |
+| RJ-45 3     |          |                  |
+| RJ-45 4     |          |                  |
+| SFP 1       | enp2s0f1 | hp2920 - B2      |
+| SFP 2       |          |                  |
+| MDG230-M2   |          |                  |
+| USB-A 2.0 1 |          |                  |
+| USB-A 2.0 2 |          |                  |
+| USB-A 2.0 3 |          |                  |
+| USB-A 3.2   |          |                  |
+| USB-C 3.2   |          | [[../hw-ioSafe-DuoPro/index.org][ioSafe DuoPro]]    |
 
-#+begin_src bash
-  # Set keyboard layout - Should be default
-  loadkeys us
-
-  # Check IP Address
-  ip addr
-  # Two IPs should be active
-  #  1- enp01s12f0u1 - 5G modem
-  #  2- enp2s0f1 - 10Gbps connection to home switch
-
-  # install gnupg in installer to validate signed files
-  guix package -i gnupg
-
-  # import my public key
-  gpg --keyserver keys.openpgp.org --search-keys develop@whk.name
-#+end_src
-
+* Software Configuration
+Currently being used as the test machine for [[../../research/202512GuixAsType2Hypervisor/index.org][Guix as Type2 Hypervisor]] research
+so its configuration is documented there until stable.
 
 * File Listings
 ** ~index.org~

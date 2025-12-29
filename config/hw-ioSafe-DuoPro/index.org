@@ -1,0 +1,45 @@
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: ioSafe DUO PRO
+#+DATE: 2025-12-19
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: 
+#+KEYWORDS:
+#+STARTUP: content
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-12-19: Created
+#+END_details
+:END:
+
+* Model Information
+#+ATTR_HTML: :border 2 :rules all :frame border
+| Manufacture   | ioSafe - Digistor - CDSG         |
+| Model         | Duo Pro                          |
+| OEM Page      | [[https://cdsg.com/products/duo-pro][External: Duo Pro]]                |
+| USB 3.2 Gen 2 | 1xType C                         |
+| Hard Drives   | Supports 2xSATA 2.5, 3.5, or SSD |
+
+- Jumper set to JBOD configuration
+- Installed 2xWD Red Plus 8TB drives
+* Configuration
+Currently being used as the storage for [[../../research/202512GuixAsType2Hypervisor/index.org][Guix as Type2 Hypervisor]] research
+so its configuration is documented there until stable.
+
+
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
