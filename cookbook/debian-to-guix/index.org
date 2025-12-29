@@ -1,25 +1,50 @@
-* Create GUIX install on VPS using a Debian 12 bootstrap
+#+SETUPFILE: ~/notebook/config/publish/templates/level-3.org
+#+TITLE: Create GUIX System Installation using a Debian 12 bootstrap
+#+DATE: 2025-12-29
+#+AUTHOR: whk (https://whk.name/about/me)
+#+EMAIL: develop@whk.name
+#+SUBTITLE:
+#+DESCRIPTION: 
+#+KEYWORDS: guix debian vps
+#+STARTUP: content
 
-Use Case:
-  - VPS provider who does not support GUIX natively
-  - VPS provides supports virtual console access 
+* Introduction
+:documentMetadata:
+#+BEGIN_details
+#+HTML:<summary>Document Metadata</summary>
++ Copyright:
+  - SPDX-License-Identifier: CC-BY-SA-4.0 or AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: © 2025 WHK <develop@whk.name>
+  - See {{{insertRelativeLink(about/licensing/,Licensing)}}} for more details
++ Author: {{{author}}}
++ Created: {{{date}}}
++ Changes
+  - 2025-02-27: Created
+  - 2025-12-28: Clean start using 1.5.0rc1 for testing
+#+END_details
+:END:
+
+Starting with a Debian 12 installation use a [[https://guix.gnu.org/manual/en/html_node/Binary-Installation.html][GNU Guix Binary Installation]]
+to create a new Guix system install on the same machine.
+
+This is primarily used on cloud providers who do not provide a Guix installation
+image but do provide a Debian one.
+
+Assumptions:
+  - VPS provider who does not support Guix natively
+  - VPS provides supports virtual console access
+  - VPS provides a Debian install image
 
 
-** Partition Shuffle Game
+* Initial Setup
 
-Use Case:
-  - VPS does not allow (de/a)ttachement of disk images
-  -          use a Fresh Debian 12 install to create a working GUIX
-	  install.
+Starting with a default VPS provided Debian 12 configuration do minimal
+configuration to allow access.
 
-
-*** Initial Setup
-This is the initial VPS configuration that these instructions were based
-on.
-
-**** VPS Config
+** VPS Config
 This was tested using an incognet.io vps with the following configuration
 
+#+ATTR_HTML: :border 2 :rules all :frame border
 |             | Type             | Value              |
 |-------------+------------------+--------------------|
 | CPU         | AMD Epcy vCPU    | 2                  |
@@ -29,42 +54,12 @@ This was tested using an incognet.io vps with the following configuration
 | IP          | IPV4             | 23.137.255.21      |
 | Hostname    |                  | uman001.erpetu.net |
 | Reverse DNS |                  | Set                |
-
-**** Root Authentication Credentials
-***** SSH Key Setup
-
-SSH key that is set to allow root SSH login to debian host
-
-- Password Manager entry
-  ~~~incognet-ecdsa (for uman001.erpetu.net)~~~
-
-- Creation
-  #+begin_src bash
-    ssh-keygen -f /home/user/.ssh/incognet-ecdsa -t ecdsa -b 521
-  #+end_src
-
-- Public key
-  #+NAME: /home/user/.ssh/incognet-ecdsa.pub
-  #+HEADER: :tangle   "tangle/incognet-ecdsa.pub"
-  #+HEADER: :noweb    no
-  #+HEADER: :comments no
-  #+HEADER: :mkdirp   yes
-  #+begin_src shell
-    ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAA
-    CFBAGJG2oXOCGtghDH6LpIRjBUe9SxYg1tBFC/Vl32w26h7C7RskYp+/N+xNEb4h9S0dNV
-    4+gotx8zKugy2Wk+UHrVswCysld0u6D/6Vsn8vi2cKAPdCRIOC8FtvmyN65HQJSlfLCfB+
-    8RJSr02xnzLS8Gov1xORuLrgImy2ePrkpsQeoa8w== user@whk-dev
-  #+end_src
-
-  
-***** Root Password
-
-Password set to allow root VNC console access
-
-- Password manager entry
-  ~~~uman001.erpetu.net (server) - root~~~
-
-**** Disable SSH Password Authentication
+** Root Authentication Credentials
+- SSH key that is set to allow root SSH login to Debian host
+  - [[../../config/ssh-identities/index.org::*2025][SSH Identities - 2025/id-2025-development-ed25519]]
+- Password set to allow root VNC console access
+  - Password manager entry: ~uman001.erpetu.net (server) - root~
+** Disable SSH Password Authentication
 
 #+begin_src diff
   --- /etc/ssh/sshd_config.orig	2023-06-15 01:44:05.628294089 +0000
@@ -80,7 +75,7 @@ Password set to allow root VNC console access
    # Change to yes to enable challenge-response passwords (beware issues with
 #+end_src
 
-**** Update debian
+** Update debian
 
 #+begin_src bash
   # As root...
@@ -88,15 +83,15 @@ Password set to allow root VNC console access
   apt upgrade
   reboot
   # Log back in as root...
+  #  and clean up packages to save space
   apt purge
 #+end_src
 
-**** Final Configuration
+** Final Configuration
 
-#+begin_quote
+#+begin_example
 root@uman001:~# uname -a
-Linux uman001.erpetu.net 6.1.0-31-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.128-1 (2025-02-07) x86_64 GNU/Linux
-
+Linux uman001.erpetu.net 6.1.0-41-amd64 #1 SMP PREEMPT_DYNAMIC Debian 6.1.158-1 (2025-11-09) x86_64 GNU/Linux
 root@uman001:~# lscpu
 Architecture:             x86_64
   CPU op-mode(s):         32-bit, 64-bit
@@ -166,17 +161,140 @@ tmpfs             400916     472    400444   1% /run
 tmpfs            2004576       0   2004576   0% /dev/shm
 tmpfs               5120       0      5120   0% /run/lock
 tmpfs             400912       0    400912   0% /run/user/0
-#+end_quote
+#+end_example
 
 
-*** Create GUIX install using Debian
+
+* Guix Binary Installation on Debian
 Ref: [[https://guix.gnu.org/en/blog/2020/running-guix-system-on-a-linode-server/][Running Guix System on a Linode Server]]
-
-**** Install GUIX on Debian
-Ref: [[https://guix.gnu.org/manual/en/html_node/Binary-installation.html][Binary Installation (GNU Guix Reference Manual)]]
 
 This could be done later but I wanted to have an idea of how big the
 Debian partition needs to be before resizing.
+
+** Guix 1.5.0rc1 self-contained tarball
++ References
+  - guix.gnu.org, [[https://guix.gnu.org/manual/en/html_node/Binary-installation.html][Binary Installation (GNU Guix Reference Manual)]].
+    License: [[https://guix.gnu.org/manual/en/html_node/GNU-Free-Documentation-License.html][GFDL-1.3]]. Accessed: 2025-12-13.
+  - Rutherther, [[https://lists.gnu.org/archive/html/guix-devel/2025-12/msg00182.html][GNU Guix 1.5.0rc1 available for testing!]].
+    Accessed: 2025-12-28
++ Since this is testing for the release I will use ~guix-install.sh~.
+  Generally I prefer not to use it since it doesn't have
+  a way to verify its authenticity using gpg and I don't feel like doing
+  a manual review each time.
+  This appears to be a deliberate choice by the maintainers ([[https://issues.guix.gnu.org/34125][Installation script needs to be secured with a gpg signature]])
++ Retrieve binary installation
+  #+begin_src bash
+    mkdir /root/guix
+    cd /root/guix
+
+    # Install git to get signing keys
+    apt install git
+
+    # Retrieve the keyring branch for the guix project
+    git clone -b keyring https://git.guix.gnu.org/guix.git guix-keyring
+
+    # Pull them into a private gpg keyring
+    mkdir gpg
+    gpg --homedir /root/guix/gpg --import guix-keyring/*.key
+
+    # Download installation script
+    curl --remote-name https://guix.gnu.org/guix-install.sh
+
+    # Download 
+    curl --remote-name https://files.ditigal.xyz/guix-release-1.5.0rc1-mirror/guix-binary-1.5.0rc1.x86_64-linux.tar.xz
+    curl --remote-name https://files.ditigal.xyz/guix-release-1.5.0rc1-mirror/guix-binary-1.5.0rc1.x86_64-linux.tar.xz.sig
+
+    # Verify the hash matches the anouncement
+    sha256sum guix-binary-1.5.0rc1.x86_64-linux.tar.xz
+    # 831e22ddf3c5d8b92355abd5af1ad51514f93507c58757afc18bda62006c7f79  guix-binary-1.5.0rc1.x86_64-linux.tar.xz
+
+    # Verify that Rutherther signed the copy of the file retrieved from website
+    gpg --homedir /root/guix/gpg --verify guix-binary-1.5.0rc1.x86_64-linux.tar.xz.sig guix-binary-1.5.0rc1.x86_64-linux.tar.xz
+     # gpg: WARNING: unsafe permissions on homedir '/root/guix/gpg'
+     # gpg: Signature made Fri 26 Dec 2025 01:22:50 PM EST
+     # gpg:                using RSA key 6B51071A0FB152ADED9363600322798269E471C3
+     # gpg: Good signature from "Rutherther <rutherther@protonmail.com>" [unknown]
+     # gpg:                 aka "Rutherther <rutherther@ditigal.xyz>" [unknown]
+     # gpg: WARNING: This key is not certified with a trusted signature!
+     # gpg:          There is no indication that the signature belongs to the owner.
+     # Primary key fingerprint: 3AC5 5D0E 1DA7 AF44 3868  11EE 213D C372 0E7A 023C
+     #      Subkey fingerprint: 6B51 071A 0FB1 52AD ED93  6360 0322 7982 69E4 71C3
+  #+end_src
++ Install using installation script
+  #+begin_src bash
+    chmod a+x guix-install.sh
+    GUIX_BINARY_FILE_NAME=/root/guix/guix-binary-1.5.0rc1.x86_64-linux.tar.xz /root/guix/guix-install.sh
+    # Install fails: [1766945516.749]: [ FAIL ] Missing commands: newgidmap.
+    # So install it
+    apt install rootlesskit
+
+    # Try again
+    GUIX_BINARY_FILE_NAME=/root/guix/guix-binary-1.5.0rc1.x86_64-linux.tar.xz /root/guix/guix-install.sh
+  #+end_src
+  #+begin_example
+	░░░                                     ░░░
+	░░▒▒░░░░░░░░░               ░░░░░░░░░▒▒░░
+	 ░░▒▒▒▒▒░░░░░░░           ░░░░░░░▒▒▒▒▒░
+	     ░▒▒▒░░▒▒▒▒▒         ░░░░░░░▒▒░
+		   ░▒▒▒▒░       ░░░░░░
+		    ▒▒▒▒▒      ░░░░░░
+		     ▒▒▒▒▒     ░░░░░
+		     ░▒▒▒▒▒   ░░░░░
+		      ▒▒▒▒▒   ░░░░░
+		       ▒▒▒▒▒ ░░░░░
+		       ░▒▒▒▒▒░░░░░
+			▒▒▒▒▒▒░░░
+			 ▒▒▒▒▒▒░
+	 _____ _   _ _    _    _____       _
+	/ ____| \ | | |  | |  / ____|     (_)
+       | |  __|  \| | |  | | | |  __ _   _ ___  __
+       | | |_ | . ' | |  | | | | |_ | | | | \ \/ /
+       | |__| | |\  | |__| | | |__| | |_| | |>  <
+	\_____|_| \_|\____/   \_____|\__,_|_/_/\_\
+
+    https://www.gnu.org/software/guix/
+    This script installs GNU Guix on your system
+    To uninstall, pass in the '--uninstall' parameter.
+    Press return to continue...
+    [1766946098.322]: Starting installation (Sun Dec 28 01:21:38 PM EST 2025)
+    [1766946098.335]: [ INFO ] init system is: systemd
+    [1766946098.337]: [ PASS ] verification of required commands completed
+    [1766946098.342]: [ WARN ] We recommend installing and/or starting your distribution 'nscd' service
+    [1766946098.343]: [ WARN ] Please read 'info guix "Application Setup"' about "Name Service Switch"
+    [1766946098.344]: [ INFO ] system is x86_64-linux
+    [1766946098.345]: [ INFO ] Using manually provided binary /root/guix/guix-binary-1.5.0rc1.x86_64-linux.tar.xz
+    [1766946098.347]: [ INFO ] Installing /var/guix and /gnu...
+    [1766946108.602]: [ INFO ] Linking the root user's profile
+    [1766946108.605]: [ PASS ] activated root profile at /root/.config/guix/current
+    [1766946108.607]: [ INFO ] group kvm exists and build users will be added to it
+    [1766946108.609]: [ INFO ] installing guix-daemon to run as an unprivileged user
+    [1766946108.679]: [ PASS ] group guix-daemon created
+    [1766946108.699]: [ PASS ] user added <guix-daemon>
+    [1766946108.702]: [ INFO ] allowing kvm mapping (GID 104) for unprivileged guix-daemon
+    Install AppArmor profile that might be required to run guix-daemon? [Y/n]n
+    Created symlink /etc/systemd/system/multi-user.target.wants/guix-daemon.service → /etc/systemd/system/guix-daemon.service.
+    Would you like the Guix daemon to automatically discover substitute servers on the local network? [Y/n]n
+    Created symlink /etc/systemd/system/multi-user.target.wants/gnu-store.mount → /etc/systemd/system/gnu-store.mount.
+    [1766946116.099]: [ PASS ] enabled Guix daemon via systemd
+    [1766946116.100]: [ INFO ] making the guix command available to other users
+    Permit downloading pre-built package binaries from the project's build farms? [Y/n]Y
+    [1766946130.904]: [ PASS ] Authorized public key for bordeaux.guix.gnu.org
+    [1766946130.985]: [ PASS ] Authorized public key for ci.guix.gnu.org
+    [1766946130.994]: [ PASS ] installed shell completion
+    Customize users Bash shell prompt for Guix? [Y/n]n
+    [1766946136.284]: [ INFO ] cleaning up /tmp/guix.OesXam
+    [1766946136.286]: [ PASS ] Guix has successfully been installed!
+    [1766946136.287]: [ INFO ] Run 'info guix' to read the manual.
+    [1766946136.287]: [ INFO ] Please log out and back in to complete the installation.
+  #+end_example
+
+** Using apt (Obsolete)
+As of 2025-12-13 this method appears to be obsolete due to the
+difficultly of backporting security patches into the debian distros
+release of GUIX. (LWN.net, Joe Brockmeier,
+[[https://lwn.net/Articles/1035491/][Removing Guix from Debian]]. License [[https://creativecommons.org/licenses/by-sa/4.0/][CC BY-SA 4.0]]. Accessed 2025-12-13.)
+
+Ref: [[https://guix.gnu.org/manual/en/html_node/Binary-installation.html][Binary Installation (GNU Guix Reference Manual)]]
 
 #+begin_src bash
   apt install guix
@@ -205,48 +323,26 @@ Debian partition needs to be before resizing.
   #Need to get 83.7 MB of archives.
   #After this operation, 524 MB of additional disk space will be used.
   #Do you want to continue? [Y/n] Y
-
-  guix --version
-  #guix (GNU Guix) 1.4.0
-  #Copyright (C) 2022 the Guix authors
-  #License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-  #This is free software: you are free to change and redistribute it.
-  #There is NO WARRANTY, to the extent permitted by law.
-
-  guix pull
-  # Takes a while to do a full new pull
-  # ...
-  #building package cache...
-  #building profile with 1 package...
-  #hint: Consider setting the necessary environment variables by running:
-  #
-  #     GUIX_PROFILE="/root/.config/guix/current"
-  #     . "$GUIX_PROFILE/etc/profile"
-  #
-  #Alternately, see `guix package --search-paths -p "/root/.config/guix/current"'.
-  #
-  #
-  #hint: After setting `PATH', run `hash guix' to make sure your shell refers to `/root/.config/guix/current/bin/guix'.
-
-  # Point to updated guix
-  which guix
-  #/usr/bin/guix
-  GUIX_PROFILE="/root/.config/guix/current"
-  . "$GUIX_PROFILE/etc/profile"
-  hash guix
-  which guix
-  #/root/.config/guix/current/bin/guix
-  guix --version
-  #guix (GNU Guix) 4529c4bea116413da0d2799d0239fca2eeb2ff90
-  #Copyright (C) 2025 the Guix authors
-  #License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-  #This is free software: you are free to change and redistribute it.
-  #There is NO WARRANTY, to the extent permitted by law.
 #+end_src
 
-**** Resize and Move Debian partition to end of disk
-Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
 
+
+* Partition Shuffle
+If the VPS does not provide for additional disks to be attached and
+mounted then resize/repartion the existing system disk to replace
+Debian with Guix.
+
+Assumptions:
+  - VPS does not allow (de/a)ttachement of disk images
+  - VPS provides some form of recovery console to allow disk
+    to be repartitioned
+
+Risks:
+  - Messing with the boot/system disk partitions can result in
+    a unbootable system.
+
+** Resize and Move Debian partition to end of disk
+Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
 - Assumptions:
   - Debian install references it's disk via UUID vs /dev/... path
   - VPS support booting via a grub boot partition
@@ -256,36 +352,45 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
     if you don't understand what it is doing and blindly repeat the commands.
 
   #+begin_src bash
+    # Verify block devices are as expected
+    # vda - rescue environment
+    # vdb - 40G disk
+    lsblk
+
     # Verify the Debian Partition is currently clean
     e2fsck -f /dev/vdb1
 
-    # Resize Debian ext4 filesystem down to 10G
-    resize2fs /dev/vdb1 10G
+    # Resize Debian ext4 filesystem down to 18G
+    resize2fs /dev/vdb1 18G
     # resize2fs 1.47.0 (5-Feb-2023)
-    # Resizing the filesystem on /dev/vdb1 to 2621440 (4k) blocks.
-    # The filesystem on /dev/vdb1 is now 2621440 (4k) blocks long.
+    #  Resizing the filesystem /dev/vdb1 to 4718592 (4k) blocks
+    #  The filesystem on /dev/vdb1 is now 4718592 (4k) blocks long.
 
-    # Resize the Debian partition down to 10G
+    # Resize the Debian partition down to 18G
     fdisk /dev/vdb
     # p
     #    ...
     #    Device      Start        End  Sectors Size Type
     #    /dev/vdb1    2048   83886044 83883997  40G Linux filesystem
     # d      # Delete the single partition
-    # n
+    # n      # Create a partition
     # Partion number (1-128, default 1): 1
     # First sector (34-83886046), default 2048): 2048
-    # Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-83886046, default 83884031): +10G
-    #     Created a new partition 1 of type 'Linux filesystem' and of size 10 GiB.
+    # Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-83886046, default 83884031): +18G
+    #     Created a new partition 1 of type 'Linux filesystem' and of size 18 GiB.
     #     Partion #1 contains a ext4 signature.
     #
     # Do you want to remove the signature? [Y]es/[N]o: N
     # p
     #    ...
     #    Device      Start        End  Sectors Size Type
-    #    /dev/vdb1    2048   20973567 20971520  10G Linux filesystem
+    #    /dev/vdb1    2048   37750783 37748736  18G Linux filesystem
     #
     #
+    # (Sanity Check) Verify Size
+    #  fdisk: 512B per sector
+    #  resize2fs: 4kB per block 
+    #  fdisk: 37748736(sectors) / 8(sectors/blocks) = 4718592(blocks) : resize2fs
     # w  # Write the changes and quit
 
     # verify partion is still clean
@@ -294,70 +399,76 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
     # Exit rescue mode and verify we can still boot debian
     shutdown -h now
   #+end_src
-- Disable rescue mode and Boot Debian and verify things still work
-- Enable amd Boot rescue mode
+
 - Move Debian Partition to end of disk
-  Final Configuration will have 4 partitions - 
-    bios_boot, /boot, / (GUIX System), /var (GUIX var)
-  so make Debian partition 5 since we will delete it later and grow GUIX Data to end of disk.
+  
+  Final Configuration will have 3 partitions - 
+    ~bios_boot~, ~/boot~ (guixBoot), and ~/~ (guixRoot)
+  so make Debian partition number 4 since it will be deleted later
+  and guixRoot will be extended to the end of disk.
 
   - *WARNING*: This section can cause an unbootable system
     if you don't understand what it is doing and blindly repeat the commands.
 
   - Sector Calculation
-    | lastSector     | original ~~~fdisk p~~~ for vdb1        | 83886044 | pSector |
-    | partitionSizeS | after resize ~~~fdisk p~~~ for vdb1    | 20971520 | sector  |
-    | firstSector    | lastSector - partitionSize + 1         | 62914525 | pSector |
-    | sectorSize     | from ~~~fdisk~~~ vdb                   |      512 | byte    |
-    | blockSize      | from ~~~resize2fs~~~ for vdb1          |     4096 | byte    |
-    | partitionSizeB | partitonSizeS * sectorSize / blockSize |  2621440 | blocks  |
+    #+ATTR_HTML: :border 2 :rules all :frame border
+    | lastSector     | original ~fdisk p~ for vdb1            | 83886046 | pSector |
+    | partitionSizeS | after resize ~fdisk p~ for vdb1        | 37748736 | sector  |
+    | firstSector    | lastSector - partitionSize + 1         | 46137311 | pSector |
+    | sectorSize     | from ~fdisk~ vdb                       |      512 | byte    |
+    | blockSize      | from ~resize2fs~ for vdb1              |     4096 | byte    |
+    | partitionSizeB | partitonSizeS * sectorSize / blockSize |  4718592 | blocks  |
     #+TBLFM: @3$3=@1$3 - @2$3 + 1::@6$3=@2$3*@4$3/@5$3
 
   - Create partition at end matching partition 1s size.
     #+begin_src bash
       fdisk /dev/vdb
       # n
-      # Partiton Number: 5
-      # First Sector: 62914525
-      # Last Sector: 83886044
+      # Partiton Number: 4
+      # First Sector: 46137311
+      # Last Sector: 83886046
       # p   # Verify vdb1 and vdb2 Sectors is the same
       # w   # write the changes and quit
     #+end_src
 
-  - Move the debian install from vdb1 to vdb5
+  - Move the debian install from vdb1 to vdb4
 
     #+begin_src bash
       # Copy the data
-      dd if=/dev/vdb1 of=/dev/vdb5 bs=4096 count=2521440 status=progress
+      dd if=/dev/vdb1 of=/dev/vdb4 bs=4096 count=4718592 status=progress
 
       # Verify that the new partition looks correct
-      blkid                # vdb1 and vdb5 should be identical except for PARTUUID
-      e2fsck -f /dev/vdb5  # should come back clean
+      blkid                # vdb1 and vdb4 should be identical except for PARTUUID
+      e2fsck -f /dev/vdb4  # should come back clean
 
       # Remove vdb1 partition entry but do not overwrite data yet
       fdisk /dev/vdb
       # p
       # d
       # Partition number: 1
-      # p   # only /dev/vdb5 should be left
+      # p   # only /dev/vdb4 should be left
       # w   # write table and quit
     #+end_src
 
-**** Support more flexible boot setup than single linux partition
-- Disable rescue mode and using ~~~grub rescue~~~ Boot Debian
-  The boot will fail with a partition failure and start ~~~grub rescue~~~
+** Create a bios boot partition so we can dual boot later if desired
+
+- Disable rescue mode and using ~grub rescue~ boot Debian
+  
+  The boot will fail with a partition failure and start ~grub rescue~
+  automatically
 
   #+begin_src bash
-    # Point at partition 5
-    set prefix=(hd0,gpt5)/boot/grub
-    set root=hd0,gpt5
+    # Point to the new Debian partition
+    set prefix=(hd0,gpt4)/boot/grub
+    set root=hd0,gpt4
     # Boot normally
     insmod normal
     normal
   #+end_src
+  
 - Create Bios Boot partition and update grub
   #+begin_src bash
-    fdisk
+    fdisk /dev/vda
     # p
     # n
     # Partition number (1): default
@@ -375,7 +486,7 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
   #+end_src
 - Reboot and Verify that Debian boots correctly  
 
-**** Create and format remaining partitons
+** Create and format remaining partitions
 #+begin_src bash
   fdisk /dev/vda
   #  # Future /boot Partion
@@ -388,32 +499,20 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
   #  n
   #  default partition number (3)
   #  default First Sector (4261888)
-  #  Last sector: +10GB
+  #  default Last Sector (46137310)
   #
-  #  # Future /var (GUIX var partition)
-  #  n
-  #  default partition number (4)
-  #  default First sector (23793664)
-  #  default Last sector (62914524) # Will eventuall grow to include Debian Partition
   #
   #  p
   #  w
   mke2fs -t ext4 -b 4096 -L "guixBoot" /dev/vda2
   mke2fs -t ext4 -b 4096 -L "guixRoot" /dev/vda3
-  mke2fs -t ext4 -b 4096 -L "guixVar"  /dev/vda4
 #+end_src
 
-
-
-
-
-
-
-**** Initial guix-config.scm
+** Initial guix-config.scm
     Ref: [[https://guix.gnu.org/manual/en/html_node/Using-the-Configuration-System.html][Using the Configuration System (GNU Guix Reference Manual)]]
     A bare bones configuration with outbound networking
 
-    Save File as guix-config.scm
+    Save File as guix-minimal-config.scm
 
 #+NAME: guix-minimal-config.scm
 #+HEADER: :tangle   "tangle/guix-minimal-config.scm"
@@ -429,12 +528,44 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
   ;;   ssh enabled with password login disabled and root key set
 
   (use-modules (gnu))
-  (use-service-modules networking)
+  (use-service-modules networking ssh)
 
   (operating-system
-   (host-name "uman001.erpetu.net")
-   (timezone "UTC")
-   (locale "en_US.utf8")
+    (locale "en_US.utf8")
+    (timezone "UTC")
+    (keyboard-layout (keyboard-layout "us"))
+    (host-name "uman001")
+
+    ;; The "root"
+    ;; account is implicit, and is initially created with the
+    ;; empty password.
+    ;; The list of user accounts ('root' is implicit).
+    (users (cons* %base-user-accounts))
+
+    ;; Packages installed system-wide.  Users can also install packages
+    ;; under their own account: use 'guix search KEYWORD' to search
+    ;; for packages and 'guix install PACKAGE' to install a package.
+    (packages (cons* %base-packages))
+
+    ;; Add services to the baseline: a DHCP client
+    (services (append (list
+		       ;; Use dhcpd for network information
+		       (service dhcpcd-service-type)
+		       ;; Default firewall configuration.  Should
+		       ;; only allow port 22 (TODO: Make explicit)
+		       (service nftables-service-type)
+		       ;; Configure SSH
+		       (service openssh-service-type
+				(openssh-configuration
+				 (permit-root-login 'prohibit-password)
+				 (password-authentication? #f)
+				 (public-key-authentication? #t)
+				 (x11-forwarding? #f)
+				 (authorized-keys
+				 `(("root",
+				    (plain-file "id-2025-whk-development-ed25519.pub"
+						"ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO8R7fnSOC91BZgrOPchusXT9faa4dsbKUmL/ZvTQp/F WHK (develop@whk.name) Development Key")))))))
+		      %base-services))
 
    ;; Boot in "legacy" BIOS mode, assuming /dev/sdX is the
    ;; target hard disk, and "my-root" is the label of the target
@@ -455,43 +586,50 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
 		   (device (file-system-label "guixBoot"))
 		   (mount-point "/boot")
 		   (type "ext4"))
-		  (file-system
-		   (device (file-system-label "guixVar"))
-		   (mount-point "/var")
-		   (type "ext4"))
 		  %base-file-systems))
 
    (initrd-modules (cons "virtio_scsi"    ;needed to find the disk
-			 %base-initrd-modules))
-
-   ;; The "root"
-   ;; account is implicit, and is initially created with the
-   ;; empty password.
-
-   ;; Add services to the baseline: a DHCP client
-   (services (append (list (service dhcp-client-service-type)
-			   (service nftables-service-type))
-		     %base-services)))
+			 %base-initrd-modules)))
 #+end_src
 
-**** Install Guix
+** Transfer files
+From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
+
+#+begin_example bash
+  scp guix-minimal-config.scm uman001.erpetu.net:/root/
+#+end_example
+
+
+
+* Guix System Installation on separate partitions
+
+** Install Guix
 
 #+begin_src bash
+  guix --version  
   mkdir /mnt/guix
   mount LABEL=guixRoot /mnt/guix
   mkdir /mnt/guix/boot
-  mkdir /mnt/guix/var
   mount LABEL=guixBoot /mnt/guix/boot
-  mount LABEL=guixVar  /mnt/guix/var
-  guix system init guix-config.scm /mnt/guix
+  guix system init guix-minimal-config.scm /mnt/guix
 #+end_src
 
-**** Reboot and verify Guix Installation
-  - Installation will only be accessable via the VPS provided Console
-  - Root password is blank by default
+** Copy guix-minimal-config.scm to new install
+#+begin_src bash
+  cp -a guix-minimal-config.scm /mnt/guix/etc/guix-minimal-config.scm
+#+end_src
+
+** Reboot and verify Guix Installation
+  - Root password is *blank* by default.  Should set on first boot
   - This is not integrated into the VPS provided configuration tools so
     no root password reset, sshkey management from VPS side happens.
     TODO: Look into how this is done
 
 
 
+* File Listings
+** ~index.org~
+#+BEGIN_details
+#+HTML: <summary>The index.org source file for this page</summary>
+#+INCLUDE: "index.org" example
+#+END_details
