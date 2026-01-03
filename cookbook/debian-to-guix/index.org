@@ -215,7 +215,7 @@ Debian partition needs to be before resizing.
      #      Subkey fingerprint: 6B51 071A 0FB1 52AD ED93  6360 0322 7982 69E4 71C3
   #+end_src
 - Install using installation script
-  #+begin_src bash -n -r
+  #+begin_src bash 
     #  newgidmap is required (ref:newgidmap-required)
     apt install uidmap
 
@@ -228,7 +228,7 @@ Debian partition needs to be before resizing.
     #  y - Permit downloading pre-built package binaries from the project's build farms? [Y/n]
     #  y - Customize users Bash shell prompt for Guix? [Y/n]
   #+end_src
-  - [[(newgidmap-required)]] The install fails with ~[1766945516.749]: [ FAIL ] Missing commands: newgidmap.~
+  - [[(newgidmap-required)]]: The install fails with ~[1766945516.749]: [ FAIL ] Missing commands: newgidmap.~
     which is provided by the uidmap package^{[[ref-04]]}
   #+begin_example
 	░░░                                     ░░░
@@ -524,6 +524,7 @@ Using the VPS Rescue Mode resize existing partition to prepare for dual boot.
     mke2fs -t ext4 -b 4096 -L "guixRoot" /dev/vda3
 #+end_src
 
+
 * Guix System Installation on separate partitions
 ** guix-minimal-config.scm
 A bare bones configuration with outbound networking
@@ -652,55 +653,64 @@ testing and recovery efforts.
 
 *** «network-configuration-service» and «network-configuration-sysctl»
 Due to [[*TCP issues - 2025-12][TCP issues - 2025-12]] I cannot just use dhcp to get my network settings
-from the VPS.  I am still vacilating between three different configurations
+from the VPS.  I am still vacilating between two different configurations
 so documenting them here and switching between them for testing.
 
 - «network-configuration-service»
   #+begin_src scheme :noweb-ref network-configuration-service :noweb no-export
-  ;; Use dhcpd for network information
-  ;;(service dhcpcd-service-type)
-  (service static-networking-service-type
-	   (list (static-networking
-		  (addresses (list 
-			      (network-address
-			       (device "eth0")
-			       (value "23.137.255.21/24"))
-			      (network-address
-			       (device "eth0")
-			       (value "2602:fc24:18:ada7:0000:0000:0000:0001/64"))
-			      ))
-		  (routes (list
-			   (network-route
-			    (destination "default")
-			    (gateway "23.137.255.1"))
-			   ;;       (network-route
-			   ;;        (destination "2602:fc24:18::/48")
-			   ;;        (device "eth0"))
-			   ;;       (network-route
-			   ;;        (destination "default")
-			   ;;        (gateway "2602:fc24:18::1"))
-			   ))
-		  ;; (ref:cloudflare-dns-servers)
-		  (name-servers '("1.1.1.1"
-				  "2606:4700:4700::1111"
-				  "1.0.0.1"
-				  "2606:4700:4700::1001"))))) 
-
-#+end_src
+    ;; Use dhcpd for network information
+    ;;(service dhcpcd-service-type)
+    (service static-networking-service-type
+	     (list (static-networking
+		    (addresses
+		     (list 
+		      (network-address
+		       (device "eth0")
+		       (value "23.137.255.21/24"))
+		      (network-address
+		       (device "eth0")
+		       (value "2602:fc24:18:ada7:0000:0000:0000:0001/64"))))
+		    (routes
+		     (list
+		      (network-route
+		       (destination "default")
+		       (gateway "23.137.255.1"))
+		      ;; Option 1 - (ref:dynamic-ipv6-gateway-route)
+		      ;; The section is intentionally blank
+		      ;;
+		      ;; Option 2 - (ref:static-ipv6-gateway-route)
+		      ;; (network-route
+		      ;;   (destination "2602:fc24:18::/48")
+		      ;;   (device "eth0"))
+		      ;; (network-route
+		      ;;   (destination "default")
+		      ;;   (gateway "2602:fc24:18::1"))
+		      ))
+		    (name-servers '("1.1.1.1"   ;; (ref:cloudflare-dns-servers)
+				    "2606:4700:4700::1111"
+				    "1.0.0.1"
+				    "2606:4700:4700::1001")))))
+  #+end_src
+  - [[(dynamic-ipv6-gateway-route)]]: No ipv6 gateways specified
+  - [[(static-ipv6-gateway-route)]]:  gateway taken from VPS Debian static config
   - [[(cloudflare-dns-servers)]]: The current public unfiltered [[https://developers.cloudflare.com/1.1.1.1/infrastructure/network-operators/][cloudflare dns servers]].
 - «network-configuration-sysctl»
   #+begin_src scheme :noweb-ref network-configuration-sysctl :noweb noexport
-	      ;; Disable ipv6 ra 
-    ;;          '(("net.ipv6.conf.all.accept_ra" . "0"))
-    ;;          '(("net.ipv6.conf.default.accept_ra" . "0"))
-    ;;          '(("net.ipv6.conf.eth0.accept_ra" . "0"))
+    ;; Option 1 - (ref:dynamic-ipv6-gateway-sysctl)
+    ;; Use ipv6 ra to dynamically allocate gateways.
+    '(("net.ipv6.conf.all.accept_ra" . "1"))
+    '(("net.ipv6.conf.default.accept_ra" . "1"))
+    '(("net.ipv6.conf.eth0.accept_ra" . "1"))
+    ;; Option 2- (ref:static-ipv6-gateway-sysctl)
+    ;; Disable ipv6 ra.  Need to statically define routes.
+    ;; '(("net.ipv6.conf.all.accept_ra" . "0"))
+    ;; '(("net.ipv6.conf.default.accept_ra" . "0"))
+    ;; '(("net.ipv6.conf.eth0.accept_ra" . "0"))
   #+end_src
-
-
-
-**** option-1-static-addr-static-ipv4-gateway-dynamic-ipv6-gateway
-**** option-2-static-addr-static-gateway
-
+  - [[(dynamic-ipv6-gateway-sysctl)]]: The default values explicitly set here
+    to capture which ones affect routing.
+  - [[(static-ipv6-gateway-sysctl)]]: Disable allowing the linux kernel to
+    automatically listen for ipv6 ra messages.
 ***  «nftables-service-type»
 #+begin_src scheme :noweb-ref nftables-service-type
   ;; Based on the default firewall configuration
@@ -791,10 +801,9 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
   scp guix-minimal-config.scm uman001.erpetu.net:/root/
 #+end_example
 
-
 ** Install Guix
 
-#+begin_src bash -n -r
+#+begin_src bash 
   guix --version  
   mkdir /mnt/guix
   mount LABEL=guixRoot /mnt/guix
@@ -809,7 +818,6 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
 #+begin_src bash
   cp -a guix-minimal-config.scm /mnt/guix/etc/guix-minimal-config.scm
 #+end_src
-
 
 ** Reboot and verify Guix Installation
   - Root password is *blank* by default.  Should set on first boot
@@ -827,6 +835,7 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
 - Cause combination of
   - VPS issue with outgoing ipv4 TCP connections but was fine with
     outgoing ipv6 TCP connections
+     #+ATTR_HTML: :border 2 :rules all :frame border
     |      | in   |     |     | out  |     |     |
     |      | icmp | udp | tcp | icmp | udp | tcp |
     |------+------+-----+-----+------+-----+-----|
@@ -838,6 +847,7 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
     - My initial testing used dhcp for GUIX
   - The ci.guix.gnu.org does not have a ipv6 address but by default it is
     the first checked
+     #+ATTR_HTML: :border 2 :rules all :frame border
     | Server                | ipv4 address | ipv6 address |
     |-----------------------+--------------+--------------|
     | git.guix.gnu.org      | #t           | #t           |
@@ -852,18 +862,19 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
     and http/https proxy and as a sock proxy but I couldn't get
     ~git pull~ to work.   It should have been possible but I couldn't
     figure it out.
-
 - From debian reinstall command for speed:
-#+begin_src bash
-  dd if=/dev/zero of=/dev/vda3 bs=4096 count=5234427 status=progress && \
-      mke2fs -t ext4 -b 4096 -L "guixRoot" /dev/vda3 && \
-      mount LABEL=guixRoot /mnt/guix && \
-      mkdir /mnt/guix/boot && \
-      mount LABEL=guixBoot /mnt/guix/boot && \
-      guix system init \
-	   --substitute-urls="https://bordeaux.guix.gnu.org" \
-	   /root/guix-minimal-config.scm /mnt/guix
-#+end_src
+  #+begin_src bash
+    dd if=/dev/zero of=/dev/vda3 bs=4096 count=5234427 status=progress && \
+	mke2fs -t ext4 -b 4096 -L "guixRoot" /dev/vda3 && \
+	mount LABEL=guixRoot /mnt/guix && \
+	mkdir /mnt/guix/boot && \
+	mount LABEL=guixBoot /mnt/guix/boot && \
+	guix system init \
+	     --substitute-urls="https://bordeaux.guix.gnu.org" \
+	     /root/guix-minimal-config.scm /mnt/guix && \
+	cp -a /root/guix-minimal-config.scm /mnt/guix/etc/
+  #+end_src
+
 
 * References
 1. Joshua Branson, Christopher Lemmer Webber,
@@ -884,9 +895,10 @@ From dev side transfer ~guix-minimal-config.scm~ tangled from this file.
 7. <<ref-07>>Rutherther, [[https://lists.gnu.org/archive/html/help-guix/2025-12/msg00094.html][Re: GNU Guix 1.5.0rc1 testing: Generated system unable to do guix pull and profiles/per-user/root doesn't have current guix specified]],
    [[https://lists.gnu.org/mailman/listinfo/help-guix][Help-Guix list]], 2025-12-30T10:17:08+0100. Accessed: 2025-12-30
 8. <<ref-08>>FSF libreplanet.org wiki, [[https://libreplanet.org/wiki/Group:Guix/Mirrors][Group: Guix/Mirrors]]. Accessed: 2025-12-30
+
 * File Listings
 ** ~index.org~
 #+BEGIN_details
 #+HTML: <summary>The index.org source file for this page</summary>
-#+INCLUDE: "index.org" example
+#+INCLUDE: "index.org" example org
 #+END_details

@@ -93,31 +93,34 @@
     ;;(service dhcpcd-service-type)
     (service static-networking-service-type
     	 (list (static-networking
-    		(addresses (list 
-    			    (network-address
-    			     (device "eth0")
-    			     (value "23.137.255.21/24"))
-    			    (network-address
-    			     (device "eth0")
-    			     (value "2602:fc24:18:ada7:0000:0000:0000:0001/64"))
-    			    ))
-    		(routes (list
-    			 (network-route
-    			  (destination "default")
-    			  (gateway "23.137.255.1"))
-    			 ;;       (network-route
-    			 ;;        (destination "2602:fc24:18::/48")
-    			 ;;        (device "eth0"))
-    			 ;;       (network-route
-    			 ;;        (destination "default")
-    			 ;;        (gateway "2602:fc24:18::1"))
-    			 ))
-    		;; (ref:cloudflare-dns-servers)
-    		(name-servers '("1.1.1.1"
+    		(addresses
+    		 (list 
+    		  (network-address
+    		   (device "eth0")
+    		   (value "23.137.255.21/24"))
+    		  (network-address
+    		   (device "eth0")
+    		   (value "2602:fc24:18:ada7:0000:0000:0000:0001/64"))))
+    		(routes
+    		 (list
+    		  (network-route
+    		   (destination "default")
+    		   (gateway "23.137.255.1"))
+    		  ;; Option 1 - (ref:dynamic-ipv6-gateway-route)
+    		  ;; The section is intentionally blank
+    		  ;;
+    		  ;; Option 2 - (ref:static-ipv6-gateway-route)
+    		  ;; (network-route
+    		  ;;   (destination "2602:fc24:18::/48")
+    		  ;;   (device "eth0"))
+    		  ;; (network-route
+    		  ;;   (destination "default")
+    		  ;;   (gateway "2602:fc24:18::1"))
+    		  ))
+    		(name-servers '("1.1.1.1"   ;; (ref:cloudflare-dns-servers)
     				"2606:4700:4700::1111"
     				"1.0.0.1"
-    				"2606:4700:4700::1001"))))) 
-    
+    				"2606:4700:4700::1001")))))
     ;; Based on the default firewall configuration
     ;; Changing ssh to be only allowed from the
     ;; Spectrum DHCP range that my homelab ip is
@@ -168,10 +171,16 @@
      config =>
      (sysctl-configuration
       (settings (append
-		 	  ;; Disable ipv6 ra 
-		 ;;          '(("net.ipv6.conf.all.accept_ra" . "0"))
-		 ;;          '(("net.ipv6.conf.default.accept_ra" . "0"))
-		 ;;          '(("net.ipv6.conf.eth0.accept_ra" . "0"))
+		 ;; Option 1 - (ref:dynamic-ipv6-gateway-sysctl)
+		 ;; Use ipv6 ra to dynamically allocate gateways.
+		 '(("net.ipv6.conf.all.accept_ra" . "1"))
+		 '(("net.ipv6.conf.default.accept_ra" . "1"))
+		 '(("net.ipv6.conf.eth0.accept_ra" . "1"))
+		 ;; Option 2- (ref:static-ipv6-gateway-sysctl)
+		 ;; Disable ipv6 ra.  Need to statically define routes.
+		 ;; '(("net.ipv6.conf.all.accept_ra" . "0"))
+		 ;; '(("net.ipv6.conf.default.accept_ra" . "0"))
+		 ;; '(("net.ipv6.conf.eth0.accept_ra" . "0"))
 		 %default-sysctl-settings))))
     (guix-service-type
      config =>
